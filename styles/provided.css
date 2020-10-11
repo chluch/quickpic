@@ -48,7 +48,7 @@ footer {
 /* Add your styles here */
 #main {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 #main input {

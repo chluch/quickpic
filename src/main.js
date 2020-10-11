@@ -1,6 +1,6 @@
 // importing named exports we use brackets
 import { createElement, createPostTile, uploadImage } from './helpers.js';
-import { loginPage } from './components.js'
+import { loginPage, getFeed } from './components.js'
 
 // when importing 'default' exports, use below syntax
 // import API from './api.js';
