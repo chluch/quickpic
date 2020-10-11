@@ -1,27 +1,30 @@
 // importing named exports we use brackets
-import { createPostTile, uploadImage } from './helpers.js';
+import { createElement, createPostTile, uploadImage, appendAll } from './helpers.js';
 
 // when importing 'default' exports, use below syntax
 import API from './api.js';
 
-const api  = new API();
+const api = new API();
+
+
+// api.makeAPIRequest('user/feed')
 
 // we can use this single api request multiple times
-const feed = api.getFeed();
+// const feed = api.getFeed();
 
-feed
-.then(posts => {
-    posts.reduce((parent, post) => {
+// feed
+// .then(posts => {
+//     posts.reduce((parent, post) => {
 
-        parent.appendChild(createPostTile(post));
-        
-        return parent;
+//         parent.appendChild(createPostTile(post));
 
-    }, document.getElementById('large-feed'))
-});
+//         return parent;
 
-// Potential example to upload an image
-const input = document.querySelector('input[type="file"]');
+//     }, document.getElementById('large-feed'))
+// });
 
-input.addEventListener('change', uploadImage);
+// // Potential example to upload an image
+// const input = document.querySelector('input[type="file"]');
+
+// input.addEventListener('change', uploadImage);
 

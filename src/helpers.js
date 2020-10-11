@@ -29,6 +29,13 @@ export function createElement(tag, data, options = {}) {
         }, el);
 }
 
+// Multiple appendChild
+export function appendAll(arr, parentElement) {
+    for (let i=0; i<arr.length; i++) {
+        parentElement.appendChild(arr[i]);
+    }
+}
+
 /**
  * Given a post, return a tile with the relevant data
  * @param   {object}        post 
