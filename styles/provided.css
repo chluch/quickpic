@@ -46,3 +46,16 @@ footer {
 }
 
 /* Add your styles here */
+#main {
+    display: flex;
+    justify-content: center;
+}
+
+#main input {
+    width: 15vw;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: end;
+}

@@ -1,13 +1,15 @@
 // importing named exports we use brackets
-import { createElement, createPostTile, uploadImage, appendAll } from './helpers.js';
+import { createElement, createPostTile, uploadImage } from './helpers.js';
+import { loginPage } from './components.js'
 
 // when importing 'default' exports, use below syntax
-import API from './api.js';
+// import API from './api.js';
 
-const api = new API();
+// const api = new API();
 
 
-// api.makeAPIRequest('user/feed')
+// api.makeAPIRequest('auth/signup');
+window.onload = (e) => loginPage(e);
 
 // we can use this single api request multiple times
 // const feed = api.getFeed();
