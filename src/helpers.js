@@ -29,29 +29,12 @@ export function createElement(tag, data, options = {}) {
         }, el);
 }
 
-// Wrapper for forms
-export function wrapItUp(arr) {
-    let elements = [];
-    for (let i=0; i<arr.length; i++) {
-        let wrapper = document.createElement("div");
-        wrapper.appendChild(arr[i]);
-        elements.push(wrapper);
-    }
-    return elements;
-}
-
-// Multiple appendChild
-export function appendAllChildren(arr, parentElement) {
-    for (let i=0; i<arr.length; i++) {
-        parentElement.appendChild(arr[i]);
-    }
-}
-
-// Remove children
-export function removeAllChildren(parentElement) {
-    while (parentElement.hasChildNodes()) {
-        parentElement.removeChild(parentElement.firstChild);
-    }
+// Render HTML code blocks
+export function renderHTML(htmlBlock, elementID) {
+    const parser = new DOMParser();
+    const newNode = parser.parseFromString(htmlBlock, "text/html");
+    const element = newNode.getElementById(elementID);
+    document.getElementById("main").appendChild(element);
 }
 
 /**
