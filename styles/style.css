@@ -59,3 +59,7 @@ footer {
     display: flex;
     justify-content: end;
 }
+
+#signup {
+    display: none;
+}
