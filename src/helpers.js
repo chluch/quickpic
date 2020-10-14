@@ -28,7 +28,7 @@ export function fileToDataUrl(file) {
     return dataUrlPromise;
 }
 
-// Render HTML code blocks
+// Render HTML code blocks and append to main
 export function renderHTML(htmlBlock, elementID) {
     const parser = new DOMParser();
     const newNode = parser.parseFromString(htmlBlock, "text/html");

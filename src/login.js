@@ -1,6 +1,7 @@
 "use strict";
 import API from "./api.js";
 import { renderHTML } from "./helpers.js";
+import { getFeed } from "./feed.js";
 
 const loginPage = {
     load: () => renderHTML(`
@@ -31,6 +32,8 @@ const loginPage = {
     }
 }
 
+document.createElement
+
 const doLogin = () => {
     const login = new API;
     const data = {
@@ -48,8 +51,9 @@ const doLogin = () => {
             }
             else {
                 // token if authenticated
-                console.log(ret)
-                // getFeed(ret);
+                // console.log(ret)
+                document.getElementById("login").style.display="none";
+                getFeed(ret);
             }
         });
 }

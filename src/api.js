@@ -30,6 +30,13 @@ export default class API {
             method: "POST",
         });
     }
+
+    get(path, options) {
+        return getJSON(`${this.url}/${path}`, {
+            ...options,
+            method: "GET",
+        });
+    }
 }
 
 export function getFeed(token) {
