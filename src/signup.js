@@ -24,7 +24,7 @@ const signupPage = {
         }
         document.getElementById("go-to-login").onclick = (e) => {
             e.preventDefault();
-            document.getElementById("login").style.display="block";
+            document.getElementById("login").style.display="flex";
             document.getElementById("signup").style.display="none";
         }
     }

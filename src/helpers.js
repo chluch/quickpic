@@ -35,3 +35,13 @@ export function renderHTML(htmlBlock, elementID) {
     const element = newNode.getElementById(elementID);
     document.getElementById("main").appendChild(element);
 }
+
+export function wrapInDiv(arr) {
+    let elements = [];
+    for (let i=0; i<arr.length; i++) {
+        let wrapper = document.createElement("div");
+        wrapper.appendChild(arr[i]);
+        elements.push(wrapper);
+    }
+    return elements;
+}
