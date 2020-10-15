@@ -36,6 +36,19 @@ export function renderHTML(htmlBlock, elementID) {
     document.getElementById("main").appendChild(element);
 }
 
+// Convert Unix time
+export const getTime = (unixTime) => {
+    const t = new Date(unixTime * 1000);
+    const year = t.getFullYear();
+    const month = t.getMonth() + 1;
+    const day = t.getDate();
+    const hour = t.getHours();
+    const min = `0${t.getMinutes()}`;
+    const sec = `0${t.getSeconds()}`;
+    const time = `${day}/${month}/${year} ${hour}:${min.substr(-2)}:${sec.substr(-2)}`
+    return time;
+}
+
 export function wrapInDiv(arr) {
     let elements = [];
     for (let i=0; i<arr.length; i++) {

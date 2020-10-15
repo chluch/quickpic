@@ -1,11 +1,12 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, fileToDataUrl } from "./helpers.js";
+import { getTime } from "./helpers.js";
 
 // Main Feed Div
 const feed = document.createElement("div");
 feed.id = "feed";
 
+// Stick banner on top
 export const stickBanner = () => {
     const banner = document.getElementsByClassName("banner")[0];
     banner.style.top = 0;
@@ -32,22 +33,23 @@ export const getFeed = (data) => {
         });
 }
 
-const createPost = (author, time, likes, description, comments, img) => {
+// Create each individual post from getFeed
+const createPost = (PostId, author, time, likes, description, comments, img) => {
     const image = document.createElement("img");
     Object.assign(image, {
         src: `data:image/jpeg;base64, ${img}`,
         alt: `${author}'s post`
-    })
+    });
 
     let postTemplate = `
-        <div class="post">
+        <div class="post" id=post-${PostId}>
             <h2 class="author">${author}</h2>
             <div class="post-img"></div>
             <div class="post-info">
-                <p>"${description}"</p>
-                <p class="post-time">${getTime(time)}</p>
-                <p class="likes">${likes} &#x2764;</p>
-                <p class="comments">${comments} Comments</p>
+                <p class="post-text">${description}</p>
+                <div class="comments-number">${comments} comments</div>
+                <div class="likes-number">${likes} <span class="heart">&#x2764;</span></div>
+                <div class="timestamp">${getTime(time)}</div>
             </div>
         </div>
     `;
@@ -57,18 +59,6 @@ const createPost = (author, time, likes, description, comments, img) => {
     imgWrapper[0].appendChild(image);
     const post = newNode.getElementsByClassName("post");
     feed.appendChild(post[0]);
-}
-
-const getTime = (unixTime) => {
-    const t = new Date(unixTime * 1000);
-    const year = t.getFullYear();
-    const month = t.getMonth() + 1;
-    const day = t.getDate();
-    const hour = t.getHours();
-    const min = `0${t.getMinutes()}`;
-    const sec = `0${t.getSeconds()}`;
-    const time = `${day}/${month}/${year} ${hour}:${min.substr(-2)}:${sec.substr(-2)}`
-    return time;
 }
 
 // Who the post was made by
@@ -91,6 +81,7 @@ const showPosts = (posts) => {
             // console.log(p.meta.description_text);
             // console.log(p.comments.length);
             createPost(
+                p.meta.id,
                 p.meta.author,
                 p.meta.published,
                 p.meta.likes.length,
@@ -104,3 +95,8 @@ const showPosts = (posts) => {
 }
 
 document.getElementById("main").appendChild(feed);
+
+
+const addLike = () => {
+
+}
