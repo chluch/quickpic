@@ -48,10 +48,11 @@ const doLogin = () => {
                 alert(ret.message);
             }
             else {
-                // token if authenticated
-                // console.log(ret)
-                document.getElementById("login").style.display="none";
                 stickBanner();
+                document.getElementById("login").style.display="none";
+                // Store token in localStorage
+                window.localStorage.setItem('token', ret);
+                // get Feed with token
                 getFeed(ret);
             }
         });
