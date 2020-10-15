@@ -36,7 +36,7 @@ export function renderHTML(htmlBlock, elementID) {
     document.getElementById("main").appendChild(element);
 }
 
-// Convert Unix time
+// Convert unix time
 export const getTime = (unixTime) => {
     const t = new Date(unixTime * 1000);
     const year = t.getFullYear();
