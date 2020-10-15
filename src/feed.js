@@ -19,7 +19,7 @@ export const stickBanner = () => {
 export const getFeed = (data) => {
     const feed = new API;
     const token = {
-        headers: { "content-type": "application/json", "authorization": `Token ${data.token}` },
+        headers: { "content-type": "application/json", "authorization": `Token ${data}` },
     }
     feed.get("user/feed", token)
         .then((posts) => {
@@ -34,7 +34,7 @@ export const getFeed = (data) => {
 }
 
 // Create each individual post from getFeed
-const createPost = (PostId, author, time, likes, description, comments, img) => {
+const createPost = (postId, author, time, likes, description, comments, img) => {
     const image = document.createElement("img");
     Object.assign(image, {
         src: `data:image/jpeg;base64, ${img}`,
@@ -42,13 +42,13 @@ const createPost = (PostId, author, time, likes, description, comments, img) => 
     });
 
     let postTemplate = `
-        <div class="post" id=post-${PostId}>
+        <div class="post" id=post-${postId}>
             <h2 class="author">${author}</h2>
             <div class="post-img"></div>
             <div class="post-info">
                 <p class="post-text">${description}</p>
-                <div class="comments-number">${comments} comments</div>
-                <div class="likes-number">${likes} <span class="heart">&#x2764;</span></div>
+                <div class="comments-number">${comments.length} comments</div>
+                <div class="likes-number">${likes.length} <span class="heart">&#x2764;</span></div>
                 <div class="timestamp">${getTime(time)}</div>
             </div>
         </div>
@@ -57,6 +57,11 @@ const createPost = (PostId, author, time, likes, description, comments, img) => 
     const newNode = parser.parseFromString(postTemplate, "text/html");
     const imgWrapper = newNode.getElementsByClassName("post-img");
     imgWrapper[0].appendChild(image);
+    const heart = newNode.getElementsByClassName("heart")[0];
+    heart.onclick = (e) => {
+        e.preventDefault();
+
+    }
     const post = newNode.getElementsByClassName("post");
     feed.appendChild(post[0]);
 }
@@ -69,7 +74,7 @@ const createPost = (PostId, author, time, likes, description, comments, img) => 
 // How many comments the post has
 const showPosts = (posts) => {
     Object.keys(posts).forEach((post) => {
-        //  console.log(posts[post]);
+         console.log(posts[post]);
         if (posts[post].length === 0) {
             console.log('Oops no posts here');
             return;
@@ -81,12 +86,12 @@ const showPosts = (posts) => {
             // console.log(p.meta.description_text);
             // console.log(p.comments.length);
             createPost(
-                p.meta.id,
+                p.id,
                 p.meta.author,
                 p.meta.published,
-                p.meta.likes.length,
+                p.meta.likes,
                 p.meta.description_text,
-                p.comments.length,
+                p.comments,
                 p.src
             );
 
@@ -97,6 +102,40 @@ const showPosts = (posts) => {
 document.getElementById("main").appendChild(feed);
 
 
-const addLike = () => {
+const addLike = (postId) => {
+    const like = new API;
+    const token = {
+        headers: { 
+            "content-type": "application/json", 
+            "authorization": `Token ${localStorage.getItem("token")}`,
+        },
+    }
+    like.put(`post/like?id=${postId}`, token)
+    .then((ret) => {
+        if (ret.message) {
+            alert(ret.message);
+        }
+        else {
+            console.log(ret);
+        }
+    });
+}
 
+const removeLike = (postId) => {
+    const unlike = new API;
+    const token = {
+        headers: { 
+            "content-type": "application/json", 
+            "authorization": `Token ${localStorage.getItem("token")}`,
+        },
+    }
+    unlike.put(`post/unlike?id=${postId}`, token)
+    .then((ret) => {
+        if (ret.message) {
+            alert(ret.message);
+        }
+        else {
+            console.log(ret);
+        }
+    });
 }
