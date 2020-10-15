@@ -1,16 +1,16 @@
 /* base styles, feel free to edit */
 * {
     box-sizing: border-box;
-    color: 	#475f17;
 }
 
 
 html, body {
     margin: 0;
     height: 100%;
-    font-family: 'Gochi Hand', 'Arial', sans-serif;
     background-color: #f3f2e9;
     font-size: 16px;
+    color: 	#475f17;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #page-wrapper {
@@ -65,6 +65,7 @@ footer >p {
 
 .banner > *, footer > * {
     margin: 10px 25px;
+    font-family: 'Gochi Hand', 'Arial', sans-serif;
 }
 
 .nav {
@@ -152,39 +153,82 @@ form button:hover {
 }
 
 #feed {
-    /* background-color: pink; */
+    /* background-color: #a8b461; */
     display: none;
     flex-flow: column nowrap;
     justify-content: center;
-    width: 20%;
-}
+    align-items: center;
+    width: 40%;
 
-.post-img {
-    background-color: #a8b461;
-    border: 50px solid #a8b461;
-    border-radius: 10px;
-}
-
-.post-img > img {
-    border-radius: 10px;
 }
 
 .post {
-    /* border: 1px solid white; */
+    width: 376px;
+    color: black;
     margin: 10px;
     padding: 10px 0;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: white;
-    background-color: #a8b461;
+    border: 1px #cac9bc solid;
     display: flex;
     flex-flow: column nowrap;
-    align-items: center;
     justify-content: center;
     /* box-shadow: -10px 0px 10px rgba(99, 127, 25, 0.3), 10px 0px 10px rgba(99, 127, 25, 0.3); */
 }
 
+.post >h2 {
+    font-size: 20px;
+    letter-spacing: 1px;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.post-img {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.post-img > img {
+    width: 200%;
+    height: auto;
+}
+
 .post-info {
-    background-color: #f3f2e9;
-    width: 45%;
-    padding: 10px;
+    background-color: white;
+    width: 100%;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.post-text {
+    margin: 0;
+}
+
+.likes-number {
+    text-align: right;
+    float: right;
+}
+
+.likes-number, .comments-number {
+    margin-top: 15px;
+    width: 50%;
+    font-size: 14px;
+    display: inline-block;
+}
+.heart{
+    font-size: 18px;
+}
+.heart:hover {
+    display: inline-block;
+    transform: scale(1.4);
+    color: red;
+    cursor: pointer;
+}
+
+.timestamp {
+    color: #cac9bc;
+    text-align: end;
+    font-size: 10px;
+    margin-top: 10px;
 }
