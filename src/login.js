@@ -7,10 +7,10 @@ const loginPage = {
     load: () => renderHTML(`
     <form id="login">
         <div>
-            <input id="username" type="text" placeholder="Username">
+            <input id="username" type="text" placeholder="&#x1F464;Username">
         </div>
         <div>
-            <input id="password" type="password" placeholder="Password">
+            <input id="password" type="password" placeholder="&#x1F512;Password">
         </div>
         <div class="button-wrapper">
             <button id="go-to-signup">Signup</button>
@@ -51,9 +51,9 @@ const doLogin = () => {
                 stickBanner();
                 document.getElementById("login").style.display="none";
                 // Store token in localStorage
-                window.localStorage.setItem('token', ret);
+                localStorage.setItem('token', ret.token);
                 // get Feed with token
-                getFeed(ret);
+                getFeed(ret.token);
             }
         });
 }
