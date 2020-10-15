@@ -24,6 +24,7 @@ export default class API {
     makeAPIRequest(path, options) {
         return getJSON(`${this.url}/${path}`, options);
     }
+
     post(path, options) {
         return getJSON(`${this.url}/${path}`, {
             ...options,
@@ -35,6 +36,13 @@ export default class API {
         return getJSON(`${this.url}/${path}`, {
             ...options,
             method: "GET",
+        });
+    }
+
+    put(path, options) {
+        return getJSON(`${this.url}/${path}`, {
+            ...options,
+            method: "PUT",
         });
     }
 }
