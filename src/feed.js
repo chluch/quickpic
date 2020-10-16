@@ -58,8 +58,10 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
             <div class="post-img"></div>
             <div class="post-info">
                 <p class="post-text">${description}</p>
-                <div class="comments-number">${comments.length} comments</div>
-                <div class="likes-number">${likes.length} <span class="heart">&#x2764;</span></div>
+                    <div class="stats">
+                    <div class="comments-number">${comments.length} comments</div>
+                    <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
+                </div>
                 <div class="comment-display" id="comment-display-${postId}"></div>
             </div>
         </div>
@@ -67,8 +69,8 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     // set post image
     const parser = new DOMParser();
     const newNode = parser.parseFromString(postTemplate, "text/html");
-    const imgWrapper = newNode.getElementsByClassName("post-img");
-    imgWrapper[0].appendChild(image);
+    const imgWrapper = newNode.getElementsByClassName("post-img")[0];
+    imgWrapper.appendChild(image);
 
     // set comments
     const commentDisplay = newNode.getElementsByClassName("comment-display")[0];
@@ -80,9 +82,9 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     showComments.style.display = "none";
     const commentNum =  newNode.getElementsByClassName("comments-number")[0];
     commentNum.onclick = () => {
-        // e.preventDefault();
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
+
     // "Like" feature
     const heart = newNode.getElementsByClassName("heart")[0];
     heart.onclick = (e) => {
@@ -95,12 +97,6 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
 
 document.getElementById("main").appendChild(feed);
 
-// Who the post was made by
-// When it was posted
-// The image itself
-// How many likes it has (or none)
-// The post description text
-// How many comments the post has
 const showPosts = (posts) => {
     Object.keys(posts).forEach((post) => {
         //  console.log(posts[post]);

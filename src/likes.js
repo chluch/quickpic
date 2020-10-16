@@ -13,12 +13,12 @@ export const handleLike = (likes, postId) => {
     }
     userId.get("user/", token)
         .then((ret) => {
+            console.log(likes.includes(ret.id))
             likes.includes(ret.id) ? removeLike(postId) : addLike(postId);
         })
 }
 
 const addLike = (postId) => {
-    console.log('like')
     const like = new API;
     const token = {
         headers: {
@@ -28,8 +28,10 @@ const addLike = (postId) => {
     }
     like.put(`post/like?id=${postId}`, token)
         .then(() => {
-            let likesNum = document.getElementsByClassName("likes-number")[0];
-            console.log("eh" + likesNum.innerText.match(/\d/));
+            updateLike(postId);
+            // let likesNum = document.getElementById(`likes-num-${postId}`);
+            // likesNum.innerText = parseInt(likesNum.innerText) +1;
+            // likesNum.innerText = likes.len;
             // let post = document.getElementsByClassName("post")[0];
             // post.appendChild(likesNum);
             // feed.appendChild(post);
@@ -48,11 +50,28 @@ const removeLike = (postId) => {
     }
     unlike.put(`post/unlike?id=${postId}`, token)
         .then(() => {
-            let likesNum = document.getElementsByClassName("likes-number")[0];
-            console.log(likesNum.innerText.match(/\d/));
+            updateLike(postId);
+            // let likesNum = document.getElementById(`likes-num-${postId}`);
+            // likesNum.innerText = parseInt(likesNum.innerText) -1;
             // let post = document.getElementsByClassName("post")[0];
             // post.appendChild(likesNum);
             // feed.appendChild(post);
             // document.getElementById("main").appendChild(feed);
         });
+}
+
+const updateLike = (postId) => {
+    const setLike = new API;
+    const token = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`,
+        },
+    }
+    setLike.get(`post/?id=${postId}`, token)
+    .then((ret) => {
+        // console.log(ret.meta.likes.length);
+        let likesCount = document.getElementById(`likes-num-${postId}`);
+        likesCount.innerText = ret.meta.likes.length;
+    })
 }
