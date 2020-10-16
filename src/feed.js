@@ -1,7 +1,8 @@
 "use strict";
 import API from "./api.js";
 import { getTime } from "./helpers.js";
-import { handleLike } from "./likes.js"
+import { handleLike } from "./likes.js";
+import { getProfile, createProfileSummary } from "./profile.js";
 
 // Main Feed Div
 const feed = document.createElement("div");
@@ -18,7 +19,7 @@ export async function getFeed(token) {
             console.log('Oops no posts here');
             return;
         }
-        feed.style.display="flex";
+        feed.style.display = "flex";
         data[post].forEach((p) => {
             createPost(
                 p.id,
@@ -61,27 +62,48 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     });
 
     let postTemplate = `
-        <div class="post" id=post-${postId}>
-            <div class="post-heading">
-                <h2 class="author">${author}</h2>
-                <div class="timestamp">${getTime(time)}</div>
+        <div class="wrapper">
+            <div class="profile-summary" id="profile-${postId}">
             </div>
-            <div class="post-img"></div>
-            <div class="post-info">
-                <p class="post-text">${description}</p>
-                    <div class="stats">
-                        <div class="comments-number">${comments.length} comments</div>
-                        <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
-                    </div>
-                <div class="comment-display" id="comment-display-${postId}"></div>
+            <div class="post" id=post-${postId}>
+                <div class="post-heading">
+                    <h2 class="author">${author}</h2>
+                    <div class="timestamp">${getTime(time)}</div>
+                </div>
+                <div class="post-img"></div>
+                <div class="post-info">
+                    <p class="post-text">${description}</p>
+                        <div class="stats">
+                            <div class="comments-number">${comments.length} comments</div>
+                            <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
+                        </div>
+                    <div class="comment-display" id="comment-display-${postId}"></div>
+                </div>
             </div>
         </div>
     `;
     // set post image
     const parser = new DOMParser();
     const newNode = parser.parseFromString(postTemplate, "text/html");
+
     const imgWrapper = newNode.getElementsByClassName("post-img")[0];
     imgWrapper.appendChild(image);
+
+    const userInfo = newNode.getElementsByClassName("author")[0];
+    const profile = newNode.getElementsByClassName("profile-summary")[0];
+
+    createProfileSummary(author,postId);
+    let clickProfile = false;
+    userInfo.onclick = () => {
+        if (clickProfile) {
+            profile.style.display = "none";
+            clickProfile = false;
+        }
+        else {
+            profile.style.display = "block";
+            clickProfile = true;
+        }
+    }
 
     // set comments
     const commentDisplay = newNode.getElementsByClassName("comment-display")[0];
@@ -95,8 +117,11 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     commentNum.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
-    const post = newNode.getElementsByClassName("post");
-    feed.appendChild(post[0]);
+    const wrapper = newNode.getElementsByClassName("wrapper")[0];
+    feed.appendChild(wrapper);
+    // userInfo.onclick = () => {
+    //     getProfile(author);
+    // }
 }
 
 

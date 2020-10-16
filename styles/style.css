@@ -175,8 +175,50 @@ form button:hover {
     align-items: center;
 }
 
-.author {
-    color: hotpink;
+.wrapper {
+    display: flex;
+}
+
+.profile-summary {
+    background-color: #f2f2f3;
+    color: black;
+    padding: 0 20px;
+    line-height: 1.4;
+    display: none;
+    margin: 10px;
+    width: 350px;
+    height: 180px;
+    /* border: black solid; */
+    /* border-width: 2px 3px 4px 2px;
+    border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
+}
+
+h3 {
+    font-size: 20px;
+    margin: 20px 10px 10px 10px;
+}
+h4 {
+    font-size: 16px;
+}
+.profile-summary {
+    font-size: 15px;
+}
+.profile-summary >button {
+    font-size: 14px;
+    font-weight: bold;
+    float: right;
+    margin-top: 30px;
+    padding: 10px;
+}
+.profile-s-info {
+    display: flex;
+    justify-content: space-between;
+}
+.profile-s-info >h4 {
+    margin: 0 8px 0 auto;
+}
+.profile-s-info >p {
+    margin: 0 auto 0 0;
 }
 
 .post {
@@ -198,7 +240,7 @@ form button:hover {
     justify-content: space-between;
 }
 .post-heading h2 {
-    font-size: 20px;
+    font-size: 22px;
     letter-spacing: 1px;
     padding: 0 10px;
     margin: 0;
