@@ -238,6 +238,7 @@ form button:hover {
 }
 .comments-number:hover {
     cursor: pointer;
+    font-weight: bold;
 }
 .heart{
     font-size: 18px;
