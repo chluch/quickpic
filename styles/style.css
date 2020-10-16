@@ -213,6 +213,11 @@ form button:hover {
     margin: 0;
 }
 
+.stats {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
 .commenter, .comment {
     font-size: 14px;
 }
@@ -220,19 +225,16 @@ form button:hover {
     font-weight: bold;
 }
 
-/* .comments-number {
-    background-color: cornflowerblue;
-} */
-
 .likes-number {
-    /* background-color: chocolate; */
     text-align: right;
-    float: right;
+}
+
+.comments-number { 
+    margin-right: auto;
 }
 
 .likes-number, .comments-number {
     margin-top: 15px;
-    width: 50%;
     font-size: 14px;
     display: inline-block;
 }
@@ -241,10 +243,10 @@ form button:hover {
     font-weight: bold;
 }
 .heart{
+    display: inline-block;
     font-size: 18px;
 }
 .heart:hover {
-    display: inline-block;
     transform: scale(1.4);
     color: red;
     cursor: pointer;
