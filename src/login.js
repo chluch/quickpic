@@ -1,7 +1,7 @@
 "use strict";
 import API from "./api.js";
 import { renderHTML } from "./helpers.js";
-import { getFeed, stickBanner } from "./feed.js";
+import { getFeed } from "./feed.js";
 
 const loginPage = {
     load: () => renderHTML(`
@@ -56,6 +56,15 @@ const doLogin = () => {
                 getFeed(ret.token);
             }
         });
+}
+
+// Stick banner on top
+const stickBanner = () => {
+    const banner = document.getElementsByClassName("banner")[0];
+    banner.style.top = 0;
+    banner.style.position = "sticky";
+    const wrapper = document.getElementById("page-wrapper");
+    wrapper.style.height = "auto";
 }
 
 export default loginPage
