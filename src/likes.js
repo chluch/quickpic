@@ -25,7 +25,7 @@ const addLike = (postId) => {
         .then(() => {
             updateLike(postId);
             const heartIcon = document.getElementById(`likes-num-${postId}`).nextSibling;
-            heartIcon.style.color = "red";
+            // heartIcon.style.color = "red";
         });
 }
 
@@ -41,7 +41,7 @@ const removeLike = (postId) => {
         .then(() => {
             updateLike(postId);
             const heartIcon = document.getElementById(`likes-num-${postId}`).nextSibling;
-            heartIcon.style.color = "black";
+            // heartIcon.style.color = "black";
         });
 }
 

@@ -3,13 +3,12 @@
     box-sizing: border-box;
 }
 
-
 html, body {
     margin: 0;
     height: 100%;
-    background-color: #f3f2e9;
+    background-color: #373737;
     font-size: 16px;
-    color: 	#475f17;
+    color: 	#f2f2f3;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -39,9 +38,9 @@ html, body {
     align-items: center;
     /* padding: 0px;
     margin: 0; */
-    background-color:white;
+    background-color: #2c2c2c;
     min-height: 40px;
-    border-bottom: 1px solid rgba(0,0,0,.0975);
+    border-bottom: 1px solid #404345;
     font-size: 20px;
     letter-spacing: 4px;
 }
@@ -52,8 +51,8 @@ footer {
     text-align: right;
     margin: 0;
     padding: 0;
-    border-top: 1px solid rgba(0,0,0,.0975);
-    background-color:white;
+    border-top: 1px solid #404345;
+    background-color:#2c2c2c;
     max-height: 20px;
 }
 
@@ -87,15 +86,23 @@ footer >p {
 }
 
 form {
-    border: 1px solid #637f19;
+    border: 1px solid #63b47c;
+    /* border-top-color: rgb(100, 100, 100);
+    border-left-color: rgb(100, 100, 100);
+    border-right-color: black;
+    border-bottom-color: black; */
     border-radius: 5px;
+    /* border-width: 2px 3px 4px 2px;
+    border-radius: 96% 8% 95% 7%/9% 98% 4% 95%; */
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     min-height: 150px;
     min-width: 250px;
-    background-color: white;
+    background: linear-gradient(145deg, #282828, #2f2f2f);
+    box-shadow:  27px 27px 54px #202020,  
+                -27px -27px 54px #383838;
 }
 
 #login {
@@ -108,13 +115,13 @@ form >div {
 }
 
 ::placeholder {
-    color: #a8b461;
+    color: #7c838c;
 }
 
 form input {
     width: 100%;
     min-width: 200px;
-    border: 1px solid #637f19;
+    border: 1px solid #62b37c;
     border-radius: 5px;
     font-size: 16px;
     padding: 5px;
@@ -122,7 +129,7 @@ form input {
 
 form input:focus {
     outline: none;
-    box-shadow: 0px 0px 5px #5f9200;
+    box-shadow: 0px 0px 5px #75c38f;
 }
 
 form >.button-wrapper {
@@ -130,26 +137,30 @@ form >.button-wrapper {
     padding: 0 20%;
     display: flex;
     justify-content: space-around;
-    /* margin-bottom: 30px; */
 }
 
 form button {
     letter-spacing: 1.5px;
     font-size: 14px;
-    background-color: #637f19;
+    background-color: #62b37c;
     color: #ffffff;
     text-transform: uppercase;
     border-radius: 5px;
     border: none;
     margin: 0 10px;
-}
-
-#go-to-signup, #login-btn {
     padding: 1vh 2vw;
 }
 
-form button:hover {
+#login-btn, #submit-btn {
+    background-color: #f38024;
+}
+#login-btn:hover, #submit-btn:hover {
     background-color: #000000;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #3c6047;
     cursor: pointer;
 }
 
@@ -158,27 +169,25 @@ form button:hover {
 }
 
 #feed {
-    /* background-color: #a8b461; */
     display: none;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-    width: 40%;
-
 }
 
 .post {
-    width: 376px;
+    width: 400px;
     color: black;
     margin: 10px;
     padding: 10px 0;
     border-radius: 5px;
-    background-color: white;
-    border: 1px #cac9bc solid;
+    background-color: #f2f2f3;
+    border: #000000 solid 1px;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    /* box-shadow: -10px 0px 10px rgba(99, 127, 25, 0.3), 10px 0px 10px rgba(99, 127, 25, 0.3); */
+    box-shadow:  5px 5px 16px rgba(27, 27, 27, 0.5), 
+             -5px -5px 16px rgba(37, 37, 37, 0.5);
 }
 .post-heading {
     display: flex;
@@ -198,12 +207,15 @@ form button:hover {
 }
 
 .post-img > img {
-    width: 200%;
+    width: 95%;
     height: auto;
+    /* border: black solid;
+    border-width: 2px 3px 4px 2px;
+    border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
 }
 
 .post-info {
-    background-color: white;
+    background-color: #f2f2f3;
     width: 100%;
     margin-top: 10px;
     padding: 0 20px;
@@ -248,7 +260,7 @@ form button:hover {
     font-size: 25px;
 }
 .heart:hover {
-    color: #637f19;
+    color: #ff0400;
     cursor: pointer;
     animation: bounce 0.8s infinite ease-in-out;
 }
@@ -268,7 +280,7 @@ form button:hover {
 }
 
 .timestamp {
-    color: #cac9bc;
+    color: #686f74;
     text-align: end;
     font-size: 10px;
     margin-top: 10px;
