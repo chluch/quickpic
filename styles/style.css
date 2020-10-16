@@ -175,6 +175,10 @@ form button:hover {
     align-items: center;
 }
 
+.author {
+    color: hotpink;
+}
+
 .post {
     width: 400px;
     color: black;
