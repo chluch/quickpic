@@ -7,22 +7,33 @@ import { handleLike } from "./likes.js"
 const feed = document.createElement("div");
 feed.id = "feed";
 
-// get Feed after login with token
-export const getFeed = (data) => {
-    const feed = new API;
-    const token = {
-        headers: { "content-type": "application/json", "authorization": `Token ${data}` },
+export async function getFeed(token) {
+    const fetchFeed = new API;
+    const option = {
+        headers: { "content-type": "application/json", "authorization": `Token ${token}` },
     }
-    feed.get("user/feed", token)
-        .then((posts) => {
-            if (posts.message) {
-                alert(posts.message);
-            }
-            else {
-                document.getElementById("feed").style.display = "flex";
-                showPosts(posts);
-            }
-        });
+    const data = await fetchFeed.get("user/feed", option);
+    Object.keys(data).forEach((post) => {
+        if (data[post].length === 0) {
+            console.log('Oops no posts here');
+            return;
+        }
+        feed.style.display="flex";
+        data[post].forEach((p) => {
+            createPost(
+                p.id,
+                p.meta.author,
+                p.meta.published,
+                p.meta.likes,
+                p.meta.description_text,
+                p.comments,
+                p.src
+            );
+
+        })
+    });
+    document.getElementById("main").appendChild(feed);
+    setLikeEvent();
 }
 
 // Create each individual post from getFeed
@@ -59,9 +70,9 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
             <div class="post-info">
                 <p class="post-text">${description}</p>
                     <div class="stats">
-                    <div class="comments-number">${comments.length} comments</div>
-                    <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
-                </div>
+                        <div class="comments-number">${comments.length} comments</div>
+                        <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
+                    </div>
                 <div class="comment-display" id="comment-display-${postId}"></div>
             </div>
         </div>
@@ -80,47 +91,23 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
 
     const showComments = newNode.getElementById(`comment-display-${postId}`)
     showComments.style.display = "none";
-    const commentNum =  newNode.getElementsByClassName("comments-number")[0];
+    const commentNum = newNode.getElementsByClassName("comments-number")[0];
     commentNum.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
-    }
-
-    // "Like" feature
-    const heart = newNode.getElementsByClassName("heart")[0];
-    heart.onclick = (e) => {
-        e.preventDefault();
-        handleLike(likes, postId);
     }
     const post = newNode.getElementsByClassName("post");
     feed.appendChild(post[0]);
 }
 
-document.getElementById("main").appendChild(feed);
 
-const showPosts = (posts) => {
-    Object.keys(posts).forEach((post) => {
-        //  console.log(posts[post]);
-        if (posts[post].length === 0) {
-            console.log('Oops no posts here');
-            return;
-        }
-        posts[post].forEach((p) => {
-            console.log(p.comments)
-            // console.log(p.meta.author);
-            // console.log(getTime(p.meta.published));
-            // console.log(p.meta.likes.length);
-            // console.log(p.meta.description_text);
-            // console.log(p.comments.length);
-            createPost(
-                p.id,
-                p.meta.author,
-                p.meta.published,
-                p.meta.likes,
-                p.meta.description_text,
-                p.comments,
-                p.src
-            );
-
+const setLikeEvent = () => {
+    let hearts = document.querySelectorAll(".heart"); // array
+    hearts.forEach(heart => {
+        let postId = heart.closest(".post").id.replace(/\D+/, "");
+        let likeCount = heart.previousSibling.innerText;
+        heart.addEventListener("click", (e) => {
+            e.preventDefault();
+            handleLike(likeCount, postId);
         })
-    });
+    })
 }
