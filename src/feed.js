@@ -1,19 +1,11 @@
 "use strict";
 import API from "./api.js";
 import { getTime } from "./helpers.js";
+import { handleLike } from "./likes.js"
 
 // Main Feed Div
 const feed = document.createElement("div");
 feed.id = "feed";
-
-// Stick banner on top
-export const stickBanner = () => {
-    const banner = document.getElementsByClassName("banner")[0];
-    banner.style.top = 0;
-    banner.style.position = "sticky";
-    const wrapper = document.getElementById("page-wrapper");
-    wrapper.style.height = "auto";
-}
 
 // get Feed after login with token
 export const getFeed = (data) => {
@@ -81,7 +73,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     // set comments
     const commentDisplay = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
-        commentDisplay.appendChild(el)
+        commentDisplay.appendChild(el);
     }
 
     const showComments = newNode.getElementById(`comment-display-${postId}`)
@@ -95,7 +87,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     const heart = newNode.getElementsByClassName("heart")[0];
     heart.onclick = (e) => {
         e.preventDefault();
-        isLiked(likes, postId);
+        handleLike(likes, postId);
     }
     const post = newNode.getElementsByClassName("post");
     feed.appendChild(post[0]);
@@ -135,59 +127,4 @@ const showPosts = (posts) => {
 
         })
     });
-}
-
-const isLiked = (likes, postId) => {
-    const userId = new API;
-    console.log(`likes arr: ${likes}`);
-    const token = {
-        headers: {
-            "content-type": "application/json",
-            "authorization": `Token ${localStorage.getItem("token")}`,
-        },
-    }
-    userId.get("user/", token)
-        .then((ret) => {
-            likes.includes(ret.id) ? removeLike(postId) : addLike(postId);
-        })
-}
-
-const addLike = (postId) => {
-    console.log('like')
-    const like = new API;
-    const token = {
-        headers: {
-            "content-type": "application/json",
-            "authorization": `Token ${localStorage.getItem("token")}`,
-        },
-    }
-    like.put(`post/like?id=${postId}`, token)
-        .then(() => {
-            let likesNum = document.getElementsByClassName("likes-number")[0];
-            console.log("eh" + likesNum.innerText.match(/\d/));
-            // let post = document.getElementsByClassName("post")[0];
-            // post.appendChild(likesNum);
-            // feed.appendChild(post);
-            // document.getElementById("main").appendChild(feed);
-        });
-}
-
-const removeLike = (postId) => {
-    console.log('removeLike')
-    const unlike = new API;
-    const token = {
-        headers: {
-            "content-type": "application/json",
-            "authorization": `Token ${localStorage.getItem("token")}`,
-        },
-    }
-    unlike.put(`post/unlike?id=${postId}`, token)
-        .then(() => {
-            let likesNum = document.getElementsByClassName("likes-number")[0];
-            console.log(likesNum.innerText.match(/\d/));
-            // let post = document.getElementsByClassName("post")[0];
-            // post.appendChild(likesNum);
-            // feed.appendChild(post);
-            // document.getElementById("main").appendChild(feed);
-        });
 }
