@@ -180,8 +180,11 @@ form button:hover {
     justify-content: center;
     /* box-shadow: -10px 0px 10px rgba(99, 127, 25, 0.3), 10px 0px 10px rgba(99, 127, 25, 0.3); */
 }
-
-.post >h2 {
+.post-heading {
+    display: flex;
+    justify-content: space-between;
+}
+.post-heading h2 {
     font-size: 20px;
     letter-spacing: 1px;
     padding: 0 10px;
@@ -189,9 +192,9 @@ form button:hover {
 }
 
 .post-img {
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .post-img > img {
@@ -210,7 +213,19 @@ form button:hover {
     margin: 0;
 }
 
+.commenter, .comment {
+    font-size: 14px;
+}
+.commenter {
+    font-weight: bold;
+}
+
+/* .comments-number {
+    background-color: cornflowerblue;
+} */
+
 .likes-number {
+    /* background-color: chocolate; */
     text-align: right;
     float: right;
 }
@@ -220,6 +235,9 @@ form button:hover {
     width: 50%;
     font-size: 14px;
     display: inline-block;
+}
+.comments-number:hover {
+    cursor: pointer;
 }
 .heart{
     font-size: 18px;
@@ -236,4 +254,5 @@ form button:hover {
     text-align: end;
     font-size: 10px;
     margin-top: 10px;
+    padding-right: 5px;
 }
