@@ -104,10 +104,8 @@ const setLikeEvent = () => {
     let hearts = document.querySelectorAll(".heart"); // array
     hearts.forEach(heart => {
         let postId = heart.closest(".post").id.replace(/\D+/, "");
-        let likeCount = heart.previousSibling.innerText;
-        heart.addEventListener("click", (e) => {
-            e.preventDefault();
-            handleLike(likeCount, postId);
+        heart.addEventListener("click", () => {
+            handleLike(postId);
         })
     })
 }
