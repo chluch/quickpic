@@ -227,6 +227,7 @@ form button:hover {
 
 .likes-number {
     text-align: right;
+    font-weight: bold;
 }
 
 .comments-number { 
@@ -244,12 +245,26 @@ form button:hover {
 }
 .heart{
     display: inline-block;
-    font-size: 18px;
+    font-size: 25px;
 }
 .heart:hover {
-    transform: scale(1.4);
     color: red;
     cursor: pointer;
+    animation: bounce 0.8s infinite ease-in-out;
+}
+@keyframes bounce {
+    0%, 12.5%, 82.5% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
 }
 
 .timestamp {
