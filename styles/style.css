@@ -248,7 +248,7 @@ form button:hover {
     font-size: 25px;
 }
 .heart:hover {
-    color: red;
+    color: #637f19;
     cursor: pointer;
     animation: bounce 0.8s infinite ease-in-out;
 }
