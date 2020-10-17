@@ -48,12 +48,12 @@ const doLogin = () => {
                 alert(ret.message);
             }
             else {
-                stickBanner();
                 document.getElementById("login").style.display="none";
                 // Store token in localStorage
                 localStorage.setItem('token', ret.token);
                 // get Feed with token
                 getFeed(ret.token);
+                stickBanner();
             }
         });
 }

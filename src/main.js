@@ -8,7 +8,6 @@ signupPage.load();
 loginPage.setEvents();
 signupPage.setEvents();
 
-
 // we can use this single api request multiple times
 // const feed = api.getFeed();
 
