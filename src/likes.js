@@ -6,7 +6,10 @@ export async function handleLike(postId, elementId) {
     const getUser = new API;
     const getPost = new API;
     const option = {
-        headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
     }
     const userData = await getUser.get("user/", option);
     const postData = await getPost.get(`post/?id=${postId}`, option);
@@ -54,8 +57,8 @@ const updateLike = (postId, elementId) => {
         },
     }
     setLike.get(`post/?id=${postId}`, token)
-    .then((ret) => {
-        let likesCount = document.getElementById(elementId);
-        likesCount.innerText = ret.meta.likes.length;
-    })
+        .then((ret) => {
+            let likesCount = document.getElementById(elementId);
+            likesCount.innerText = ret.meta.likes.length;
+        })
 }
