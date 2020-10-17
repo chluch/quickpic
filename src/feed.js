@@ -5,7 +5,7 @@ import { handleLike } from "./likes.js";
 import { getProfile, createProfileSummary, createProfile } from "./profile.js";
 
 // Main Feed Div
-const feed = document.createElement("div");
+const feed = document.createElement("div"); 
 feed.id = "feed";
 
 export async function getFeed(token) {

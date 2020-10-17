@@ -12,7 +12,16 @@ export async function getProfile(username) {
     return data;
 }
 
-// mini profile on Feed
+async function getProfileById(id) {
+    const getUser = new API;
+    const option = {
+        headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
+    }
+    const data = await getUser.get(`user/?id=${id}`, option);
+    return data;
+}
+
+// Mini profile on Feed
 export async function createProfileSummary(username, postId) {
     const data = await getProfile(username);
     const parentElement = document.getElementById(`profile-s-${postId}`);
@@ -67,7 +76,7 @@ export async function createProfile(d) {
             </div>
             <div class="follow-info">
                 <div>
-                    <h4>Following</h4>
+                    <h4 class="following">Following</h4>
                     <p>${data.following.length}</p>
                 </div>
                 <div>
@@ -75,6 +84,7 @@ export async function createProfile(d) {
                     <p>${data.followed_num}</p>
                 </div>
             </div>
+            <div class="following-list" id="following-${data.username}"></div>
             <h3>${data.name}'s Posts</h3>
         </div>
     `
@@ -87,6 +97,19 @@ export async function createProfile(d) {
     else {
         getUserPostHistory(data.posts);
     }
+    // Populate following list
+    createFollowingList(data);
+    let clickFollowing = false;
+    document.getElementsByClassName("following")[0].addEventListener("click", () => {
+        if (clickFollowing) {
+            document.getElementById(`following-${data.username}`).style.display = "none";
+            clickFollowing = false;
+        }
+        else {
+            document.getElementById(`following-${data.username}`).style.display = "block";
+            clickFollowing = true;
+        }
+    });
 }
 
 // Get data for user's posts
@@ -102,6 +125,31 @@ async function getUserPostHistory(postIds) {
         createUserPost(post);
     }
     setLikeEvent();
+}
+
+async function createFollowingList(data) {
+    const followingList = data.following;
+    let list = document.createElement("ul");
+    list.classname = "users-followed";
+    for (const id of followingList) {
+        console.log(id)
+        const data = await getProfileById(id);
+        const username = data.username;
+        let user = document.createElement("li");
+        user.innerText = username;
+        list.appendChild(user);
+        user.onclick = () => {
+            // remove current profile
+            let profile = document.getElementsByClassName("full-profile")[0];
+            while (profile.firstChild) {
+                profile.removeChild(profile.lastChild);
+            }
+            profile.parentNode.removeChild(profile);
+            // create new profile
+            createProfile(data);
+        }
+    }
+    document.getElementsByClassName("following-list")[0].appendChild(list);
 }
 
 const createUserPost = (post) => {
@@ -130,7 +178,7 @@ const setLikeEvent = () => {
     hearts.forEach(heart => {
         let postId = heart.closest(".user-history").id.replace(/\D+/, "");
         heart.addEventListener("click", () => {
-            handleLike(postId, `profile-likes-${postId}`); 
+            handleLike(postId, `profile-likes-${postId}`);
         });
     });
 }

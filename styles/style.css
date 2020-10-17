@@ -49,7 +49,7 @@ a {
     font-size: 20px;
     letter-spacing: 4px;
 }
-
+/* 
 footer {
     display: flex;
     justify-content: flex-end;
@@ -65,7 +65,7 @@ footer >p {
     margin: 0 5px;
     font-size: 16px;
     letter-spacing: 1px;
-}
+} */
 
 .banner > *, footer > * {
     margin: 10px 25px;
@@ -257,6 +257,20 @@ form button:hover {
     /* margin-left: auto; */
     font-size: 18px;
 }
+.following-list {
+    display: none;
+    height: 80px;
+    overflow: auto;
+    margin: 0;
+    line-height: 1.4;
+}
+.following-list li {
+    list-style-type: square;
+}
+.following-list li:hover {
+    cursor: pointer;
+    color: black
+}
 .follow-info {
     display: flex;
     flex-flow: row;
@@ -284,6 +298,9 @@ form button:hover {
     background-color: #378ad3;
     border: 1px solid white;
     border-radius: 3px;
+}
+.following:hover {
+    cursor: pointer;
 }
 .history-content {
     display: flex;
