@@ -2,7 +2,7 @@
 import API from "./api.js";
 import { getTime } from "./helpers.js";
 import { handleLike } from "./likes.js";
-import { getProfile, createProfileSummary } from "./profile.js";
+import { getProfile, createProfileSummary, createProfile } from "./profile.js";
 
 // Main Feed Div
 const feed = document.createElement("div");
@@ -56,6 +56,10 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
         commenter.innerText = `${c.author}: `;
         commentText.innerText = c.comment;
         const wrapper = document.createElement("div");
+        commenter.onclick = () => {
+            createProfile(getProfile(c.author));
+            feed.style.display="none";
+        }
         wrapper.appendChild(commenter);
         wrapper.appendChild(commentText);
         commentLog.push(wrapper);
