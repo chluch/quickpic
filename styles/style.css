@@ -386,7 +386,7 @@ form button:hover {
     cursor: pointer;
 }
 .comment-display {
-    max-height: 60px;
+    max-height: 100px;
     overflow-y: auto;
 }
 
