@@ -63,7 +63,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
 
     let postTemplate = `
         <div class="wrapper">
-            <div class="profile-summary" id="profile-${postId}">
+            <div class="profile-summary" id="profile-s-${postId}">
             </div>
             <div class="post" id=post-${postId}>
                 <div class="post-heading">
@@ -119,9 +119,6 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     }
     const wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
-    // userInfo.onclick = () => {
-    //     getProfile(author);
-    // }
 }
 
 
