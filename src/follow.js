@@ -1,22 +1,32 @@
 "use strict";
 import API from "./api.js";
 
-export async function showFollowing (d) {
-    const data = await d;
-}
-
-function handleFollow () {
+function handleFollow() {
 
 }
 
-function addFollow() {
-
+export function addFollow(username) {
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`,
+        }
+    }
+    api.put(`user/follow?username=${username}`, option);
 }
 
-function removeFollow() {
-
+export function removeFollow(username) {
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`,
+        }
+    }
+    api.put(`user/unfollow?username=${username}`, option);
 }
 
-function updateFollow(){
+function updateFollow() {
 
 }

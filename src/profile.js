@@ -2,6 +2,7 @@
 import API from "./api.js";
 import { renderHTML, getTime } from "./helpers.js";
 import { handleLike } from "./likes.js";
+import { addFollow, removeFollow } from "./follow.js";
 
 export async function getProfile(username) {
     const getUser = new API;
@@ -48,11 +49,14 @@ export async function createProfileSummary(username, postId) {
     const seeFullProfile = document.createElement("button");
     seeFullProfile.className = "go-to-profile";
     seeFullProfile.innerText = "Full Profile";
-    // const quickFollow = document.createElement("button");
-    // quickFollow.className = "quick-follow";
-    // quickFollow.innerText = "Follow";
-    // parentElement.appendChild(quickFollow)
-    seeFullProfile.addEventListener("click", (e) => {
+    const quickFollow = document.createElement("button");
+    quickFollow.className = "quick-follow";
+    quickFollow.innerText = "Follow";
+    parentElement.appendChild(quickFollow)
+    quickFollow.addEventListener("click", ()=> {
+        addFollow(username);
+    });
+    seeFullProfile.addEventListener("click", () => {
         document.getElementById("feed").style.display = "none";
         createProfile(data);
     })
@@ -97,6 +101,10 @@ export async function createProfile(d) {
     else {
         getUserPostHistory(data.posts);
     }
+    // Add follow function to follow button
+    document.getElementById("follow-btn").addEventListener("click", ()=> {
+        addFollow(data.username);
+    });
     // Populate following list
     createFollowingList(data);
     let clickFollowing = false;
