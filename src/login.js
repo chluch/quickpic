@@ -18,7 +18,7 @@ const loginPage = {
         </div>
     </form>
     `
-        , "login"),
+        , "login", "main"),
     setEvents: () => {
         document.getElementById("go-to-signup").onclick = (e) => {
             e.preventDefault();
