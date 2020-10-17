@@ -113,8 +113,8 @@ const createUserPost = (post) => {
                 <div class="timestamp">${getTime(post.meta.published)}</div>
                 <p>${post.meta.description_text}</p>
                 <div class="stats">
-                    <div class="comments-number">${post.comments.length} comments</div>
                     <div class="add-comment">Add comment</div>
+                    <div class="comments-number">${post.comments.length} comments</div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
             </div>
