@@ -382,6 +382,9 @@ form button:hover {
 .commenter {
     font-weight: bold;
 }
+.commenter:hover {
+    cursor: pointer;
+}
 
 .likes-number {
     text-align: right;
