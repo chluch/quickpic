@@ -49,13 +49,13 @@ export async function createProfileSummary(username, postId) {
     const seeFullProfile = document.createElement("button");
     seeFullProfile.className = "go-to-profile";
     seeFullProfile.innerText = "Full Profile";
-    const quickFollow = document.createElement("button");
-    quickFollow.className = "quick-follow";
-    quickFollow.innerText = "Follow";
-    parentElement.appendChild(quickFollow)
-    quickFollow.addEventListener("click", () => {
-        addFollow(username);
-    });
+    // const quickFollow = document.createElement("button");
+    // quickFollow.className = "quick-follow";
+    // quickFollow.innerText = "Follow";
+    // parentElement.appendChild(quickFollow)
+    // quickFollow.addEventListener("click", () => {
+    //     addFollow(username);
+    // });
     seeFullProfile.addEventListener("click", () => {
         document.getElementById("feed").style.display = "none";
         createProfile(data);
