@@ -52,7 +52,8 @@ export async function createProfileSummary(username, postId) {
 }
 
 // Main Profile
-const createProfile = (data) => {
+export async function createProfile(d) {
+    const data = await d;
     const profileTemplate = `
         <div class="full-profile" id="profile-${data.username}">
             <div class="profile-heading">
@@ -75,6 +76,7 @@ const createProfile = (data) => {
                     <p>${data.followed_num}</p>
                 </div>
             </div>
+            <h3>${data.name}'s Posts</h3>
         </div>
     `
     renderHTML(profileTemplate, `profile-${data.username}`, "main");
