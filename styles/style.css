@@ -192,6 +192,7 @@ form button:hover {
     margin: 10px;
     width: 350px;
     height: 180px;
+    border-radius: 5px;
     /* border: black solid; */
     /* border-width: 2px 3px 4px 2px;
     border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
