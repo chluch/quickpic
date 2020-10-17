@@ -78,6 +78,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
                 <div class="post-info">
                     <p class="post-text">${description}</p>
                         <div class="stats">
+                            <div class="add-comment">Add comment</div>
                             <div class="comments-number">${comments.length} comments</div>
                             <div class="likes-number" id="likes-num-${postId}">${likes.length}</div><div class="heart">&#x2764;</div>
                         </div>

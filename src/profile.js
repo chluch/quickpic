@@ -15,7 +15,6 @@ export async function getProfile(username) {
 // mini profile on Feed
 export async function createProfileSummary(username, postId) {
     const data = await getProfile(username);
-    // console.log(data)
     const parentElement = document.getElementById(`profile-s-${postId}`);
     const name = document.createElement("h3");
     name.innerText = data.name;
@@ -39,7 +38,7 @@ export async function createProfileSummary(username, postId) {
     });
     const seeFullProfile = document.createElement("button");
     seeFullProfile.className = "go-to-profile";
-    seeFullProfile.innerText = "Full Profile"
+    seeFullProfile.innerText = "Full Profile";
     // const quickFollow = document.createElement("button");
     // quickFollow.className = "quick-follow";
     // quickFollow.innerText = "Follow";
@@ -115,6 +114,7 @@ const createUserPost = (post) => {
                 <p>${post.meta.description_text}</p>
                 <div class="stats">
                     <div class="comments-number">${post.comments.length} comments</div>
+                    <div class="add-comment">Add comment</div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
             </div>

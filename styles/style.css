@@ -316,7 +316,6 @@ form button:hover {
     font-size: 14px;
 }
 
-
 .post {
     width: 400px;
     color: black;
@@ -345,13 +344,11 @@ form button:hover {
     cursor: pointer;
     color: #62b37c;
 }
-
 .post-img {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .post-img > img {
     width: 95%;
     height: auto;
@@ -359,14 +356,12 @@ form button:hover {
     border-width: 2px 3px 4px 2px;
     border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
 }
-
 .post-info {
     background-color: #f2f2f3;
     width: 100%;
     margin-top: 10px;
     padding: 0 20px;
 }
-
 .post-text {
     margin: 0;
 }
@@ -389,22 +384,19 @@ form button:hover {
     max-height: 100px;
     overflow-y: auto;
 }
-
 .likes-number {
     text-align: right;
     font-weight: bold;
 }
-
-.comments-number { 
-    margin-right: auto;
-}
-
-.likes-number, .comments-number {
+.likes-number, .add-comment, .comments-number {
     margin-top: 15px;
     font-size: 14px;
     display: inline-block;
 }
-.comments-number:hover {
+.comments-number { 
+    margin: 0 10px 0 auto;
+}
+.comments-number:hover, .add-comment:hover {
     cursor: pointer;
     font-weight: bold;
 }
