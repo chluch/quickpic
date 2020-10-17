@@ -5,19 +5,25 @@ import { handleLike } from "./likes.js";
 import { getProfile, createProfileSummary, createProfile } from "./profile.js";
 
 // Main Feed Div
-const feed = document.createElement("div"); 
+const feed = document.createElement("div");
 feed.id = "feed";
 
-export async function getFeed(token) {
-    const fetchFeed = new API;
+export async function getFeed(token, startPage, endPage) {
+    let gotMorePosts = false;
+    if (!startPage && !endPage) {
+        startPage = 0;
+        endPage = 10;
+    }
+    const api = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${token}` },
     }
-    const data = await fetchFeed.get("user/feed", option);
+    const data = await api.get(`user/feed?p=${startPage}&n=${endPage}`, option);
     Object.keys(data).forEach((post) => {
         if (data[post].length === 0) {
             console.log('Oops no posts here');
-            return;
+            gotMorePosts = false;
+            return gotMorePosts;
         }
         feed.style.display = "flex";
         data[post].forEach((p) => {
@@ -32,9 +38,11 @@ export async function getFeed(token) {
             );
 
         })
+        gotMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
     setLikeEvent();
+    return gotMorePosts;
 }
 
 // Create each individual post from getFeed
@@ -58,7 +66,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
         const wrapper = document.createElement("div");
         commenter.onclick = () => {
             createProfile(getProfile(c.author));
-            feed.style.display="none";
+            feed.style.display = "none";
         }
         wrapper.appendChild(commenter);
         wrapper.appendChild(commentText);
@@ -97,7 +105,7 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     const userInfo = newNode.getElementsByClassName("author")[0];
     const profile = newNode.getElementsByClassName("profile-summary")[0];
 
-    createProfileSummary(author,postId);
+    createProfileSummary(author, postId);
     let clickProfile = false;
     userInfo.onclick = () => {
         if (clickProfile) {
@@ -110,12 +118,11 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
         }
     }
 
-    // set comments
+    // Make comments divs
     const commentDisplay = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
         commentDisplay.appendChild(el);
     }
-
     const showComments = newNode.getElementById(`comment-display-${postId}`)
     showComments.style.display = "none";
     const commentNum = newNode.getElementsByClassName("comments-number")[0];
@@ -135,3 +142,19 @@ const setLikeEvent = () => {
         })
     })
 }
+
+// Infinite scroll
+let start = 11;
+let end = 20;
+window.onscroll = () => {
+    if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
+        getFeed(localStorage.getItem("token"), start, end)
+            .then((gotMorePosts) => {
+                if (gotMorePosts) {
+                    start = end + 1;
+                    end = end + 10;
+                }
+            })
+    }
+}
+
