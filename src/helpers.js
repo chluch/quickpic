@@ -29,11 +29,11 @@ export function fileToDataUrl(file) {
 }
 
 // Render HTML code blocks and append to main
-export function renderHTML(htmlBlock, elementID) {
+export function renderHTML(htmlBlock, elementID, parentID) {
     const parser = new DOMParser();
     const newNode = parser.parseFromString(htmlBlock, "text/html");
     const element = newNode.getElementById(elementID);
-    document.getElementById("main").appendChild(element);
+    document.getElementById(parentID).appendChild(element);
 }
 
 // Convert unix time
