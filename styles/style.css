@@ -385,6 +385,10 @@ form button:hover {
 .commenter:hover {
     cursor: pointer;
 }
+.comment-display {
+    max-height: 60px;
+    overflow-y: auto;
+}
 
 .likes-number {
     text-align: right;
