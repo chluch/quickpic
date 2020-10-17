@@ -1,5 +1,6 @@
 "use strict";
 import API from "./api.js";
+import { renderHTML } from "./helpers.js";
 // import { injectHTMLByClass } from "./helpers.js";
 
 export async function getProfile(username) {
@@ -11,11 +12,46 @@ export async function getProfile(username) {
     return data;
 }
 
+function createProfile(data) {
+    // const data = await getProfile(username);
+    const profileTemplate = `
+        <div class="full-profile" id="profile-${data.username}">
+            <div class="profile-heading">
+                <h2>${data.name}</h2>
+                <h3>${data.username}</h3>
+            </div>
+            <div class="profile-action">
+                <a href="mailto:${data.email}?subject=Mailed from Quickpic" target="_blank" rel="noopener noreferrer">
+                    &#x1F4E7; Email
+                </a>
+                <button id="follow-btn">Follow</button>
+            </div>
+            <div class="follow-info">
+                <div>
+                    <h4>Following</h4>
+                    <p>${data.following.length}</p>
+                </div>
+                <div>
+                    <h4>Followers</h4>
+                    <p>${data.followed_num}</p>
+                </div>
+            </div>
+            <div class="user-posts">
+                SOME POSTS
+            </div>
+        </div>
+    `
+    renderHTML(profileTemplate, `profile-${data.username}`);
+}
+
+function getUserPostHistory() {
+    
+}
+
 export async function createProfileSummary(username, postId) {
     const data = await getProfile(username);
-    // console.log(data.name)
-    console.log(data)
-    const parentElement = document.getElementById(`profile-${postId}`);
+    // console.log(data)
+    const parentElement = document.getElementById(`profile-s-${postId}`);
     const name = document.createElement("h3");
     name.innerText = data.name;
     parentElement.appendChild(name);
@@ -42,7 +78,10 @@ export async function createProfileSummary(username, postId) {
     // const quickFollow = document.createElement("button");
     // quickFollow.className = "quick-follow";
     // quickFollow.innerText = "Follow";
-    parentElement.appendChild(seeFullProfile);
     // parentElement.appendChild(quickFollow)
-
+    seeFullProfile.addEventListener("click", (e) => {
+        document.getElementById("feed").style.display="none";
+        createProfile(data);
+    })
+    parentElement.appendChild(seeFullProfile);
 }
