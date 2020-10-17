@@ -50,7 +50,8 @@ const doLogin = () => {
             else {
                 document.getElementById("login").style.display="none";
                 // Store token in localStorage
-                localStorage.setItem('token', ret.token);
+                localStorage.setItem("token", ret.token);
+                localStorage.setItem("username", document.getElementById("username").value);
                 // get Feed with token
                 getFeed(ret.token);
                 stickBanner();

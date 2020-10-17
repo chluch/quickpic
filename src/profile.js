@@ -2,7 +2,7 @@
 import API from "./api.js";
 import { renderHTML, getTime } from "./helpers.js";
 import { handleLike } from "./likes.js";
-import { addFollow, removeFollow } from "./follow.js";
+import { addFollow, removeFollow, updateFollowers } from "./follow.js";
 
 export async function getProfile(username) {
     const getUser = new API;
@@ -30,17 +30,17 @@ export async function createProfileSummary(username, postId) {
     name.innerText = data.name;
     parentElement.appendChild(name);
     const obj = {
-        "posts:": data.posts.length,
-        "followers:": data.followed_num,
-        "following:": data.following.length,
+        "posts": data.posts.length,
+        "followers": data.followed_num,
+        "following": data.following.length,
     }
     const follow = document.createElement("div");
     follow.className = "profile-s-info";
     Object.keys(obj).forEach((k) => {
         const text = document.createElement("p");
         const title = document.createElement("h4")
-
-        title.innerText = k;
+        text.className = `${k}-s`;
+        title.innerText = `${k}: `;
         text.innerText = obj[k];
         follow.appendChild(title);
         follow.appendChild(text);
@@ -53,7 +53,7 @@ export async function createProfileSummary(username, postId) {
     quickFollow.className = "quick-follow";
     quickFollow.innerText = "Follow";
     parentElement.appendChild(quickFollow)
-    quickFollow.addEventListener("click", ()=> {
+    quickFollow.addEventListener("click", () => {
         addFollow(username);
     });
     seeFullProfile.addEventListener("click", () => {
@@ -66,6 +66,7 @@ export async function createProfileSummary(username, postId) {
 // Main Profile
 export async function createProfile(d) {
     const data = await d;
+    console.log(data)
     const profileTemplate = `
         <div class="full-profile" id="profile-${data.username}">
             <div class="profile-heading">
@@ -76,7 +77,7 @@ export async function createProfile(d) {
                 <a href="mailto:${data.email}?subject=Mailed from Quickpic" target="_blank" rel="noopener noreferrer">
                     &#x1F4E7; Email
                 </a>
-                <button id="follow-btn">Follow</button>
+                <button id="follow-btn"></button>
             </div>
             <div class="follow-info">
                 <div>
@@ -85,7 +86,7 @@ export async function createProfile(d) {
                 </div>
                 <div>
                     <h4>Followers</h4>
-                    <p>${data.followed_num}</p>
+                    <p class="follower-count">${data.followed_num}</p>
                 </div>
             </div>
             <div class="following-list" id="following-${data.username}"></div>
@@ -102,20 +103,18 @@ export async function createProfile(d) {
         getUserPostHistory(data.posts);
     }
     // Add follow function to follow button
-    document.getElementById("follow-btn").addEventListener("click", ()=> {
-        addFollow(data.username);
-    });
+    setFollow(data.id, data.username);
     // Populate following list
     createFollowingList(data);
-    let clickFollowing = false;
+    let clickFollowList = false;
     document.getElementsByClassName("following")[0].addEventListener("click", () => {
-        if (clickFollowing) {
+        if (clickFollowList) {
             document.getElementById(`following-${data.username}`).style.display = "none";
-            clickFollowing = false;
+            clickFollowList = false;
         }
         else {
             document.getElementById(`following-${data.username}`).style.display = "block";
-            clickFollowing = true;
+            clickFollowList = true;
         }
     });
 }
@@ -140,7 +139,7 @@ async function createFollowingList(data) {
     let list = document.createElement("ul");
     list.classname = "users-followed";
     for (const id of followingList) {
-        console.log(id)
+        // console.log(id)
         const data = await getProfileById(id);
         const username = data.username;
         let user = document.createElement("li");
@@ -178,6 +177,32 @@ const createUserPost = (post) => {
     </div>
     `
     renderHTML(historyTemplate, `history-${post.id}`, `profile-${post.meta.author}`);
+}
+
+async function setFollow(id, username) {
+    const ownUsername = localStorage.getItem("username");
+    const followButton = document.getElementById("follow-btn");
+    if (ownUsername === username) {
+        followButton.parentNode.removeChild(followButton);
+        return;
+    }
+    const ownData = await getProfile(ownUsername);
+    if (ownData.following.includes(id)) {
+        followButton.innerText = "UNFOLLOW";
+    }
+    else {
+        followButton.innerText = "FOLLOW";
+    }
+    followButton.addEventListener("click", () => {
+        if (followButton.innerText === "FOLLOW") {
+            addFollow(username, "follower-count");
+            followButton.innerText="UNFOLLOW";
+        }
+        else {
+            removeFollow(username, "follower-count");
+            followButton.innerText="FOLLOW";
+        }
+    });
 }
 
 const setLikeEvent = () => {
