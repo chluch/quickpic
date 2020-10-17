@@ -121,13 +121,12 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     feed.appendChild(wrapper);
 }
 
-
 const setLikeEvent = () => {
     let hearts = document.querySelectorAll(".heart"); // array
     hearts.forEach(heart => {
         let postId = heart.closest(".post").id.replace(/\D+/, "");
         heart.addEventListener("click", () => {
-            handleLike(postId);
+            handleLike(postId, `likes-num-${postId}`);
         })
     })
 }

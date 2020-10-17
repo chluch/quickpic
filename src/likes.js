@@ -1,7 +1,8 @@
 "use strict";
 import API from "./api.js";
 
-export async function handleLike(postId) {
+export async function handleLike(postId, elementId) {
+    console.log(`elementid: ${elementId}`)
     const getUser = new API;
     const getPost = new API;
     const option = {
@@ -10,10 +11,11 @@ export async function handleLike(postId) {
     const userData = await getUser.get("user/", option);
     const postData = await getPost.get(`post/?id=${postId}`, option);
     const isLiked = postData.meta.likes.includes(userData.id);
-    isLiked ? removeLike(postId) : addLike(postId);
+    isLiked ? removeLike(postId, elementId) : addLike(postId, elementId);
 }
 
-const addLike = (postId) => {
+const addLike = (postId, elementId) => {
+    console.log('addlike')
     const like = new API;
     const token = {
         headers: {
@@ -23,13 +25,12 @@ const addLike = (postId) => {
     }
     like.put(`post/like?id=${postId}`, token)
         .then(() => {
-            updateLike(postId);
-            const heartIcon = document.getElementById(`likes-num-${postId}`).nextSibling;
-            // heartIcon.style.color = "red";
+            updateLike(postId, elementId);
         });
 }
 
-const removeLike = (postId) => {
+const removeLike = (postId, elementId) => {
+    console.log('remove like')
     const unlike = new API;
     const token = {
         headers: {
@@ -39,13 +40,12 @@ const removeLike = (postId) => {
     }
     unlike.put(`post/unlike?id=${postId}`, token)
         .then(() => {
-            updateLike(postId);
-            const heartIcon = document.getElementById(`likes-num-${postId}`).nextSibling;
-            // heartIcon.style.color = "black";
+            updateLike(postId, elementId);
         });
 }
 
-const updateLike = (postId) => {
+const updateLike = (postId, elementId) => {
+    console.log('updating')
     const setLike = new API;
     const token = {
         headers: {
@@ -55,7 +55,7 @@ const updateLike = (postId) => {
     }
     setLike.get(`post/?id=${postId}`, token)
     .then((ret) => {
-        let likesCount = document.getElementById(`likes-num-${postId}`);
+        let likesCount = document.getElementById(elementId);
         likesCount.innerText = ret.meta.likes.length;
     })
 }
