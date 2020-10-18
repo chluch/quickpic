@@ -3,6 +3,7 @@ import API from "./api.js";
 import { clearMainContent, renderHTML } from "./helpers.js";
 import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
+import { createPostForm } from "./post.js";
 
 // let start = 10;
 const loginPage = {
@@ -81,7 +82,8 @@ const stickBanner = () => {
 const setPostLink = () => {
     document.getElementById("post-link").onclick = (e) => {
         e.preventDefault();
-        alert('To post');
+        clearMainContent();
+        createPostForm();
     }
 }
 
@@ -108,8 +110,8 @@ const setFeedLink = () => {
     title.onclick = (e) => {
         e.preventDefault();
         clearMainContent();
-        console.log(document.getElementById("main").childElementCount)
-        console.log("clicky!")
+        // console.log(document.getElementById("main").childElementCount)
+        // console.log("clicky!")
         // window.onscroll = "";
         getFeed(localStorage.getItem("token"), 0, 20);
         // start = 10;
