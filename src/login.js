@@ -4,6 +4,7 @@ import { clearMainContent, renderHTML } from "./helpers.js";
 import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
 
+let start=10;
 const loginPage = {
     load: () => renderHTML(`
     <form id="login">
@@ -62,7 +63,7 @@ const doLogin = () => {
                 setProfileLink();
                 setFeedLink();
                 getFeed(ret.token);
-                setInfiniteScroll(10);
+                setInfiniteScroll();
             }
         });
 }
@@ -80,7 +81,7 @@ const setProfileLink = () => {
     document.getElementById("profile-link").onclick = (e) => {
         e.preventDefault();
         clearMainContent();
-        window.onscroll = "";
+        // window.onscroll = "";
         const ownData = getProfile(localStorage.getItem("username"));
         createProfile(ownData);
     }
@@ -101,20 +102,23 @@ const setFeedLink = () => {
         clearMainContent();
         console.log(document.getElementById("main").childElementCount)
         console.log("clicky!")
-        window.onscroll = "";
+        // window.onscroll = "";
         getFeed(localStorage.getItem("token"));
-        setInfiniteScroll(10);
+        start = 10;
+        setInfiniteScroll();
         // Main Feed Div
     }
 }
 
-export const setInfiniteScroll = (start) => {
+
+const setInfiniteScroll = () => {
     window.onscroll = () => {
         if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
             console.log(`starting from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
                 .then((gotMorePosts) => {
-                    if (gotMorePosts) {
+                    const loadMore = gotMorePosts;
+                    if (loadMore) {
                         start += 10;
                         console.log('getting more posts');
                         console.log(`next start: ${start}`);
@@ -122,7 +126,7 @@ export const setInfiniteScroll = (start) => {
                     else {
                         window.onscroll = '';
                     }
-                })
+                });
         }
     }
 }

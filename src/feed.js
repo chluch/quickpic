@@ -13,6 +13,7 @@ export async function getFeed(token, startPage, pageNum) {
     if (!pageNum) {
         pageNum = 10;
     }
+    console.log(`getfeed after: ${startPage}, ${pageNum}`)
     let api = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${token}` },
@@ -31,6 +32,7 @@ export async function getFeed(token, startPage, pageNum) {
         if (data[post].length === 0) {
             console.log('Oops no posts here');
             gotMorePosts = false;
+            console.log("getFeed -> return FALSE")
             return gotMorePosts;
         }
         data[post].forEach((p) => {
@@ -46,6 +48,7 @@ export async function getFeed(token, startPage, pageNum) {
             );
 
         })
+        console.log("getFeed -> return TRUE")
         gotMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
@@ -141,10 +144,11 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     feed.appendChild(wrapper);
 }
 
-let idsSeen = [];
+
 const setLikeEvent = () => {
+    let idsSeen = [];
     let hearts = document.querySelectorAll(".heart"); // array
-    console.log(hearts.length);
+    console.log(`heartslength: ${hearts.length}`);
     // console.log(hearts);
     hearts.forEach(heart => {
         heart.onclick = "";
