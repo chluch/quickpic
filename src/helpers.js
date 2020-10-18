@@ -15,15 +15,15 @@ export function fileToDataUrl(file) {
     if (!file) {
         throw Error('must provide a file.')
     }
-    const validFileTypes = [ 'image/jpeg', 'image/png', 'image/jpg' ]
+    const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg']
     const valid = validFileTypes.find(type => type === file.type);
     // Bad data, let's walk away.
     if (!valid) {
         throw Error('provided file is not a png, jpg or jpeg image.');
     }
-    
+
     const reader = new FileReader();
-    const dataUrlPromise = new Promise((resolve,reject) => {
+    const dataUrlPromise = new Promise((resolve, reject) => {
         reader.onerror = reject;
         reader.onload = () => resolve(reader.result);
     });
@@ -32,11 +32,16 @@ export function fileToDataUrl(file) {
 }
 
 // Render HTML code blocks and append to main
-export function renderHTML(htmlBlock, elementID, parentID) {
+export function renderHTML(htmlBlock, elementID, parentID, parent) {
     const parser = new DOMParser();
     const newNode = parser.parseFromString(htmlBlock, "text/html");
     const element = newNode.getElementById(elementID);
-    document.getElementById(parentID).appendChild(element);
+    if (!parent) {
+        document.getElementById(parentID).appendChild(element);
+    }
+    else {
+        parent.getElementById(parentID).appendChild(element)
+    }
 }
 
 // Convert unix time
@@ -54,7 +59,7 @@ export const getTime = (unixTime) => {
 
 export function wrapInDiv(arr) {
     let elements = [];
-    for (let i=0; i<arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
         let wrapper = document.createElement("div");
         wrapper.appendChild(arr[i]);
         elements.push(wrapper);

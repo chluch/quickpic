@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { getTime, clearMainContent } from "./helpers.js";
+import { getTime, clearMainContent, renderHTML } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { getProfile, createProfile } from "./profile.js";
 
@@ -129,19 +129,34 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         // }
     }
 
-    // Make comments divs
+    // Make comment box
+    createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
+
+
+    // Make divs to display comments
     let commentDisplay = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
         commentDisplay.appendChild(el);
     }
-    let showComments = newNode.getElementById(`comment-display-${postId}`)
+
+    let showComments = newNode.getElementById(`comment-display-${postId}`);
     showComments.style.display = "none";
-    let commentNum = newNode.getElementsByClassName("comments-number")[0];
-    commentNum.onclick = () => {
+    let commentDisplayToggle = newNode.getElementsByClassName("comments-number")[0];
+    commentDisplayToggle.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
+
+    let commentBox = newNode.getElementById(`post-comment-${postId}`);
+    commentBox.style.display="none";
+    let addCommentToggle = newNode.getElementsByClassName("add-comment")[0];
+    addCommentToggle.onclick = () => {
+        commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
+    }
+
     let wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
+   
+   
 }
 
 
@@ -161,4 +176,18 @@ const setLikeEvent = () => {
             idsSeen.push(postId);
         }
     })
+}
+
+const createCommentBox = (postId, parentElementId, parent) => {
+    const commentBoxTemplate =`
+    <div class="post-comment" id="post-comment-${postId}">
+        <textarea class="comment-text" placeholder="Say something"></textarea>
+        <button type="submit" class="submit-comment" style="display: block;">comment</button>
+    </div>
+    `;
+    renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
+}
+
+const postComment = () => {
+    
 }
