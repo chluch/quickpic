@@ -458,3 +458,27 @@ form button:hover {
     font-size: 10px;
     margin: 5px 5px 0 0;
 }
+
+
+
+
+
+#post-form {
+    margin: 0;
+}
+#post-form >h1 {
+    margin: 0;
+}
+#post-form >textarea {
+    resize: none;
+    height: 75vh;
+    width: 95vw;
+    max-width: 400px;
+    max-height: 400px;
+}
+/* .file-upload {
+
+} */
+input[type="file"] {
+    font-size: 10px;
+}
