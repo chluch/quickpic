@@ -183,7 +183,7 @@ form button:hover {
 }
 
 #feed {
-    display: none;
+    display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;

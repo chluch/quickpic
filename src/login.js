@@ -1,7 +1,8 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML } from "./helpers.js";
+import { clearMainContent, renderHTML } from "./helpers.js";
 import { getFeed } from "./feed.js";
+import { getProfile, createProfile } from "./profile.js";
 
 const loginPage = {
     load: () => renderHTML(`
@@ -52,13 +53,16 @@ const doLogin = () => {
                 localStorage.setItem("token", ret.token);
                 localStorage.setItem("username", document.getElementById("username").value);
                 // get Feed with token
-                getFeed(ret.token);
                 stickBanner();
                 document.getElementById("nav").style.display="block";
                 const loginPage = document.getElementById("login");
                 const signupPage = document.getElementById("signup");
                 loginPage.parentNode.removeChild(loginPage);
                 signupPage.parentNode.removeChild(signupPage);
+                setProfileLink();
+                setFeedLink();
+                getFeed(ret.token);
+                setInfiniteScroll(10);
             }
         });
 }
@@ -72,4 +76,55 @@ const stickBanner = () => {
     wrapper.style.height = "auto";
 }
 
-export default loginPage
+const setProfileLink = () => {
+    document.getElementById("profile-link").onclick = (e) => {
+        e.preventDefault();
+        clearMainContent();
+        window.onscroll = "";
+        const ownData = getProfile(localStorage.getItem("username"));
+        createProfile(ownData);
+    }
+}
+
+const setFeedLink = () => {
+    const title = document.getElementById("quickpic")
+    title.onmouseover = () => {
+        title.style.color = "#62b37c";
+        title.style.cursor = "pointer"
+    }
+    title.onmouseout = () => {
+        title.style.color = "inherit";
+        title.style.cursor = "inherit";
+    }
+    title.onclick = (e) => {
+        e.preventDefault();
+        clearMainContent();
+        console.log(document.getElementById("main").childElementCount)
+        console.log("clicky!")
+        window.onscroll = "";
+        getFeed(localStorage.getItem("token"));
+        setInfiniteScroll(10);
+        // Main Feed Div
+    }
+}
+
+export const setInfiniteScroll = (start) => {
+    window.onscroll = () => {
+        if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
+            console.log(`starting from: ${start}`);
+            getFeed(localStorage.getItem("token"), start, 10)
+                .then((gotMorePosts) => {
+                    if (gotMorePosts) {
+                        start += 10;
+                        console.log('getting more posts');
+                        console.log(`next start: ${start}`);
+                    }
+                    else {
+                        window.onscroll = '';
+                    }
+                })
+        }
+    }
+}
+
+export default loginPage;

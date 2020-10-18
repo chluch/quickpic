@@ -1,31 +1,38 @@
 "use strict";
 import API from "./api.js";
-import { getTime } from "./helpers.js";
+import { getTime, clearMainContent } from "./helpers.js";
 import { handleLike } from "./likes.js";
-import { getProfile, createProfileSummary, createProfile } from "./profile.js";
+import { getProfile, createProfile } from "./profile.js";
 
-// Main Feed Div
-const feed = document.createElement("div");
-feed.id = "feed";
-
-export async function getFeed(token, startPage, endPage) {
+export async function getFeed(token, startPage, pageNum) {
+    console.log(`getfeed start: ${startPage}, ${pageNum}`)
     let gotMorePosts = false;
-    if (!startPage && !endPage) {
+    if (!startPage) {
         startPage = 0;
-        endPage = 10;
     }
-    const api = new API;
+    if (!pageNum) {
+        pageNum = 10;
+    }
+    let api = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${token}` },
     }
-    const data = await api.get(`user/feed?p=${startPage}&n=${endPage}`, option);
+    let data = await api.get(`user/feed?p=${startPage}&n=${pageNum}`, option);
+
+    // Main Feed Div
+    let feed = document.getElementById("feed");
+    if (!feed) {
+        feed = document.createElement("div");
+        feed.id = "feed";
+    }
+
     Object.keys(data).forEach((post) => {
+        console.log(`feed length: ${data[post].length}`)
         if (data[post].length === 0) {
             console.log('Oops no posts here');
             gotMorePosts = false;
             return gotMorePosts;
         }
-        feed.style.display = "flex";
         data[post].forEach((p) => {
             createPost(
                 p.id,
@@ -34,7 +41,8 @@ export async function getFeed(token, startPage, endPage) {
                 p.meta.likes,
                 p.meta.description_text,
                 p.comments,
-                p.src
+                p.src,
+                feed
             );
 
         })
@@ -46,8 +54,8 @@ export async function getFeed(token, startPage, endPage) {
 }
 
 // Create each individual post from getFeed
-const createPost = (postId, author, time, likes, description, comments, img) => {
-    const image = document.createElement("img");
+const createPost = (postId, author, time, likes, description, comments, img, feed) => {
+    let image = document.createElement("img");
     Object.assign(image, {
         src: `data:image/jpeg;base64, ${img}`,
         alt: `${author}'s post`
@@ -57,26 +65,25 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     let commentLog = [];
     Object(comments).forEach((c) => {
         // console.log(`${c.author}: ${c.comment}`);
-        const commenter = document.createElement("span");
+        let commenter = document.createElement("span");
         commenter.className = "commenter";
-        const commentText = document.createElement("span");
+        let commentText = document.createElement("span");
         commentText.className = "comment";
         commenter.innerText = `${c.author}: `;
         commentText.innerText = c.comment;
-        const wrapper = document.createElement("div");
+        let wrapper = document.createElement("div");
         commenter.onclick = () => {
+            clearMainContent();
             createProfile(getProfile(c.author));
-            feed.style.display = "none";
+            // feed.style.display = "none";
         }
         wrapper.appendChild(commenter);
         wrapper.appendChild(commentText);
         commentLog.push(wrapper);
     });
-
-    let postTemplate = `
+    // <div class="profile-summary" id="profile-s-${postId}">
+    const postTemplate = `
         <div class="wrapper">
-            <div class="profile-summary" id="profile-s-${postId}">
-            </div>
             <div class="post" id=post-${postId}>
                 <div class="post-heading">
                     <h2 class="author">${author}</h2>
@@ -96,50 +103,51 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
         </div>
     `;
     // set post image
-    const parser = new DOMParser();
-    const newNode = parser.parseFromString(postTemplate, "text/html");
-
-    const imgWrapper = newNode.getElementsByClassName("post-img")[0];
+    let parser = new DOMParser();
+    let newNode = parser.parseFromString(postTemplate, "text/html");
+    let imgWrapper = newNode.getElementsByClassName("post-img")[0];
     imgWrapper.appendChild(image);
 
-    const userInfo = newNode.getElementsByClassName("author")[0];
-    const profile = newNode.getElementsByClassName("profile-summary")[0];
+    let userInfo = newNode.getElementsByClassName("author")[0];
+    // const profile = newNode.getElementsByClassName("profile-summary")[0];
 
-    createProfileSummary(author, postId);
-    let clickProfile = false;
+    // createProfileSummary(author, postId);
+    // let clickProfile = false;
     userInfo.onclick = () => {
-        if (clickProfile) {
-            profile.style.display = "none";
-            clickProfile = false;
-        }
-        else {
-            profile.style.display = "block";
-            clickProfile = true;
-        }
+        clearMainContent();
+        createProfile(getProfile(author))
+        // if (clickProfile) {
+        // profile.style.display = "none";
+        // clickProfile = false;
+        // }
+        // else {
+        // profile.style.display = "block";
+        // clickProfile = true;
+        // }
     }
 
     // Make comments divs
-    const commentDisplay = newNode.getElementsByClassName("comment-display")[0];
+    let commentDisplay = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
         commentDisplay.appendChild(el);
     }
-    const showComments = newNode.getElementById(`comment-display-${postId}`)
+    let showComments = newNode.getElementById(`comment-display-${postId}`)
     showComments.style.display = "none";
-    const commentNum = newNode.getElementsByClassName("comments-number")[0];
+    let commentNum = newNode.getElementsByClassName("comments-number")[0];
     commentNum.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
-    const wrapper = newNode.getElementsByClassName("wrapper")[0];
+    let wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
 }
 
 let idsSeen = [];
 const setLikeEvent = () => {
     let hearts = document.querySelectorAll(".heart"); // array
-    // console.log(hearts.length);
+    console.log(hearts.length);
     // console.log(hearts);
     hearts.forEach(heart => {
-        heart.onclick="";
+        heart.onclick = "";
         let postId = heart.closest(".post").id.replace(/\D+/, "");
         // console.log(idsSeen)
         if (!idsSeen.includes(postId)) {
@@ -150,23 +158,3 @@ const setLikeEvent = () => {
         }
     })
 }
-
-// Infinite scroll
-let start = 11;
-let end = 20;
-window.onscroll = () => {
-    if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
-        getFeed(localStorage.getItem("token"), start, end)
-            .then((gotMorePosts) => {
-                if (gotMorePosts) {
-                    start = end + 1;
-                    end = end + 10;
-                    console.log('getting more posts')
-                }
-                else {
-                    window.onscroll = '';
-                }
-            })
-    }
-}
-//TODO: fix profile summary not rendering if scroll too fast

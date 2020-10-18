@@ -64,4 +64,6 @@ export const clearMainContent = () => {
     while (main.firstChild) {
         main.removeChild(main.lastChild);
     }
+    console.log(main);
+    console.log('cleared');
 }

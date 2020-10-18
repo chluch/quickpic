@@ -22,5 +22,10 @@ document.getElementById("logout-link").onclick = () => {
     const wrapper = document.getElementById("page-wrapper");
     wrapper.style.height = "100%";
     document.getElementById("nav").style.display="none";
+    const title = document.getElementById("quickpic");
+    title.onmouseover = "";
+    title.onmouseleave = "";
+    title.onclick = "";
+    window.onscroll = "";
     loadLoginPage();
 }
