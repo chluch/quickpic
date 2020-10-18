@@ -48,13 +48,17 @@ const doLogin = () => {
                 alert(ret.message);
             }
             else {
-                document.getElementById("login").style.display="none";
                 // Store token in localStorage
                 localStorage.setItem("token", ret.token);
                 localStorage.setItem("username", document.getElementById("username").value);
                 // get Feed with token
                 getFeed(ret.token);
                 stickBanner();
+                document.getElementById("nav").style.display="block";
+                const loginPage = document.getElementById("login");
+                const signupPage = document.getElementById("signup");
+                loginPage.parentNode.removeChild(loginPage);
+                signupPage.parentNode.removeChild(signupPage);
             }
         });
 }

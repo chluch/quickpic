@@ -2,28 +2,32 @@
 import loginPage from './login.js'
 import signupPage from './signup.js'
 
-loginPage.load();
-signupPage.load();
+const loadLoginPage = () => {
+    loginPage.load();
+    signupPage.load();
+    loginPage.setEvents();
+    signupPage.setEvents();
+}
 
-loginPage.setEvents();
-signupPage.setEvents();
+const clearMainContent = () => {
+    const main = document.getElementById("main");
+    while (main.firstChild) {
+        main.removeChild(main.lastChild);
+    }
+}
 
-// we can use this single api request multiple times
-// const feed = api.getFeed();
+window.onload = () => {
+    loadLoginPage();
+}
 
-// feed
-// .then(posts => {
-//     posts.reduce((parent, post) => {
-
-//         parent.appendChild(createPostTile(post));
-
-//         return parent;
-
-//     }, document.getElementById('large-feed'))
-// });
-
-// // Potential example to upload an image
-// const input = document.querySelector('input[type="file"]');
-
-// input.addEventListener('change', uploadImage);
+document.getElementById("logout-link").onclick = () => {
+    clearMainContent();
+    const banner = document.getElementsByClassName("banner")[0];
+    banner.style.top = "auto";
+    banner.style.position = "static";
+    const wrapper = document.getElementById("page-wrapper");
+    wrapper.style.height = "100%";
+    document.getElementById("nav").style.display="none";
+    loadLoginPage();
+}
 
