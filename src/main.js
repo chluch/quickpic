@@ -1,19 +1,13 @@
 // importing named exports we use brackets
 import loginPage from './login.js'
 import signupPage from './signup.js'
+import { clearMainContent } from './helpers.js'
 
 const loadLoginPage = () => {
     loginPage.load();
     signupPage.load();
     loginPage.setEvents();
     signupPage.setEvents();
-}
-
-const clearMainContent = () => {
-    const main = document.getElementById("main");
-    while (main.firstChild) {
-        main.removeChild(main.lastChild);
-    }
 }
 
 window.onload = () => {
@@ -30,4 +24,3 @@ document.getElementById("logout-link").onclick = () => {
     document.getElementById("nav").style.display="none";
     loadLoginPage();
 }
-
