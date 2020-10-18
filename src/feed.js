@@ -133,13 +133,21 @@ const createPost = (postId, author, time, likes, description, comments, img) => 
     feed.appendChild(wrapper);
 }
 
+let idsSeen = [];
 const setLikeEvent = () => {
     let hearts = document.querySelectorAll(".heart"); // array
+    // console.log(hearts.length);
+    // console.log(hearts);
     hearts.forEach(heart => {
+        heart.onclick="";
         let postId = heart.closest(".post").id.replace(/\D+/, "");
-        heart.addEventListener("click", () => {
-            handleLike(postId, `likes-num-${postId}`);
-        })
+        // console.log(idsSeen)
+        if (!idsSeen.includes(postId)) {
+            heart.addEventListener("click", () => {
+                handleLike(postId, `likes-num-${postId}`);
+            })
+            idsSeen.push(postId);
+        }
     })
 }
 
@@ -153,8 +161,12 @@ window.onscroll = () => {
                 if (gotMorePosts) {
                     start = end + 1;
                     end = end + 10;
+                    console.log('getting more posts')
+                }
+                else {
+                    window.onscroll = '';
                 }
             })
     }
 }
-
+//TODO: fix like not rendering for pages >10
