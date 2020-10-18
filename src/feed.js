@@ -14,9 +14,12 @@ export async function getFeed(token, startPage, pageNum) {
         pageNum = 10;
     }
     console.log(`getfeed after: ${startPage}, ${pageNum}`)
-    let api = new API;
+    const api = new API;
     const option = {
-        headers: { "content-type": "application/json", "authorization": `Token ${token}` },
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${token}`
+        },
     }
     let data = await api.get(`user/feed?p=${startPage}&n=${pageNum}`, option);
 
@@ -65,6 +68,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     });
 
     // save each comment as div in array
+    // TODO: Need to SORT COMMENT BY TIMESTAMP
     let commentLog = [];
     Object(comments).forEach((c) => {
         // console.log(`${c.author}: ${c.comment}`);
@@ -132,13 +136,13 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     // Make comment box
     createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
 
-
     // Make divs to display comments
     let commentDisplay = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
         commentDisplay.appendChild(el);
     }
 
+    // Toggle comments
     let showComments = newNode.getElementById(`comment-display-${postId}`);
     showComments.style.display = "none";
     let commentDisplayToggle = newNode.getElementsByClassName("comments-number")[0];
@@ -146,17 +150,29 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
 
+    // Toggle comment box
     let commentBox = newNode.getElementById(`post-comment-${postId}`);
-    commentBox.style.display="none";
+    commentBox.style.display = "none";
     let addCommentToggle = newNode.getElementsByClassName("add-comment")[0];
     addCommentToggle.onclick = () => {
         commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
     }
+    newNode.getElementsByClassName("submit-comment")[0].onclick = (e) => {
+        e.preventDefault();
+        postComment(postId);
+    }
+
+    newNode.getElementsByClassName("comment-text")[0].onkeydown = (e) => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+        }
+    }
 
     let wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
-   
-   
+
+
+
 }
 
 
@@ -179,15 +195,34 @@ const setLikeEvent = () => {
 }
 
 const createCommentBox = (postId, parentElementId, parent) => {
-    const commentBoxTemplate =`
+    const commentBoxTemplate = `
     <div class="post-comment" id="post-comment-${postId}">
-        <textarea class="comment-text" placeholder="Say something"></textarea>
+        <textarea class="comment-text" placeholder="Say something" maxlength="150"></textarea>
         <button type="submit" class="submit-comment" style="display: block;">comment</button>
     </div>
     `;
     renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
 }
 
-const postComment = () => {
-    
+const postComment = (postId) => {
+    const post = document.getElementById(`post-${postId}`);
+    let commentText = post.querySelector("textarea").value;
+    if (!commentText) {
+        alert("You didn't comment!");
+        return;
+    }
+    const toSend = { "comment": commentText, }
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(toSend),
+    }
+    api.put(`post/comment?id=${postId}`, option)
+        .then(() => {
+            console.log("posted");
+        })
+        .catch(err => alert(`${err} Oopsie Woopsie uwu`));
 }
