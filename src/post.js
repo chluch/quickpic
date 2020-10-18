@@ -30,7 +30,7 @@ export const createPostForm = () => {
         }
         fileToDataUrl(file)
             .then((url) => {
-                let imgUrl = url.replace(/data\:image\/jpeg\;base64\,/, "");
+                let imgUrl = url.replace(/data\:(image\/jpeg|image\/png|image\/jpg)\;base64\,/, "");
                 // console.log(imgUrl);
                 makePost(postText, imgUrl);
             })
