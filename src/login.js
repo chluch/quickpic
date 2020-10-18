@@ -4,7 +4,7 @@ import { clearMainContent, renderHTML } from "./helpers.js";
 import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
 
-let start=10;
+// let start = 10;
 const loginPage = {
     load: () => renderHTML(`
     <form id="login">
@@ -24,8 +24,8 @@ const loginPage = {
     setEvents: () => {
         document.getElementById("go-to-signup").onclick = (e) => {
             e.preventDefault();
-            document.getElementById("login").style.display="none";
-            document.getElementById("signup").style.display="flex";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("signup").style.display = "flex";
         }
         document.getElementById("login-btn").onclick = (e) => {
             e.preventDefault();
@@ -55,15 +55,16 @@ const doLogin = () => {
                 localStorage.setItem("username", document.getElementById("username").value);
                 // get Feed with token
                 stickBanner();
-                document.getElementById("nav").style.display="block";
+                document.getElementById("nav").style.display = "block";
                 const loginPage = document.getElementById("login");
                 const signupPage = document.getElementById("signup");
                 loginPage.parentNode.removeChild(loginPage);
                 signupPage.parentNode.removeChild(signupPage);
+                setPostLink();
                 setProfileLink();
                 setFeedLink();
-                getFeed(ret.token);
-                setInfiniteScroll();
+                getFeed(ret.token, 0, 20);
+                // setInfiniteScroll();
             }
         });
 }
@@ -75,6 +76,13 @@ const stickBanner = () => {
     banner.style.position = "sticky";
     const wrapper = document.getElementById("page-wrapper");
     wrapper.style.height = "auto";
+}
+
+const setPostLink = () => {
+    document.getElementById("post-link").onclick = (e) => {
+        e.preventDefault();
+        alert('To post');
+    }
 }
 
 const setProfileLink = () => {
@@ -103,32 +111,32 @@ const setFeedLink = () => {
         console.log(document.getElementById("main").childElementCount)
         console.log("clicky!")
         // window.onscroll = "";
-        getFeed(localStorage.getItem("token"));
-        start = 10;
-        setInfiniteScroll();
+        getFeed(localStorage.getItem("token"), 0, 20);
+        // start = 10;
+        // setInfiniteScroll();
         // Main Feed Div
     }
 }
 
 
-const setInfiniteScroll = () => {
-    window.onscroll = () => {
-        if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
-            console.log(`starting from: ${start}`);
-            getFeed(localStorage.getItem("token"), start, 10)
-                .then((gotMorePosts) => {
-                    const loadMore = gotMorePosts;
-                    if (loadMore) {
-                        start += 10;
-                        console.log('getting more posts');
-                        console.log(`next start: ${start}`);
-                    }
-                    else {
-                        window.onscroll = '';
-                    }
-                });
-        }
-    }
-}
+// const setInfiniteScroll = () => {
+//     window.onscroll = () => {
+//         if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
+//             console.log(`SCROLL from: ${start}`);
+//             getFeed(localStorage.getItem("token"), start, 10)
+//                 .then((gotMorePosts) => {
+//                     const loadMore = gotMorePosts;
+//                     if (loadMore) {
+//                         start += 10;
+//                         console.log('getting more posts');
+//                         console.log(`next SCROLL: ${start}`);
+//                     }
+//                     else {
+//                         window.onscroll = '';
+//                     }
+//                 });
+//         }
+//     }
+// }
 
 export default loginPage;
