@@ -224,5 +224,5 @@ const postComment = (postId) => {
         .then(() => {
             console.log("posted");
         })
-        .catch(err => alert(`${err} Oopsie Woopsie uwu`));
+        .catch(err => alert(`${err} Oopsie Woopsie uwu`)); //TODO: This error doesn't pop up
 }
