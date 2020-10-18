@@ -169,4 +169,4 @@ window.onscroll = () => {
             })
     }
 }
-//TODO: fix like not rendering for pages >10
+//TODO: fix profile summary not rendering if scroll too fast
