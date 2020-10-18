@@ -58,3 +58,10 @@ export function wrapInDiv(arr) {
     }
     return elements;
 }
+
+export const clearMainContent = () => {
+    const main = document.getElementById("main");
+    while (main.firstChild) {
+        main.removeChild(main.lastChild);
+    }
+}
