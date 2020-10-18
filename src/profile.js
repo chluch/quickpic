@@ -5,20 +5,23 @@ import { handleLike } from "./likes.js";
 import { addFollow, removeFollow, updateFollowers } from "./follow.js";
 
 export async function getProfile(username) {
-    const getUser = new API;
+    const api = new API;
     const option = {
-        headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
     }
-    const data = await getUser.get(`user/?username=${username}`, option);
+    const data = await api.get(`user/?username=${username}`, option);
     return data;
 }
 
 async function getProfileById(id) {
-    const getUser = new API;
+    const api = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
     }
-    const data = await getUser.get(`user/?id=${id}`, option);
+    const data = await api.get(`user/?id=${id}`, option);
     return data;
 }
 
@@ -100,7 +103,7 @@ export async function createProfile(d) {
         document.getElementById(`profile-${data.username}`).appendChild(noPost);
     }
     else {
-        getUserPostHistory(data.posts);
+        apiPostHistory(data.posts);
     }
     // Add follow function to follow button
     setFollow(data.id, data.username);
@@ -121,14 +124,14 @@ export async function createProfile(d) {
 
 // Get data for user's posts
 // Input type: array of post IDs
-async function getUserPostHistory(postIds) {
-    const getUserPost = new API;
+async function apiPostHistory(postIds) {
+    const apiPost = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
     }
     postIds = postIds.sort((a, b) => b - a);
     for (const pId of postIds) {
-        const post = await getUserPost.get(`post/?id=${pId}`, option);
+        const post = await apiPost.get(`post/?id=${pId}`, option);
         createUserPost(post);
     }
     setLikeEvent();
@@ -196,11 +199,11 @@ async function setFollow(id, username) {
     followButton.addEventListener("click", () => {
         if (followButton.innerText === "FOLLOW") {
             addFollow(username, "follower-count");
-            followButton.innerText="UNFOLLOW";
+            followButton.innerText = "UNFOLLOW";
         }
         else {
             removeFollow(username, "follower-count");
-            followButton.innerText="FOLLOW";
+            followButton.innerText = "FOLLOW";
         }
     });
 }
