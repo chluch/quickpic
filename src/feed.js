@@ -68,26 +68,9 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     });
 
     // save each comment as div in array
-    // TODO: Need to SORT COMMENT BY TIMESTAMP
     let commentLog = [];
-    Object(comments).forEach((c) => {
-        // console.log(`${c.author}: ${c.comment}`);
-        let commenter = document.createElement("span");
-        commenter.className = "commenter";
-        let commentText = document.createElement("span");
-        commentText.className = "comment";
-        commenter.innerText = `${c.author}: `;
-        commentText.innerText = c.comment;
-        let wrapper = document.createElement("div");
-        commenter.onclick = () => {
-            clearMainContent();
-            createProfile(getProfile(c.author));
-            // feed.style.display = "none";
-        }
-        wrapper.appendChild(commenter);
-        wrapper.appendChild(commentText);
-        commentLog.push(wrapper);
-    });
+    (displayEachComment(comments, commentLog));
+
     // <div class="profile-summary" id="profile-s-${postId}">
     const postTemplate = `
         <div class="wrapper">
@@ -136,17 +119,17 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     // Make comment box
     createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
 
-    // Make divs to display comments
-    let commentDisplay = newNode.getElementsByClassName("comment-display")[0];
+    // Make div for showing ALL comments for EACH post
+    let displayAllComments = newNode.getElementsByClassName("comment-display")[0];
     for (let el of commentLog) {
-        commentDisplay.appendChild(el);
+        displayAllComments.appendChild(el);
     }
 
     // Toggle comments
     let showComments = newNode.getElementById(`comment-display-${postId}`);
     showComments.style.display = "none";
-    let commentDisplayToggle = newNode.getElementsByClassName("comments-number")[0];
-    commentDisplayToggle.onclick = () => {
+    let displayAllCommentsToggle = newNode.getElementsByClassName("comments-number")[0];
+    displayAllCommentsToggle.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
 
@@ -175,7 +158,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
 }
 
-
 const setLikeEvent = () => {
     let idsSeen = [];
     let hearts = document.querySelectorAll(".heart"); // array
@@ -194,6 +176,39 @@ const setLikeEvent = () => {
     })
 }
 
+const sortByTimestamp = (objectArray) => {
+    objectArray.sort((a,b) => {
+        return b.published - a.published;
+    });
+}
+
+const displayEachComment = (commentArray, log) => {
+    sortByTimestamp(commentArray);
+    (commentArray).forEach((comment) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "comment-wrapper";
+        const commenter = document.createElement("h5");
+        const commentContent = document.createElement("p");
+        const commentTime = document.createElement("div");
+        commenter.className = "commenter";
+        commentContent.className = "comment";
+        commentTime.className = "comment-time";
+        commentTime.innerText = getTime(comment.published);
+        commenter.innerText = `${comment.author}: `
+        commentContent.innerText = comment.comment;
+        commenter.onclick = (e) => {
+            e.preventDefault();
+            clearMainContent();
+            createProfile(getProfile(comment.author));
+        }
+        let temp = [commentTime, commenter, commentContent];
+        temp.forEach((el) => {
+            wrapper.appendChild(el);
+            log.push(wrapper);
+        });
+    });
+}
+
 const createCommentBox = (postId, parentElementId, parent) => {
     const commentBoxTemplate = `
     <div class="post-comment" id="post-comment-${postId}">
@@ -206,12 +221,12 @@ const createCommentBox = (postId, parentElementId, parent) => {
 
 const postComment = (postId) => {
     const post = document.getElementById(`post-${postId}`);
-    let commentText = post.querySelector("textarea").value;
-    if (!commentText) {
+    let commentContent = post.querySelector("textarea").value;
+    if (!commentContent) {
         alert("You didn't comment!");
         return;
     }
-    const toSend = { "comment": commentText, }
+    const toSend = { "comment": commentContent, }
     const api = new API;
     const option = {
         headers: {

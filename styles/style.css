@@ -399,18 +399,51 @@ form button:hover {
     align-items: baseline;
     justify-content: space-between;
 }
+.comment-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 4px; 
+    border: 1px solid goldenrod;
+    padding: 2px;
+}
 .commenter, .comment {
+    display: inline-block;
     font-size: 14px;
+    line-height: 1;
+    margin: 0 0 0 4px;
+}
+.comment-time {
+    width: 36px;
+    font-size: 8px;
+    color: gray;
+    text-align: center;
+    background-color: goldenrod;
+    margin-right: 4px;
 }
 .commenter {
+    /* flex: 1; */
+    margin: 0;
+    /* background-color: lightcoral; */
     font-weight: bold;
+    /* margin-right: 3px; */
+}
+.comment {
+    background-color: chocolate;
+    width: auto;
+    overflow-wrap: break-word;
+    overflow: hidden;
 }
 .commenter:hover {
     cursor: pointer;
 }
 .comment-display {
-    max-height: 100px;
+    max-height: 200px;
     overflow-y: auto;
+    flex-flow: column;
+    align-items: flex-start;
+    vertical-align: top;
 }
 .likes-number {
     text-align: right;
