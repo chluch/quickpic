@@ -80,19 +80,19 @@ footer >p {
     font-size: 20px;
     letter-spacing: 1px;
     margin: 0 5px;
-    align-self: end;
+    /* align-self: end; */
 }
 .nav-item {
-    border-top: 1px solid #404345;
+    /* border-top: 1px solid #404345;
     border-left: 1px solid #404345;
     border-right: 1px solid #404345;
     border-bottom: 2px solid #373737;
     border-radius: 5px;
     margin: -5px 0px;
-    padding: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px; */
     display: inline-block;
     list-style-type: none;
-    background-color: #373737;
+    /* background-color: #373737; */
 }
 /* .nav-item {
     border: 1px solid blueviolet;
