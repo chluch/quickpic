@@ -16,7 +16,7 @@ export async function getProfile(username) {
     return data;
 }
 
-async function getProfileById(id) {
+export async function getProfileById(id) {
     const api = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
