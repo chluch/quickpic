@@ -206,7 +206,7 @@ form button:hover {
     display: flex;
 }
 
-.profile-summary {
+/* .profile-summary {
     background-color: #f2f2f3;
     color: black;
     padding: 0 20px;
@@ -216,9 +216,6 @@ form button:hover {
     width: 350px;
     height: 180px;
     border-radius: 5px;
-    /* border: black solid; */
-    /* border-width: 2px 3px 4px 2px;
-    border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
 }
 .profile-summary h3 {
     font-size: 20px;
@@ -247,7 +244,7 @@ form button:hover {
 }
 .profile-s-info >p {
     margin: 0 auto 0 0;
-}
+} */
 
 .full-profile {
     background-color: #494d50;
@@ -454,6 +451,28 @@ form button:hover {
 .commenter:hover {
     cursor: pointer;
 }
+.likes-display, .likes-display >* {
+    line-height: 1;
+    margin:0;
+}
+.likes-display {
+    border: 1px dotted pink;
+    max-height: 50px;
+    overflow-y: auto;
+}
+.likes-display ul {
+    padding: 2px;
+    column-count: 3;
+    list-style-type: none;
+}
+.likes-display ul li::before {
+    content: "\2665";
+    color: red;
+    display: inline-block;
+}
+.likes-display li {
+    font-size: 10px;
+}
 .comment-display {
     max-height: 200px;
     overflow-y: auto;
@@ -471,7 +490,7 @@ form button:hover {
     font-size: 14px;
     display: inline-block;
 }
-.likes-number >p, .comments-number >p {
+.likes-number >a, .comments-number >a {
     line-height: 0;
 }
 .comments-number { 

@@ -2,10 +2,10 @@
 import API from "./api.js";
 import { getTime, clearMainContent, renderHTML } from "./helpers.js";
 import { handleLike } from "./likes.js";
-import { getProfile, createProfile } from "./profile.js";
+import { getProfile, getProfileById, createProfile } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
-    console.log(`getfeed start: ${startPage}, ${pageNum}`)
+    // console.log(`getfeed start: ${startPage}, ${pageNum}`)
     let gotMorePosts = false;
     if (!startPage) {
         startPage = 0;
@@ -13,7 +13,7 @@ export async function getFeed(token, startPage, pageNum) {
     if (!pageNum) {
         pageNum = 10;
     }
-    console.log(`getfeed after: ${startPage}, ${pageNum}`)
+    // console.log(`getfeed after: ${startPage}, ${pageNum}`)
     const api = new API;
     const option = {
         headers: {
@@ -31,7 +31,7 @@ export async function getFeed(token, startPage, pageNum) {
     }
 
     Object.keys(data).forEach((post) => {
-        console.log(`feed length: ${data[post].length}`)
+        // console.log(`feed length: ${data[post].length}`)
         if (data[post].length === 0) {
             console.log('Oops no posts here');
             gotMorePosts = false;
@@ -51,7 +51,7 @@ export async function getFeed(token, startPage, pageNum) {
             );
 
         })
-        console.log("getFeed -> return TRUE")
+        // console.log("getFeed -> return TRUE")
         gotMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
@@ -67,10 +67,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         alt: `${author}'s post`
     });
 
-    // save each comment as div in array
-    let commentLog = [];
-    (displayEachComment(comments, commentLog));
-
     // <div class="profile-summary" id="profile-s-${postId}">
     const postTemplate = `
         <div class="wrapper">
@@ -84,25 +80,18 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                     <p class="post-text">${description}</p>
                         <div class="stats">
                             <div class="add-comment">
-                            <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512"
-                            xmlns="http://www.w3.org/2000/svg">
-                                <g>
-                                    <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
-                                    <path d="m55.736 325.291-23.572 23.678v100.852h100.533l23.505-23.611z" />
-                                    <path d="m185.974 396.303 188.364-189.215-100.466-100.919-188.364 189.215z" />
-                                </g>
-                                <g>
-                                    <path d="m32.164 482.193h447.85v30h-447.85z" />
-                                </g>
-                                <g>
-                                    <path d="m237.864 419.821h242.149v30h-242.149z" />
-                            </g>
+                            <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
+                                <path d="m55.736 325.291-23.572 23.678v100.852h100.533l23.505-23.611z" />
+                                <path d="m185.974 396.303 188.364-189.215-100.466-100.919-188.364 189.215z" />
+                                <path d="m32.164 482.193h447.85v30h-447.85z" />
+                                <path d="m237.864 419.821h242.149v30h-242.149z" />
                             </svg>
-                            Add comment...
+                            <a>Add comment...</a>
                             </div>
-                            <div class="comments-number"><p>${comments.length}</p> 
+                            <div class="comments-number"><a title="comments">${comments.length}</a> 
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                                y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve">
+                                y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve" title="see comments">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
                                 c0.449,0,0.874-0.178,1.195-0.499l1.876-1.876C26.708,52.714,33.259,50,40.227,50h1.781c9.925,0,18-8.075,18-18V18
                                 C60.008,8.075,51.933,0,42.008,0z M17.008,29c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S19.213,29,17.008,29z M30.008,29
@@ -110,8 +99,10 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                                 S45.213,29,43.008,29z" />
                                 </svg>
                             </div>
-                            <div class="likes-number" id="likes-num-${postId}"><p>${likes.length}</p></div><div class="heart">&#x2764;</div>
+                            <div class="likes-number" id="likes-num-${postId}"><a title="show likes">${likes.length}</a></div><div class="heart">&#x2764;</div>
                         </div>
+                    <div class="likes-display" id="likes-display-${postId}">
+                    </div>
                     <div class="comment-display" id="comment-display-${postId}"></div>
                 </div>
             </div>
@@ -141,7 +132,20 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         // }
     }
 
-    // Make comment box
+    // Generate like list and Toggle
+    createLikesList(likes, newNode);
+    const showLikes = newNode.getElementById(`likes-display-${postId}`);
+    showLikes.style.display = "none";
+    let displayLikesToggle = newNode.getElementById(`likes-num-${postId}`).childNodes[0];
+    displayLikesToggle.onclick = () => {
+        showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
+    }
+
+    // save each comment as div in array
+    let commentLog = [];
+    (displayEachComment(comments, commentLog));
+
+    // Generate comment input box
     createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
 
     // Make div for showing ALL comments for EACH post
@@ -151,14 +155,14 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     }
 
     // Toggle comments
-    let showComments = newNode.getElementById(`comment-display-${postId}`);
+    const showComments = newNode.getElementById(`comment-display-${postId}`);
     showComments.style.display = "none";
     let displayAllCommentsToggle = newNode.getElementsByClassName("comments-number")[0];
     displayAllCommentsToggle.onclick = () => {
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
 
-    // Toggle comment box
+    // Toggle comment input box
     let commentBox = newNode.getElementById(`post-comment-${postId}`);
     commentBox.style.display = "none";
     let addCommentToggle = newNode.getElementsByClassName("add-comment")[0];
@@ -169,7 +173,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         e.preventDefault();
         postComment(postId);
     }
-
+    // Prevent enter in comment input box
     newNode.getElementsByClassName("comment-text")[0].onkeydown = (e) => {
         if (e.keyCode === 13) {
             e.preventDefault();
@@ -183,10 +187,38 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
 }
 
+const createLikesList = (likes, parentElement) => {
+    const parent = parentElement.getElementsByClassName("likes-display")[0];
+    const likeList = document.createElement("ul");
+    if (likes.length === 0) {
+        return;
+    }
+    for (const userId of likes) {
+        getProfileById(userId)
+            .then((data) => {
+                likeList.className = "like-list";
+                let user = document.createElement("li");
+                user.innerText = data.username;
+                likeList.appendChild(user);
+            })
+            .then(()=> {
+                parent.appendChild(likeList);
+            })
+            .catch(err => console.log(err));
+    }
+}
+
+// const createLikeList = (data) => {
+//     let likeList = document.createElement("ul");
+//     likeList.className = "like-list";
+//     for ()
+
+// }
+
 const setLikeEvent = () => {
     let idsSeen = [];
     let hearts = document.querySelectorAll(".heart"); // array
-    console.log(`heartslength: ${hearts.length}`);
+    // console.log(`heartslength: ${hearts.length}`);
     // console.log(hearts);
     hearts.forEach(heart => {
         heart.onclick = "";
@@ -202,7 +234,7 @@ const setLikeEvent = () => {
 }
 
 const sortByTimestamp = (objectArray) => {
-    objectArray.sort((a,b) => {
+    objectArray.sort((a, b) => {
         return b.published - a.published;
     });
 }
@@ -263,6 +295,9 @@ const postComment = (postId) => {
     api.put(`post/comment?id=${postId}`, option)
         .then(() => {
             console.log("posted");
+            console.log(commentContent);
+            commentContent = "";
+            console.log("after" + commentContent);
         })
         .catch(err => alert(`${err} Oopsie Woopsie uwu`)); //TODO: This error doesn't pop up
 }
