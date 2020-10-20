@@ -78,6 +78,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                 <div class="post-img"></div>
                 <div class="post-info">
                     <p class="post-text">${description}</p>
+                    <div class="likes-display" id="likes-display-${postId}"></div>
                         <div class="stats">
                             <div class="add-comment">
                             <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512" xmlns="http://www.w3.org/2000/svg">
@@ -101,8 +102,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                             </div>
                             <div class="likes-number"><a title="show likes" id="likes-num-${postId}">${likes.length}</a></div><div class="heart">&#x2764;</div>
                         </div>
-                    <div class="likes-display" id="likes-display-${postId}">
-                    </div>
                     <div class="comment-display" id="comment-display-${postId}"></div>
                 </div>
             </div>
@@ -137,7 +136,8 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     const showLikes = newNode.getElementById(`likes-display-${postId}`);
     showLikes.style.display = "none";
     let displayLikesToggle = newNode.getElementById(`likes-num-${postId}`);
-    displayLikesToggle.onclick = () => {
+    displayLikesToggle.onclick = (e) => {
+        e.preventDefault();
         showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
     }
 
@@ -158,7 +158,8 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     const showComments = newNode.getElementById(`comment-display-${postId}`);
     showComments.style.display = "none";
     let displayAllCommentsToggle = newNode.getElementsByClassName("comments-number")[0];
-    displayAllCommentsToggle.onclick = () => {
+    displayAllCommentsToggle.onclick = (e) => {
+        e.preventDefault();
         showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
     }
 
@@ -191,6 +192,8 @@ const createLikesList = (likes, parentElement) => {
     const parent = parentElement.getElementsByClassName("likes-display")[0];
     const likeList = document.createElement("ul");
     if (likes.length === 0) {
+        const likesMessage = document.createTextNode("No \u2665 given!");
+        parent.appendChild(likesMessage);
         return;
     }
     for (const userId of likes) {
