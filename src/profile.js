@@ -171,8 +171,33 @@ const createUserPost = (post) => {
                 <div class="timestamp">${getTime(post.meta.published)}</div>
                 <p>${post.meta.description_text}</p>
                 <div class="stats">
-                    <div class="add-comment">Add comment</div>
-                    <div class="comments-number">${post.comments.length} comments</div>
+                    <div class="add-comment">
+                    <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512"
+                        xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
+                                <path d="m55.736 325.291-23.572 23.678v100.852h100.533l23.505-23.611z" />
+                                <path d="m185.974 396.303 188.364-189.215-100.466-100.919-188.364 189.215z" />
+                            </g>
+                            <g>
+                                <path d="m32.164 482.193h447.85v30h-447.85z" />
+                            </g>
+                            <g>
+                                <path d="m237.864 419.821h242.149v30h-242.149z" />
+                            </g>
+                    </svg>
+                    Add comment
+                    </div>
+                    <div class="comments-number">${post.comments.length} 
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve">
+                                <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
+                                c0.449,0,0.874-0.178,1.195-0.499l1.876-1.876C26.708,52.714,33.259,50,40.227,50h1.781c9.925,0,18-8.075,18-18V18
+                                C60.008,8.075,51.933,0,42.008,0z M17.008,29c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S19.213,29,17.008,29z M30.008,29
+                                c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S32.213,29,30.008,29z M43.008,29c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4
+                                S45.213,29,43.008,29z" />
+                        </svg>
+                    </div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
             </div>

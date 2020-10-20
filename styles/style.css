@@ -70,7 +70,7 @@ footer >p {
 
 .banner > *, footer > * {
     margin: 10px 25px;
-    font-family: 'Gochi Hand', 'Arial', sans-serif;
+    /* font-family: 'Gochi Hand', 'Arial', sans-serif; */
 }
 
 .nav {
@@ -79,14 +79,28 @@ footer >p {
     display: none;
     font-size: 20px;
     letter-spacing: 1px;
+    margin: 0 5px;
+    align-self: end;
 }
-
 .nav-item {
+    border-top: 1px solid #404345;
+    border-left: 1px solid #404345;
+    border-right: 1px solid #404345;
+    border-bottom: 2px solid #373737;
+    border-radius: 5px;
+    margin: -5px 0px;
+    padding: 5px 5px 5px 5px;
+    display: inline-block;
+    list-style-type: none;
+    background-color: #373737;
+}
+/* .nav-item {
+    border: 1px solid blueviolet;
     margin: auto;
     padding: 5px;
     display: inline;
     list-style-type: none;
-}
+} */
 .nav-item:hover {
     cursor: pointer;
     color: #62b37c;
@@ -445,25 +459,38 @@ form button:hover {
     align-items: flex-start;
     vertical-align: top;
 }
-.likes-number {
-    text-align: right;
-    font-weight: bold;
+.add-comment >svg {
+    width: 18px;
+    height: auto;
+    display: inline-block;
 }
 .likes-number, .add-comment, .comments-number {
     margin-top: 15px;
     font-size: 14px;
     display: inline-block;
 }
-.comments-number { 
-    margin: 0 10px 0 auto;
+.likes-number >p, .comments-number >p {
+    line-height: 0;
 }
-.comments-number:hover, .add-comment:hover {
+.comments-number { 
+    margin: 0 10px 0 auto; 
+}
+.comments-number >svg {
+    display: inline-block;
+    width: 16px;
+}
+.comments-number >svg:hover {
+    fill: blue;
+    animation: bounce 0.8s infinite ease-in-out;
+}
+.comments-number:hover, .add-comment:hover, .likes-number:hover {
     cursor: pointer;
     font-weight: bold;
 }
 .heart{
     display: inline-block;
-    font-size: 25px;
+    font-size: 23.5px;
+    line-height: 1;
 }
 .heart:hover {
     color: #ff0400;
