@@ -95,7 +95,6 @@ footer >p {
     /* background-color: #373737; */
 }
 /* .nav-item {
-    border: 1px solid blueviolet;
     margin: auto;
     padding: 5px;
     display: inline;
@@ -288,6 +287,9 @@ form button:hover {
     overflow: auto;
     margin: 0;
     line-height: 1.4;
+}
+.following-list ul {
+    column-count: 3;
 }
 .following-list li {
     list-style-type: square;
