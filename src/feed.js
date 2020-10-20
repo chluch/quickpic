@@ -99,7 +99,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                                 S45.213,29,43.008,29z" />
                                 </svg>
                             </div>
-                            <div class="likes-number" id="likes-num-${postId}"><a title="show likes">${likes.length}</a></div><div class="heart">&#x2764;</div>
+                            <div class="likes-number"><a title="show likes" id="likes-num-${postId}">${likes.length}</a></div><div class="heart">&#x2764;</div>
                         </div>
                     <div class="likes-display" id="likes-display-${postId}">
                     </div>
@@ -121,7 +121,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     // let clickProfile = false;
     userInfo.onclick = () => {
         clearMainContent();
-        createProfile(getProfile(author))
+        createProfile(getProfile(author));
         // if (clickProfile) {
         // profile.style.display = "none";
         // clickProfile = false;
@@ -136,7 +136,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     createLikesList(likes, newNode);
     const showLikes = newNode.getElementById(`likes-display-${postId}`);
     showLikes.style.display = "none";
-    let displayLikesToggle = newNode.getElementById(`likes-num-${postId}`).childNodes[0];
+    let displayLikesToggle = newNode.getElementById(`likes-num-${postId}`);
     displayLikesToggle.onclick = () => {
         showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
     }
