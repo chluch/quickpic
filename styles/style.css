@@ -120,7 +120,7 @@ footer >p {
     justify-content: end;
 }
 
-form {
+.login-form, .signup-form {
     border: 1px solid #63b47c;
     /* border-top-color: rgb(100, 100, 100);
     border-left-color: rgb(100, 100, 100);
@@ -144,7 +144,7 @@ form {
     width: 30vw;
 }
 
-form>div {
+.login-form>div, .signup-form>div {
     margin: 5px 0;
 }
 
@@ -152,7 +152,7 @@ form>div {
     color: #7c838c;
 }
 
-form input {
+#signup input, #login input {
     width: 100%;
     min-width: 200px;
     border: 1px solid #62b37c;
@@ -161,19 +161,19 @@ form input {
     padding: 5px;
 }
 
-form input:focus {
+#signup input:focus, #login input:focus {
     outline: none;
     box-shadow: 0px 0px 5px #75c38f;
 }
 
-form>.button-wrapper {
+#signup .button-wrapper, #login .button-wrapper{
     width: 100%;
     padding: 0 20%;
     display: flex;
     justify-content: space-around;
 }
 
-form button {
+.login-form button, .signup-form button{
     letter-spacing: 1.5px;
     font-size: 14px;
     background-color: #62b37c;
@@ -185,17 +185,17 @@ form button {
     padding: 1vh 2vw;
 }
 
-#login-btn, #submit-btn {
-    background-color: #f38024;
-}
-
-#login-btn:hover, #submit-btn:hover {
-    background-color: #000000;
+.login-form button:hover, .signup-form button:hover {
+    background-color: #3c6047;
     cursor: pointer;
 }
 
-form button:hover {
-    background-color: #3c6047;
+#login-btn {
+    background-color: #f38024;
+}
+
+#login-btn:hover, #signup-btn:hover {
+    background-color: #000000;
     cursor: pointer;
 }
 
@@ -264,11 +264,93 @@ form button:hover {
 }
 
 .edit-options>button {
-    font: 10px;
+    font-size: 10px;
     color: #838d94;
     background-color: transparent;
     margin: 0 1px;
     border: 1px solid #838d94;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.edit-options>button:hover {
+    background-color: black;
+    cursor: pointer;
+}
+.edit-options>button:disabled {
+    background-color: black;
+} 
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content */
+.edit-acc-modal {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20%;
+    min-width: 280px;
+    text-align: center;
+    border-radius: 5px;
+}
+.edit-acc-modal>h1 {
+    display: inline-block;
+    font-size: 20px;
+    color: black;
+}
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    font-size: 25px;
+    font-weight: bold;
+    margin: -20px -10px;
+    text-align: right;
+}
+.close:hover {
+    color: red;
+    cursor: pointer;
+}
+#edit-acc-form {
+    margin: 0 auto;
+    /* background-color: burlywood; */
+    display: flex;
+    flex-direction: column;
+}
+#edit-acc-form input {
+    width: 90%;
+    margin: 5px;
+    padding: 5px;
+}
+#settings-icon {
+    width: 20px;
+    height: auto;
+}
+#submit-acc-edit {
+    margin: 20px 10px 10px 10px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .full-profile {
@@ -320,16 +402,19 @@ form button:hover {
 
 .following-list {
     display: none;
-    height: 80px;
+    height: auto;
+    max-height: 80px;
     overflow: auto;
     margin: 0;
     line-height: 1.4;
+    font-size: 12px;
+    border-bottom: 1px solid #abb2b8;
+    ;
 }
 
 .following-list ul {
     margin: 5px;
     column-count: 4;
-    font-size: 12px;
     padding: 5px;
 }
 
