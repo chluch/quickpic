@@ -40,7 +40,7 @@ const doSignup = () => {
     try {
         if (password !== retype) throw "Passwords do not match!"
         if  (username > 15) throw "Please keep to a max of 15 characters for username."
-        if (!emailRegex.test(email)) throw "Check email format.";
+        if (!emailRegex.test(email)) throw "Please check email format.";
         if (name.length > 30) throw "Please keep to a max of 30 characters for name."
     }
     catch (err) {
