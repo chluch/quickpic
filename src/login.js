@@ -9,12 +9,9 @@ import { createPostForm } from "./post.js";
 const loginPage = {
     load: () => renderHTML(`
     <form id="login" class="login-form">
-        <div>
-            <input id="username" type="text" placeholder="&#x1F464;Username">
-        </div>
-        <div>
-            <input id="password" type="password" placeholder="&#x1F512;Password">
-        </div>
+        <h2>Login</h2>
+        <div><input id="username" type="text" placeholder="&#x1F464;Username"></div>
+        <div><input id="password" type="password" placeholder="&#x1F512;Password"></div>
         <div class="button-wrapper">
             <button id="go-to-signup">Signup</button>
             <button type="submit" id="login-btn">Login</button>
