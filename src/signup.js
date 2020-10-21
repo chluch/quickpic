@@ -4,7 +4,7 @@ import { renderHTML } from "./helpers.js";
 
 const signupPage = {
     load: () => renderHTML(`
-    <form id="signup">
+    <form id="signup" class="signup-form">
         <div><input type="text" placeholder="Create username" id="user"></div>
         <div><input type="password" placeholder="Create password" id="pw"></div>
         <div><input type="password" placeholder="Retype password" id="check-pw"></div>

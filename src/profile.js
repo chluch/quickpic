@@ -113,11 +113,14 @@ export async function createProfile(d) {
         apiPostHistory(data.posts);
     }
 
+    // Load account settings modal
+    editProfileModal();
+
     // Generate edit buttons if own profile
     if (data.username === localStorage.getItem("username")) {
         const editWrapper = document.createElement("div");
         editWrapper.className = "edit-options";
-        const editButtons = ["edit profile", "edit post"]
+        const editButtons = ["edit account", "edit post"]
         editButtons.forEach((str) => {
             let button = document.createElement("button");
             button.innerText = str;
@@ -126,6 +129,27 @@ export async function createProfile(d) {
         });
         const main = document.getElementById("main");
         main.insertBefore(editWrapper, main.firstChild);
+        const editProfile = document.getElementsByClassName("edit-account")[0];
+        const editPost = document.getElementsByClassName("edit-post")[0];
+        editProfile.onclick = (e) => {
+            e.preventDefault();
+            editProfile.disabled = true;
+            alert("edit account")
+            document.getElementById("account-settings").style.display="block";
+        }
+        editPost.onclick = (e) => {
+            e.preventDefault();
+            const allPosts = document.getElementsByClassName("user-history");
+            for (const post of allPosts) {
+                console.log(post.id);
+                const parent = post.getElementsByClassName("text-content")[0];
+                const edit = document.createElement("button");
+                edit.classname = "edit-this-post";
+                edit.innerText = "edit";
+                parent.insertBefore(edit, parent.firstChild);
+                editPost.disabled = true;
+            }
+        }
     }
     else {
         document.getElementById(`profile-${data.username}`).style.margin = "20px auto";
@@ -137,6 +161,7 @@ export async function createProfile(d) {
     // Populate following list
     createFollowingList(data);
     let clickFollowList = false;
+    // Toggle
     document.getElementsByClassName("following")[0].addEventListener("click", () => {
         if (clickFollowList) {
             document.getElementById(`following-${data.username}`).style.display = "none";
@@ -166,6 +191,11 @@ async function apiPostHistory(postIds) {
 
 async function createFollowingList(data) {
     const followingList = data.following;
+    const listDisplay = document.getElementsByClassName("following-list")[0];
+    if (followingList.length === 0) {
+        listDisplay.innerText = "Not following anyone."
+        return;
+    }
     let list = document.createElement("ul");
     list.classname = "users-followed";
     for (const id of followingList) {
@@ -186,7 +216,7 @@ async function createFollowingList(data) {
             createProfile(data);
         }
     }
-    document.getElementsByClassName("following-list")[0].appendChild(list);
+    listDisplay.appendChild(list);
 }
 
 const createUserPost = (post) => {
@@ -270,4 +300,44 @@ const setLikeEvent = () => {
             handleLike(postId, `profile-likes-${postId}`);
         });
     });
+}
+
+const editProfile = () => {
+
+}
+
+const editProfileModal = () => {
+    const template = `
+    <div class="modal" id="account-settings">
+        <div class="edit-acc-modal">
+            <span class="close">&#xd7;</span>
+            <svg version="1.1" id="settings-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                x="0px" y="0px" viewBox="0 0 422.912 422.912" style="enable-background:new 0 0 422.912 422.912;"
+                xml:space="preserve">
+                <path
+                    d="M410.112,169.472l-29.696-5.12c-3.584-13.824-9.216-27.136-16.384-39.424l17.408-24.576
+            c4.608-6.144,4.096-14.848-1.536-19.968l-37.888-37.888c-5.12-5.632-13.824-6.144-19.968-1.536l-24.576,17.408
+            c-12.288-6.656-25.6-12.288-38.912-15.872L253.44,12.8C252.416,5.12,245.76,0,238.08,0h-53.248c-7.68,0-14.336,5.12-15.36,12.8
+            l-5.12,29.696c-13.824,3.584-27.136,9.216-39.424,16.384l-24.576-17.408c-6.144-4.608-14.848-4.096-19.968,1.536L42.496,80.896
+            c-5.632,5.12-6.144,13.824-1.536,19.968l17.408,24.576c-6.656,12.288-12.288,25.6-15.872,38.912l-29.696,5.12
+            c-7.68,1.024-12.8,7.68-12.8,15.36v53.248c0,7.68,5.12,14.336,12.8,15.36l29.696,5.12c3.584,13.824,9.216,27.136,16.384,39.424
+            L41.472,322.56c-4.608,6.144-4.096,14.848,1.536,19.968l37.888,37.888c5.12,5.632,13.824,6.144,19.968,1.536l24.576-17.408
+            c12.288,6.656,25.6,12.288,38.912,15.872l5.12,29.696c1.024,7.68,7.68,12.8,15.36,12.8h53.248c7.68,0,14.336-5.12,15.36-12.8
+            l5.12-29.696c13.824-3.584,27.136-9.216,39.424-16.384l24.576,17.408c6.144,4.608,14.848,4.096,19.968-1.536l37.888-37.888
+            c5.632-5.12,6.144-13.824,1.536-19.968l-17.408-24.576c6.656-12.288,12.288-25.6,15.872-38.912l29.696-5.12
+            c7.68-1.024,12.8-7.68,12.8-15.36v-53.248C422.912,177.152,417.792,170.496,410.112,169.472z M211.456,295.936
+            c-46.592,0-84.48-37.888-84.48-84.48s37.888-84.48,84.48-84.48s84.48,37.888,84.48,84.48S258.048,295.936,211.456,295.936z" />
+            </svg>
+            <h1>Account Settings</h1>
+            <form id="edit-acc-form">
+                <div><input type="password" placeholder="Create password"></div>
+                <div><input type="password" placeholder="Retype password"></div>
+                <div><input type="text" placeholder="Email"></div>
+                <div><input type="text" placeholder="Name"></div>
+                <button type="submit" id="submit-acc-edit">Submit</button>
+            </form>
+        </div>
+    </div>
+    `;
+    renderHTML(template, "account-settings", "main");
 }
