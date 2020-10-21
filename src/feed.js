@@ -192,7 +192,7 @@ const createLikesList = (likes, parentElement) => {
     const parent = parentElement.getElementsByClassName("likes-display")[0];
     const likeList = document.createElement("ul");
     if (likes.length === 0) {
-        const likesMessage = document.createTextNode("No \u2665 given!");
+        const likesMessage = document.createTextNode("No \u2661 given!");
         parent.appendChild(likesMessage);
         return;
     }
