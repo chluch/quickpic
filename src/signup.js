@@ -34,8 +34,8 @@ const doSignup = () => {
     const password = document.getElementById("pw").value;
     const retype = document.getElementById("check-pw").value;
     const username = document.getElementById("user").value;
-    const email = document.getElementById("email").value
-    const name = document.getElementById("name").value,
+    const email = document.getElementById("email").value;
+    const name = document.getElementById("name").value;
     const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
     try {
         if (password !== retype) throw "Passwords do not match!"
