@@ -68,3 +68,28 @@ export function getFeed(token) {
             }
         });
 }
+
+
+
+
+// export const getJSON = (path, options) =>
+//     fetch(`${path}`, options)
+//         .then(response => { 
+//             let isOk = false;
+//             if (response.ok) {
+//                 isOk = true;
+//             }
+//             return [response.json(), isOk];
+//         })
+//         .then((arr) => {
+//             if (arr[1]) {
+//                 return arr[0];
+//             }
+//             else {
+//                 throw new Error (`${arr[0].message}`);
+//             }
+//         })
+//         .catch(error => {
+//             console.warn(`API_ERROR: ${error}`);
+//             alert(error);
+//         });
