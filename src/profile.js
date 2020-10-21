@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime, clearEmptyValue } from "./helpers.js";
+import { renderHTML, getTime, clearEmptyValue, clearMainContent } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 
@@ -360,9 +360,12 @@ const handleProfileUpdate = () => {
     const email = document.getElementById("new-email").value;
     const name = document.getElementById("new-name").value
     const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
+    if (!newPassword && !email && !name) {
+        return;
+    }
     try {
         if (newPassword !== checkPassword) throw "Passwords do not match.";
-        if (email && !emailRegex.test(email)) throw "Check email format.";
+        if (email && !emailRegex.test(email)) throw "Please check email format.";
         if (name && name.length > 30) throw "Please keep to a max of 30 characters."
     }
     catch (err) {
@@ -372,17 +375,28 @@ const handleProfileUpdate = () => {
     let data = {
         "email": email,
         "name": name,
-        "password": newPassword,
+        "password": newPassword
     }
     data = clearEmptyValue(data);
+    updateProfile(data);
 }
 
-const updateProfile = () => {
+const updateProfile = (data) => {
     const api = new API;
     const option = {
         headers: {
             "content-type": "application/json",
             "authorization": `Token ${localStorage.getItem("token")}`
         },
+        body: JSON.stringify(data),
     }
+    api.put("user", option)
+    .then((ret) => {
+            alert(ret.msg);
+        })
+        .then(() => {
+            clearMainContent();
+            createProfile(getProfile(localStorage.getItem("username")));
+        });
 }
+//TODO: error handling in general - maybe need to save error code too?
