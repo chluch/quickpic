@@ -141,9 +141,11 @@ footer >p {
     box-shadow: 27px 27px 54px #202020, -27px -27px 54px #383838;
     box-sizing: border-box;
 }
-.login-form>h2, .signup-form>h2{
+
+.login-form>h2, .signup-form>h2 {
     margin: 0 0 10px 0;
 }
+
 #login {
     width: 30%;
     min-width: 280px;
@@ -157,7 +159,6 @@ footer >p {
     flex-direction: column;
     justify-content: center;
     height: 340px;
-
 }
 
 /* .signup-form input {
@@ -180,7 +181,7 @@ footer >p {
     color: #7c838c;
 }
 
- .signup-form input, .login-form input {
+.signup-form input, .login-form input {
     width: 100%;
     min-width: 200px;
     border: 1px solid #62b37c;
@@ -366,6 +367,22 @@ footer >p {
     box-sizing: border-box;
 }
 
+.cancel-edit {
+    display: none;
+}
+
+.edit-this-post {
+    width: 35px;
+    margin: 3px -7px 3px auto;
+    padding: 3px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.edit-this-post:hover {
+    background-color:  #f38024;
+    cursor: pointer;
+}
+
 #settings-icon {
     width: 20px;
     height: auto;
@@ -494,30 +511,36 @@ footer >p {
     /* background-color: rgb(37, 37, 37); */
     background-color: #f2f2f3;
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
     margin: 10px 0;
     box-sizing: border-box;
     /* border-radius: 5px; */
 }
 
 .history-img {
-    width: 100%;
-    height: auto;
-    min-width: 65px;
-    min-height: 65px;
-    flex: 33%;
+    max-width: 40%;
+    max-height: 40%;
+    /* min-width: 65px;
+    min-height: 65px; */
+    flex: 1;
     box-sizing: border-box;
     /* border: 1px solid black; */
-    /* border-radius: 5px; */
+    margin: auto 0;
+}
+
+.history-img>img {
+    width: 100%;
+    height: auto;
+    margin: auto 0;
+    display: block;
 }
 
 .text-content {
     margin: 0 10px;
-    flex: 67%;
+    flex: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 140px;
     box-sizing: border-box;
 }
 
@@ -591,6 +614,7 @@ footer >p {
     align-items: baseline;
     justify-content: space-between;
     box-sizing: border-box;
+    margin-top: auto;
 }
 
 .comment-wrapper {
@@ -773,6 +797,7 @@ input[type="file"] {
 .post-comment {
     box-sizing: border-box;
 }
+
 .comment-text {
     resize: none;
     height: 100px;

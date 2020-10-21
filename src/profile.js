@@ -101,7 +101,7 @@ export async function createProfile(d) {
                 </div>
             </div>
             <div class="following-list" id="following-${data.username}"></div>
-            <h3>${data.name}'s Posts</h3>
+            <h3>${data.name}'s Posts (${data.posts.length})</h3>
         </div>
     `
     renderHTML(profileTemplate, `profile-${data.username}`, "main");
@@ -120,7 +120,7 @@ export async function createProfile(d) {
     if (data.username === localStorage.getItem("username")) {
         const editWrapper = document.createElement("div");
         editWrapper.className = "edit-options";
-        const editButtons = ["edit account", "edit post"]
+        const editButtons = ["edit account", "edit post", "cancel edit"];
         editButtons.forEach((str) => {
             let button = document.createElement("button");
             button.innerText = str;
@@ -131,6 +131,7 @@ export async function createProfile(d) {
         main.insertBefore(editWrapper, main.firstChild);
         const editProfile = document.getElementsByClassName("edit-account")[0];
         const editPost = document.getElementsByClassName("edit-post")[0];
+        const cancelEdit = document.getElementsByClassName("cancel-edit")[0];
 
         // Load account settings modal
         editProfileModal();
@@ -140,18 +141,19 @@ export async function createProfile(d) {
             editProfile.disabled = true;
             document.getElementById("account-settings").style.display = "block";
         }
+
         editPost.onclick = (e) => {
             e.preventDefault();
-            const allPosts = document.getElementsByClassName("user-history");
-            for (const post of allPosts) {
-                console.log(post.id);
-                const parent = post.getElementsByClassName("text-content")[0];
-                const edit = document.createElement("button");
-                edit.classname = "edit-this-post";
-                edit.innerText = "edit";
-                parent.insertBefore(edit, parent.firstChild);
-                editPost.disabled = true;
-            }
+            createEditButtons();
+            editPost.style.display = "none";
+            cancelEdit.style.display = "block";
+        }
+
+        cancelEdit.onclick = (e) => {
+            e.preventDefault();
+            removeEditButtons();
+            cancelEdit.style.display = "none";
+            editPost.style.display = "block";
         }
     }
     else {
@@ -226,7 +228,9 @@ const createUserPost = (post) => {
     let historyTemplate = `
     <div class="user-history" id="history-${post.id}">
         <div class="history-content">
-            <img alt="Image by ${post.meta.author}" src="data:image/jpeg;base64, ${post.src}" class="history-img" />
+            <div class="history-img">
+                <img alt="Image by ${post.meta.author}" src="data:image/jpeg;base64, ${post.src}" />
+            </div>
             <div class="text-content">
                 <div class="timestamp">${getTime(post.meta.published)}</div>
                 <p>${post.meta.description_text}</p>
@@ -391,7 +395,7 @@ const updateProfile = (data) => {
         body: JSON.stringify(data),
     }
     api.put("user", option)
-    .then((ret) => {
+        .then((ret) => {
             alert(ret.msg);
         })
         .then(() => {
@@ -400,3 +404,27 @@ const updateProfile = (data) => {
         });
 }
 //TODO: error handling in general - maybe need to save error code too?
+
+const createEditButtons = () => {
+    const allPosts = document.getElementsByClassName("user-history");
+    // console.log(allPosts)
+    // console.log(allPosts.length)
+    for (const post of allPosts) {
+        // console.log(`where is id? ${post.id}`);
+        const parent = post.getElementsByClassName("text-content")[0];
+        const edit = document.createElement("button");
+        edit.className = "edit-this-post";
+        edit.innerText = "edit";
+        parent.insertBefore(edit, parent.firstChild);
+        // editPost.disabled = true;
+    }
+}
+
+const removeEditButtons = () => {
+    let allButtons = document.getElementsByClassName("edit-this-post");
+    while (allButtons.length > 0) {
+        for (let b of allButtons) {
+            b.remove();
+        }
+    }
+}
