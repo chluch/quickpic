@@ -8,7 +8,7 @@ import { createPostForm } from "./post.js";
 // let start = 10;
 const loginPage = {
     load: () => renderHTML(`
-    <form id="login">
+    <form id="login" class="login-form">
         <div>
             <input id="username" type="text" placeholder="&#x1F464;Username">
         </div>
