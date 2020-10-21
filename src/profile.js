@@ -1,10 +1,10 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime } from "./helpers.js";
+import { renderHTML, getTime, clearEmptyValue } from "./helpers.js";
 import { handleLike } from "./likes.js";
-import { addFollow, removeFollow, updateFollowers } from "./follow.js";
+import { addFollow, removeFollow } from "./follow.js";
 
-export async function getProfile(username) {
+export const getProfile = async (username) => {
     const api = new API;
     const option = {
         headers: {
@@ -16,10 +16,13 @@ export async function getProfile(username) {
     return data;
 }
 
-export async function getProfileById(id) {
+export const getProfileById = async (id) => {
     const api = new API;
     const option = {
-        headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
     }
     const data = await api.get(`user/?id=${id}`, option);
     return data;
@@ -113,9 +116,6 @@ export async function createProfile(d) {
         apiPostHistory(data.posts);
     }
 
-    // Load account settings modal
-    editProfileModal();
-
     // Generate edit buttons if own profile
     if (data.username === localStorage.getItem("username")) {
         const editWrapper = document.createElement("div");
@@ -131,11 +131,14 @@ export async function createProfile(d) {
         main.insertBefore(editWrapper, main.firstChild);
         const editProfile = document.getElementsByClassName("edit-account")[0];
         const editPost = document.getElementsByClassName("edit-post")[0];
+
+        // Load account settings modal
+        editProfileModal();
+
         editProfile.onclick = (e) => {
             e.preventDefault();
             editProfile.disabled = true;
-            alert("edit account")
-            document.getElementById("account-settings").style.display="block";
+            document.getElementById("account-settings").style.display = "block";
         }
         editPost.onclick = (e) => {
             e.preventDefault();
@@ -302,15 +305,11 @@ const setLikeEvent = () => {
     });
 }
 
-const editProfile = () => {
-
-}
-
 const editProfileModal = () => {
     const template = `
     <div class="modal" id="account-settings">
         <div class="edit-acc-modal">
-            <span class="close">&#xd7;</span>
+            <div class="close">&#xd7;</div>
             <svg version="1.1" id="settings-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px" y="0px" viewBox="0 0 422.912 422.912" style="enable-background:new 0 0 422.912 422.912;"
                 xml:space="preserve">
@@ -330,14 +329,60 @@ const editProfileModal = () => {
             </svg>
             <h1>Account Settings</h1>
             <form id="edit-acc-form">
-                <div><input type="password" placeholder="Create password"></div>
-                <div><input type="password" placeholder="Retype password"></div>
-                <div><input type="text" placeholder="Email"></div>
-                <div><input type="text" placeholder="Name"></div>
+                <div><input type="password" placeholder="Change password" id="new-password"></div>
+                <div><input type="password" placeholder="Retype new password" id="check-new-password"></div>
+                <div><input type="text" placeholder="Change email" id="new-email"></div>
+                <div><input type="text" placeholder="Change name" id="new-name"></div>
                 <button type="submit" id="submit-acc-edit">Submit</button>
             </form>
         </div>
     </div>
     `;
     renderHTML(template, "account-settings", "main");
+    const editProfile = document.getElementsByClassName("edit-account")[0];
+    const accModal = document.getElementById("account-settings");
+    const modalCloseButton = document.getElementsByClassName("close")[0];
+    const modalSubmitButton = document.getElementById("submit-acc-edit");
+    modalCloseButton.onclick = (e) => {
+        e.preventDefault();
+        accModal.style.display = "none";
+        editProfile.disabled = false;
+    }
+    modalSubmitButton.onclick = (e) => {
+        e.preventDefault();
+        handleProfileUpdate();
+    }
+
+}
+const handleProfileUpdate = () => {
+    const newPassword = document.getElementById("new-password").value;
+    const checkPassword = document.getElementById("check-new-password").value;
+    const email = document.getElementById("new-email").value;
+    const name = document.getElementById("new-name").value
+    const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
+    try {
+        if (newPassword !== checkPassword) throw "Passwords do not match.";
+        if (email && !emailRegex.test(email)) throw "Check email format.";
+        if (name && name.length > 30) throw "Please keep to a max of 30 characters."
+    }
+    catch (err) {
+        alert(err);
+        return;
+    }
+    let data = {
+        "email": email,
+        "name": name,
+        "password": newPassword,
+    }
+    data = clearEmptyValue(data);
+}
+
+const updateProfile = () => {
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
+    }
 }
