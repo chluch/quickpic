@@ -75,3 +75,14 @@ export const clearMainContent = () => {
     console.log(main);
     console.log('cleared');
 }
+
+// Remove empty value from Objects
+export const clearEmptyValue = (obj) => {
+    let ret = {};
+    Object.keys(obj).forEach((k) => {
+        if (obj[k]) {
+            ret[k] = obj[k];
+        }
+    });
+    return ret;
+}
