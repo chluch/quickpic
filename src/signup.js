@@ -33,8 +33,15 @@ const signupPage = {
 const doSignup = () => {
     const password = document.getElementById("pw").value;
     const retype = document.getElementById("check-pw").value;
+    const username = document.getElementById("user").value;
+    const email = document.getElementById("email").value
+    const name = document.getElementById("name").value,
+    const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
     try {
         if (password !== retype) throw "Passwords do not match!"
+        if  (username > 15) throw "Please keep to a max of 15 characters for username."
+        if (!emailRegex.test(email)) throw "Check email format.";
+        if (name.length > 30) throw "Please keep to a max of 30 characters for name."
     }
     catch (err) {
         alert(err);
@@ -42,10 +49,10 @@ const doSignup = () => {
     }
     const signup = new API;
     const data = {
-        "username": document.getElementById("user").value,
+        "username": username,
         "password": password,
-        "email": document.getElementById("email").value,
-        "name": document.getElementById("name").value,
+        "email": email,
+        "name": name,
     }
     const sendSignupOptions = {
         headers: { "content-type": "application/json" },
