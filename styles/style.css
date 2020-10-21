@@ -7,7 +7,7 @@ html, body {
     height: 100%;
     background-color: #373737;
     font-size: 16px;
-    color: 	#f2f2f3;
+    color: #f2f2f3;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -25,6 +25,7 @@ a {
 #main {
     flex: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -46,10 +47,12 @@ a {
     min-height: 40px;
     border-bottom: 1px solid #404345;
 }
-.banner >h1 {
+
+.banner>h1 {
     letter-spacing: 4px;
     font-size: 40px;
 }
+
 /* 
 footer {
     display: flex;
@@ -68,7 +71,7 @@ footer >p {
     letter-spacing: 1px;
 } */
 
-.banner > *, footer > * {
+.banner>*, footer>* {
     margin: 10px 25px;
     /* font-family: 'Gochi Hand', 'Arial', sans-serif; */
 }
@@ -82,6 +85,7 @@ footer >p {
     margin: 0 5px;
     /* align-self: end; */
 }
+
 .nav-item {
     /* border-top: 1px solid #404345;
     border-left: 1px solid #404345;
@@ -94,16 +98,19 @@ footer >p {
     list-style-type: none;
     /* background-color: #373737; */
 }
+
 /* .nav-item {
     margin: auto;
     padding: 5px;
     display: inline;
     list-style-type: none;
 } */
+
 .nav-item:hover {
     cursor: pointer;
     color: #62b37c;
 }
+
 #logout-link:hover {
     color: #f38024;
 }
@@ -129,8 +136,7 @@ form {
     min-height: 150px;
     min-width: 250px;
     background: linear-gradient(145deg, #282828, #2f2f2f);
-    box-shadow:  27px 27px 54px #202020,  
-                -27px -27px 54px #383838;
+    box-shadow: 27px 27px 54px #202020, -27px -27px 54px #383838;
 }
 
 #login {
@@ -138,7 +144,7 @@ form {
     width: 30vw;
 }
 
-form >div {
+form>div {
     margin: 5px 0;
 }
 
@@ -160,7 +166,7 @@ form input:focus {
     box-shadow: 0px 0px 5px #75c38f;
 }
 
-form >.button-wrapper {
+form>.button-wrapper {
     width: 100%;
     padding: 0 20%;
     display: flex;
@@ -182,10 +188,12 @@ form button {
 #login-btn, #submit-btn {
     background-color: #f38024;
 }
+
 #login-btn:hover, #submit-btn:hover {
     background-color: #000000;
     cursor: pointer;
 }
+
 form button:hover {
     background-color: #3c6047;
     cursor: pointer;
@@ -246,6 +254,23 @@ form button:hover {
     margin: 0 auto 0 0;
 } */
 
+.edit-options {
+    margin: 10px auto 3px auto;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 550px;
+    min-width: 280px;
+    width: 60%;
+}
+
+.edit-options>button {
+    font: 10px;
+    color: #838d94;
+    background-color: transparent;
+    margin: 0 1px;
+    border: 1px solid #838d94;
+}
+
 .full-profile {
     background-color: #494d50;
     height: 100%;
@@ -255,29 +280,44 @@ form button:hover {
     border: 1px black solid;
     max-width: 550px;
     padding: 0 2%;
-    margin: 20px auto;
+    margin: 0 auto;
 }
+
 .profile-heading {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     border-bottom: 1px solid #abb2b8;
 }
-.profile-heading >h2, h3 {
+
+.profile-heading>h2, h3 {
     display: inline-block;
     align-self: baseline;
 }
+
 .profile-action {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 10vh;
 }
-.profile-action >a {
-    display: inline-block;
-    /* margin-left: auto; */
-    font-size: 18px;
+
+.profile-action svg {
+    width: 20px;
+    height: auto;
+    fill: #f2f2f3;
+    vertical-align: middle;
+    margin: -4px 0 0 2px;
 }
+
+.profile-action>a {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0;
+    align-self: center;
+    line-height: 0;
+}
+
 .following-list {
     display: none;
     height: 80px;
@@ -285,16 +325,23 @@ form button:hover {
     margin: 0;
     line-height: 1.4;
 }
+
 .following-list ul {
-    column-count: 3;
+    margin: 5px;
+    column-count: 4;
+    font-size: 12px;
+    padding: 5px;
 }
+
 .following-list li {
     list-style-type: square;
 }
+
 .following-list li:hover {
     cursor: pointer;
     color: black
 }
+
 .follow-info {
     display: flex;
     flex-flow: row;
@@ -302,12 +349,15 @@ form button:hover {
     border-top: 1px solid #abb2b8;
     border-bottom: 1px solid #abb2b8;
 }
-.follow-info h4, p {
+
+.follow-info h4, .follow-info p {
     display: inline-block;
 }
+
 .follow-info p {
-    font-size: 20px;
+    font-size: 16px;
 }
+
 #follow-btn {
     padding: 1.5vh 0.8vw;
     height: 50%;
@@ -323,9 +373,11 @@ form button:hover {
     border: 1px solid white;
     border-radius: 3px;
 }
+
 .following:hover {
     cursor: pointer;
 }
+
 .history-content {
     color: black;
     display: flex;
@@ -336,6 +388,7 @@ form button:hover {
     margin: 10px 0;
     /* border-radius: 5px; */
 }
+
 .history-img {
     width: 100%;
     height: auto;
@@ -345,6 +398,7 @@ form button:hover {
     /* border: 1px solid black; */
     /* border-radius: 5px; */
 }
+
 .text-content {
     margin: 0 10px;
     flex: 67%;
@@ -353,7 +407,8 @@ form button:hover {
     justify-content: space-between;
     height: 140px;
 }
-.text-content >p {
+
+.text-content>p {
     margin: 0;
     line-height: 1.4;
     font-size: 14px;
@@ -370,41 +425,47 @@ form button:hover {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    box-shadow:  5px 5px 16px rgba(27, 27, 27, 0.5), 
-             -5px -5px 16px rgba(37, 37, 37, 0.5);
+    box-shadow: 5px 5px 16px rgba(27, 27, 27, 0.5), -5px -5px 16px rgba(37, 37, 37, 0.5);
 }
+
 .post-heading {
     display: flex;
     justify-content: space-between;
 }
+
 .post-heading h2 {
     font-size: 22px;
     letter-spacing: 1px;
     padding: 0 10px;
     margin: 0;
 }
+
 .post-heading h2:hover {
     cursor: pointer;
     color: #62b37c;
 }
+
 .post-img {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.post-img > img {
+
+.post-img>img {
     width: 95%;
     height: auto;
     /* border: black solid;
     border-width: 2px 3px 4px 2px;
     border-radius: 98% 6% 95% 7%/5% 98% 4% 95%; */
 }
+
 .post-info {
     background-color: #f2f2f3;
     width: 100%;
     margin-top: 10px;
     padding: 0 20px;
 }
+
 .post-text {
     margin: 0;
 }
@@ -414,21 +475,24 @@ form button:hover {
     align-items: baseline;
     justify-content: space-between;
 }
+
 .comment-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    margin: 4px; 
+    margin: 4px;
     border: 1px solid goldenrod;
     padding: 2px;
 }
+
 .commenter, .comment {
     display: inline-block;
     font-size: 14px;
     line-height: 1;
     margin: 0 0 0 4px;
 }
+
 .comment-time {
     width: 36px;
     font-size: 8px;
@@ -437,6 +501,7 @@ form button:hover {
     background-color: goldenrod;
     margin-right: 4px;
 }
+
 .commenter {
     /* flex: 1; */
     margin: 0;
@@ -444,19 +509,23 @@ form button:hover {
     font-weight: bold;
     /* margin-right: 3px; */
 }
+
 .comment {
     background-color: chocolate;
     width: auto;
     overflow-wrap: break-word;
     overflow: hidden;
 }
+
 .commenter:hover {
     cursor: pointer;
 }
-.likes-display, .likes-display >* {
+
+.likes-display, .likes-display>* {
     line-height: 1;
-    margin:0;
+    margin: 0;
 }
+
 .likes-display {
     border: 1px dotted pink;
     max-height: 50px;
@@ -465,16 +534,19 @@ form button:hover {
     padding: 3px;
     margin-top: 8px;
 }
+
 .likes-display ul {
     padding: 2px;
     column-count: 3;
     list-style-type: none;
 }
+
 .likes-display ul li::before {
     content: "\2665";
     color: red;
     display: inline-block;
 }
+
 .comment-display {
     max-height: 200px;
     overflow-y: auto;
@@ -482,44 +554,54 @@ form button:hover {
     align-items: flex-start;
     vertical-align: top;
 }
-.add-comment >svg {
+
+.add-comment>svg {
     width: 18px;
     height: auto;
     display: inline-block;
 }
+
 .likes-number, .add-comment, .comments-number {
     margin-top: 15px;
     font-size: 14px;
     display: inline-block;
 }
-.likes-number >a, .comments-number >a {
+
+.likes-number>a, .comments-number>a {
     line-height: 0;
 }
-.comments-number { 
-    margin: 0 10px 0 auto; 
+
+.comments-number {
+    margin: 0 10px 0 auto;
 }
-.comments-number >svg {
+
+.comments-number>svg {
     display: inline-block;
     width: 16px;
 }
-.comments-number >svg:hover {
+
+.comments-number>svg:hover {
     fill: blue;
     animation: bounce 0.8s infinite ease-in-out;
 }
+
 .comments-number:hover, .add-comment:hover, .likes-number:hover {
     cursor: pointer;
     font-weight: bold;
 }
-.heart{
+
+.heart {
     display: inline-block;
     font-size: 23.5px;
     line-height: 1;
 }
+
 .heart:hover {
     color: #ff0400;
     cursor: pointer;
     animation: bounce 0.8s infinite ease-in-out;
 }
+
 @keyframes bounce {
     0%, 12.5%, 82.5% {
         transform: translateY(0);
@@ -543,31 +625,29 @@ form button:hover {
     align-self: flex-end;
 }
 
-
-
-
-
 #post-form {
     margin: 0;
 }
-#post-form >h1 {
+
+#post-form>h1 {
     margin: 0;
 }
-#post-form >textarea {
+
+#post-form>textarea {
     resize: none;
     height: 75vh;
     width: 95vw;
     max-width: 400px;
     max-height: 400px;
 }
+
 /* .file-upload {
 
 } */
+
 input[type="file"] {
     font-size: 10px;
 }
-
-
 
 .comment-text {
     resize: none;
@@ -576,6 +656,7 @@ input[type="file"] {
     min-width: 280px;
     max-height: 100px;
 }
+
 .submit-comment {
     float: right;
 }
