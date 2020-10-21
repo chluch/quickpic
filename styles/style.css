@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 html, body {
     margin: 0;
     height: 100%;
@@ -9,6 +5,7 @@ html, body {
     font-size: 16px;
     color: #f2f2f3;
     font-family: 'Open Sans', sans-serif;
+    box-sizing: border-box;
 }
 
 a {
@@ -20,6 +17,7 @@ a {
     height: 100%;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 #main {
@@ -28,11 +26,12 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
-#main input {
+/* #main input {
     width: 15vw;
-}
+} */
 
 .banner {
     z-index: 100;
@@ -46,6 +45,7 @@ a {
     background-color: #2c2c2c;
     min-height: 40px;
     border-bottom: 1px solid #404345;
+    box-sizing: border-box;
 }
 
 .banner>h1 {
@@ -118,6 +118,7 @@ footer >p {
 .button-wrapper {
     display: flex;
     justify-content: end;
+    box-sizing: border-box;
 }
 
 .login-form, .signup-form {
@@ -132,33 +133,62 @@ footer >p {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    padding: 0 20px;
     min-height: 150px;
     min-width: 250px;
     background: linear-gradient(145deg, #282828, #2f2f2f);
     box-shadow: 27px 27px 54px #202020, -27px -27px 54px #383838;
+    box-sizing: border-box;
 }
-
+.login-form>h2, .signup-form>h2{
+    margin: 0;
+}
 #login {
-    height: 40vh;
-    width: 30vw;
+    width: 30%;
+    min-width: 280px;
+    height: 220px;
 }
 
-.login-form>div, .signup-form>div {
-    margin: 5px 0;
+#signup {
+    width: 30%;
+    min-width: 280px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    height: 340px;
+
+}
+
+/* .signup-form input {
+    width: 100%;
+    font-size: 16px;
+    padding: 3px;
+    margin: 10px 0;
+    border: 1px solid #62b37c;
+    border-radius: 5px;
+} */
+
+#signup .button-wrapper, #login .button-wrapper {
+    margin-top: 20px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 ::placeholder {
     color: #7c838c;
 }
 
-#signup input, #login input {
+ .signup-form input, .login-form input {
     width: 100%;
     min-width: 200px;
     border: 1px solid #62b37c;
     border-radius: 5px;
     font-size: 16px;
     padding: 5px;
+    margin: 5px 0;
+    box-sizing: border-box;
 }
 
 #signup input:focus, #login input:focus {
@@ -166,14 +196,7 @@ footer >p {
     box-shadow: 0px 0px 5px #75c38f;
 }
 
-#signup .button-wrapper, #login .button-wrapper{
-    width: 100%;
-    padding: 0 20%;
-    display: flex;
-    justify-content: space-around;
-}
-
-.login-form button, .signup-form button{
+.login-form button, .signup-form button {
     letter-spacing: 1.5px;
     font-size: 14px;
     background-color: #62b37c;
@@ -182,7 +205,7 @@ footer >p {
     border-radius: 5px;
     border: none;
     margin: 0 10px;
-    padding: 1vh 2vw;
+    padding: 8px 15px;
 }
 
 .login-form button:hover, .signup-form button:hover {
@@ -199,19 +222,17 @@ footer >p {
     cursor: pointer;
 }
 
-#signup {
-    display: none;
-}
-
 #feed {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .wrapper {
     display: flex;
+    box-sizing: border-box;
 }
 
 /* .profile-summary {
@@ -261,6 +282,7 @@ footer >p {
     max-width: 550px;
     min-width: 280px;
     width: 60%;
+    box-sizing: border-box;
 }
 
 .edit-options>button {
@@ -277,34 +299,26 @@ footer >p {
     background-color: black;
     cursor: pointer;
 }
+
 .edit-options>button:disabled {
     background-color: black;
-} 
+}
 
 .modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
     z-index: 1;
-    /* Sit on top */
     padding-top: 100px;
-    /* Location of the box */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
     background-color: rgb(0, 0, 0);
-    /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
 }
 
 /* Modal Content */
+
 .edit-acc-modal {
     background-color: #fefefe;
     margin: auto;
@@ -314,13 +328,17 @@ footer >p {
     min-width: 280px;
     text-align: center;
     border-radius: 5px;
+    box-sizing: border-box;
 }
+
 .edit-acc-modal>h1 {
     display: inline-block;
     font-size: 20px;
     color: black;
 }
+
 /* The Close Button */
+
 .close {
     color: #aaaaaa;
     font-size: 25px;
@@ -328,25 +346,31 @@ footer >p {
     margin: -20px -10px;
     text-align: right;
 }
+
 .close:hover {
     color: red;
     cursor: pointer;
 }
+
 #edit-acc-form {
     margin: 0 auto;
     /* background-color: burlywood; */
     display: flex;
     flex-direction: column;
 }
+
 #edit-acc-form input {
     width: 90%;
     margin: 5px;
     padding: 5px;
+    box-sizing: border-box;
 }
+
 #settings-icon {
     width: 20px;
     height: auto;
 }
+
 #submit-acc-edit {
     margin: 20px 10px 10px 10px;
     padding: 5px;
@@ -363,6 +387,7 @@ footer >p {
     max-width: 550px;
     padding: 0 2%;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .profile-heading {
@@ -471,6 +496,7 @@ footer >p {
     flex-direction: row;
     align-items: center;
     margin: 10px 0;
+    box-sizing: border-box;
     /* border-radius: 5px; */
 }
 
@@ -480,6 +506,7 @@ footer >p {
     min-width: 65px;
     min-height: 65px;
     flex: 33%;
+    box-sizing: border-box;
     /* border: 1px solid black; */
     /* border-radius: 5px; */
 }
@@ -491,6 +518,7 @@ footer >p {
     flex-direction: column;
     justify-content: space-between;
     height: 140px;
+    box-sizing: border-box;
 }
 
 .text-content>p {
@@ -511,6 +539,7 @@ footer >p {
     flex-flow: column nowrap;
     justify-content: center;
     box-shadow: 5px 5px 16px rgba(27, 27, 27, 0.5), -5px -5px 16px rgba(37, 37, 37, 0.5);
+    box-sizing: border-box;
 }
 
 .post-heading {
@@ -549,16 +578,19 @@ footer >p {
     width: 100%;
     margin-top: 10px;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .post-text {
     margin: 0;
+    box-sizing: border-box;
 }
 
 .stats {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .comment-wrapper {
@@ -569,6 +601,7 @@ footer >p {
     margin: 4px;
     border: 1px solid goldenrod;
     padding: 2px;
+    box-sizing: border-box;
 }
 
 .commenter, .comment {
@@ -600,6 +633,7 @@ footer >p {
     width: auto;
     overflow-wrap: break-word;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .commenter:hover {
@@ -712,6 +746,8 @@ footer >p {
 
 #post-form {
     margin: 0;
+    border: 1px solid white;
+    box-sizing: border-box;
 }
 
 #post-form>h1 {
@@ -734,12 +770,16 @@ input[type="file"] {
     font-size: 10px;
 }
 
+.post-comment {
+    box-sizing: border-box;
+}
 .comment-text {
     resize: none;
     height: 100px;
     width: 100%;
     min-width: 280px;
     max-height: 100px;
+    box-sizing: border-box;
 }
 
 .submit-comment {
