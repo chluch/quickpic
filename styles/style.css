@@ -327,12 +327,14 @@ form button:hover {
     cursor: pointer;
 }
 .history-content {
+    color: black;
     display: flex;
-    background-color: rgb(37, 37, 37);
+    /* background-color: rgb(37, 37, 37); */
+    background-color: #f2f2f3;
     flex-direction: row;
     align-items: center;
     margin: 10px 0;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 .history-img {
     width: 100%;
@@ -340,8 +342,8 @@ form button:hover {
     min-width: 65px;
     min-height: 65px;
     flex: 33%;
-    border: 1px solid black;
-    border-radius: 5px;
+    /* border: 1px solid black; */
+    /* border-radius: 5px; */
 }
 .text-content {
     margin: 0 10px;
