@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl } from "./helpers.js";
+import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, getFormInputs } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 
@@ -485,41 +485,42 @@ const editPostModal = async (postId) => {
         }
     }
     const submitEdit = document.getElementById("submit-edit");
-    submitEdit.onsubmit = (e) => {
+    submitEdit.onclick = (e) => {
         e.preventDefault();
         if (selectDelete) {
             confirm("Are you 200% sure you want to delete this post?");
             deletePost(data.id);
         }
         else {
-            const file = document.getElementById("edit-img-file").files[0];
-            const text = document.getElementById("edit-post-text").value;
-            if ((!file && !text)|| !file && text === data.meta.description_text) {
-                editModal.style.display = "none";
-                return;
-            }
-            if (file) {
-                fileToDataUrl(file)
-                    .then((url) => url.replace(/data\:(image\/jpeg|image\/png|image\/jpg)\;base64\,/, ""))
-                    .then((imgUrl) => {
-                        let toSend = {
-                            "description_text": text,
-                            "src": imgUrl
-                        }
-                        toSend = clearEmptyValue(toSend);
-                        sendEditPost(toSend, data.id);
-                        return false;
-                    })
-            }
-            else {
-                let toSend = {
-                    "description_text": text
-                }
-                console.log(toSend)
-                sendEditPost(toSend, data.id);
-                return false;
-            }
+            handleEditPost(data);
         }
+    }
+}
+
+const handleEditPost = (data) => {
+    const file = document.getElementById("edit-img-file").files[0];
+    const text = document.getElementById("edit-post-text").value;
+    if ((!file && !text) || !file && text === data.meta.description_text) {
+        editModal.style.display = "none";
+    }
+    if (file) {
+        fileToDataUrl(file)
+            .then((url) => url.replace(/data\:(image\/jpeg|image\/png|image\/jpg)\;base64\,/, ""))
+            .then((imgUrl) => {
+                let toSend = {
+                    "description_text": text,
+                    "src": imgUrl
+                }
+                toSend = clearEmptyValue(toSend);
+                sendEditPost(toSend, data.id);
+            })
+    }
+    else {
+        let toSend = {
+            "description_text": text
+        }
+        console.log(toSend)
+        sendEditPost(toSend, data.id);
     }
 }
 

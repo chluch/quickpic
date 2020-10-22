@@ -86,3 +86,7 @@ export const clearEmptyValue = (obj) => {
     });
     return ret;
 }
+
+export const getFormInputs = (formId) => {
+    const inputs = getElementById(formId).elements
+}
