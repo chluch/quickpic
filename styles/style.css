@@ -387,7 +387,7 @@ footer >p {
     border: 1px black solid;
     max-width: 550px;
     padding: 0 2%;
-    margin: 0 auto;
+    margin: 0 auto 80px auto;
     box-sizing: border-box;
 }
 
@@ -802,6 +802,10 @@ input[type="file"] {
     min-width: 280px;
     max-height: 100px;
     box-sizing: border-box;
+}
+
+.history-content .comment-text {
+    min-width: 200px;
 }
 
 .submit-comment {
