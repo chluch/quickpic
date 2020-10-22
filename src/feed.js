@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { getTime, clearMainContent, renderHTML } from "./helpers.js";
+import { getTime, clearMainContent, renderHTML, sortByTimestamp } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile } from "./profile.js";
 
@@ -78,7 +78,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                 <div class="post-info">
                     <p class="post-text">${description}</p>
                     <div class="likes-display" id="likes-display-${postId}"></div>
-                        <div class="stats">
+                        <div class="action">
                             <div class="add-comment">
                             <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512" xmlns="http://www.w3.org/2000/svg">
                                 <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
@@ -216,12 +216,6 @@ const setLikeEvent = () => {
     })
 }
 
-const sortByTimestamp = (objectArray) => {
-    objectArray.sort((a, b) => {
-        return b.published - a.published;
-    });
-}
-
 const displayEachComment = (commentArray, log) => {
     sortByTimestamp(commentArray);
     (commentArray).forEach((comment) => {
@@ -276,7 +270,9 @@ const postComment = (postId) => {
         body: JSON.stringify(toSend),
     }
     api.put(`post/comment?id=${postId}`, option)
-        .then(() => {
+        .then((ret) => {
+            console.log(ret.message);
+            clearMainContent();
             console.log("posted");
             console.log(commentContent);
             commentContent = "";

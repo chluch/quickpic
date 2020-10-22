@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, getFormInputs } from "./helpers.js";
+import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortByTimestamp } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 
@@ -86,6 +86,7 @@ export async function createProfile(d) {
                 e.preventDefault();
                 showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
             }
+            toggleCommentBox(post);
         }
         setLikeEvent();
     }
@@ -153,6 +154,17 @@ export async function createProfile(d) {
     });
 }
 
+const toggleCommentBox = (post) => {
+    let commentBox = document.getElementById(`${post.id}-comment-input`);
+    commentBox.style.display = "none";
+    let addCommentToggle = document.getElementById(`add-comment-${post.id}`);
+    console.log(addCommentToggle)
+    addCommentToggle.onclick = (e) => {
+        e.preventDefault();
+        commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
+    }
+}
+
 // Get data for user's posts
 // Input type: array of post IDs
 async function getPostHistory(postId) {
@@ -207,21 +219,16 @@ const createUserPost = (post) => {
             <div class="text-content">
                 <div class="timestamp">${getTime(post.meta.published)}</div>
                 <p>${post.meta.description_text}</p>
-                <div class="stats">
-                    <div class="add-comment">
+                <div class="likes-display" id="likes-display-${post.id}"></div>
+                <div class="action" id="profile-action-${post.id}">
+                    <div class="add-comment" id="add-comment-${post.id}">
                     <svg enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512"
                         xmlns="http://www.w3.org/2000/svg">
-                            <g>
-                                <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
-                                <path d="m55.736 325.291-23.572 23.678v100.852h100.533l23.505-23.611z" />
-                                <path d="m185.974 396.303 188.364-189.215-100.466-100.919-188.364 189.215z" />
-                            </g>
-                            <g>
-                                <path d="m32.164 482.193h447.85v30h-447.85z" />
-                            </g>
-                            <g>
-                                <path d="m237.864 419.821h242.149v30h-242.149z" />
-                            </g>
+                            <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
+                            <path d="m55.736 325.291-23.572 23.678v100.852h100.533l23.505-23.611z" />
+                            <path d="m185.974 396.303 188.364-189.215-100.466-100.919-188.364 189.215z" />
+                            <path d="m32.164 482.193h447.85v30h-447.85z" />
+                            <path d="m237.864 419.821h242.149v30h-242.149z" />
                     </svg>
                     +comment
                     </div>
@@ -237,7 +244,10 @@ const createUserPost = (post) => {
                     </div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
-                <div class="likes-display" id="likes-display-${post.id}"></div>
+                <div id="${post.id}-comment-input">
+                    <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
+                    <button type="submit" id="${post.id}-comment-submit" class="submit-comment" style="display: block;">comment</button>
+                </div>
             </div>
         </div>
     </div>
@@ -271,6 +281,16 @@ const createLikesList = (likes, post, parentElement) => {
             .catch(err => console.log(err));
     }
 }
+
+// const createCommentBox = (postId, parentElementId, parent) => {
+//     const commentBoxTemplate = `
+//     <div class="post-comment" id="post-comment-${postId}">
+//         <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
+//         <button type="submit" class="submit-comment" style="display: block;">comment</button>
+//     </div>
+//     `;
+//     renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
+// }
 
 async function setFollow(id, username) {
     const ownUsername = localStorage.getItem("username");

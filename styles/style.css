@@ -602,7 +602,7 @@ footer >p {
     box-sizing: border-box;
 }
 
-.stats {
+.action {
     display: flex;
     align-items: baseline;
     justify-content: space-between;

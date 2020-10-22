@@ -31,16 +31,16 @@ export function fileToDataUrl(file) {
     return dataUrlPromise;
 }
 
-// Render HTML code blocks and append to main
-export function renderHTML(htmlBlock, elementID, parentID, parent) {
+// Render HTML code blocks and append to main. Hayden has given the greenlight for DOMParser usage (emailed).
+export function renderHTML(htmlBlock, elementID, parentID, ancestor) {
     const parser = new DOMParser();
     const newNode = parser.parseFromString(htmlBlock, "text/html");
     const element = newNode.getElementById(elementID);
-    if (!parent) {
+    if (!ancestor) {
         document.getElementById(parentID).appendChild(element);
     }
     else {
-        parent.getElementById(parentID).appendChild(element)
+        ancestor.getElementById(parentID).appendChild(element)
     }
 }
 
@@ -87,6 +87,8 @@ export const clearEmptyValue = (obj) => {
     return ret;
 }
 
-export const getFormInputs = (formId) => {
-    const inputs = getElementById(formId).elements
+export const sortByTimestamp = (objectArray) => {
+    objectArray.sort((a, b) => {
+        return b.published - a.published;
+    });
 }
