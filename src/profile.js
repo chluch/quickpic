@@ -3,6 +3,7 @@ import API from "./api.js";
 import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortByTimestamp } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
+import { postComment } from "./feed.js"
 
 export const getProfile = async (username) => {
     const api = new API;
@@ -86,6 +87,16 @@ export async function createProfile(d) {
                 e.preventDefault();
                 showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
             }
+            document.getElementById(`${post.id}-comment-submit`).onclick = (e) => {
+                e.preventDefault();
+                postComment(post.id, document.getElementById(`history-${post.id}`));
+            }
+            // Prevent enter in comment input box
+            document.getElementById(`${post.id}-textarea`).onkeydown = (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                }
+            }
             toggleCommentBox(post);
             let commentLog = [];
             displayEachComment(post.comments, commentLog);
@@ -153,7 +164,7 @@ export async function createProfile(d) {
     // Populate following list
     createFollowingList(data);
     let clickFollowList = false;
-    // Toggle
+    // Toggle followers
     document.getElementsByClassName("following")[0].addEventListener("click", () => {
         if (clickFollowList) {
             document.getElementById(`following-${data.username}`).style.display = "none";
@@ -258,7 +269,7 @@ const createUserPost = (post) => {
                 </div>
                 <div class="comment-display" id="comment-display-${post.id}"></div>
                 <div id="${post.id}-comment-input">
-                    <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
+                    <textarea class="comment-text" id="${post.id}-textarea" placeholder="Say something" maxlength="200"></textarea>
                     <button type="submit" id="${post.id}-comment-submit" class="submit-comment" style="display: block;">comment</button>
                 </div>
             </div>

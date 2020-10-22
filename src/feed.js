@@ -159,11 +159,11 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     }
     newNode.getElementsByClassName("submit-comment")[0].onclick = (e) => {
         e.preventDefault();
-        postComment(postId);
+        postComment(postId, document.getElementById(`post-${postId}`));
     }
     // Prevent enter in comment input box
     newNode.getElementsByClassName("comment-text")[0].onkeydown = (e) => {
-        if (e.keyCode === 13) {
+        if (e.key === "Enter") {
             e.preventDefault();
         }
     }
@@ -253,8 +253,8 @@ const createCommentBox = (postId, parentElementId, parent) => {
     renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
 }
 
-const postComment = (postId) => {
-    const post = document.getElementById(`post-${postId}`);
+export const postComment = (postId, post) => {
+    // const post = document.getElementById(`post-${postId}`);
     let commentContent = post.querySelector("textarea").value;
     if (!commentContent) {
         alert("You didn't comment!");
