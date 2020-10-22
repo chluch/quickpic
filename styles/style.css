@@ -789,7 +789,7 @@ footer >p {
     color: #686f74;
     text-align: end;
     font-size: 10px;
-    margin: 5px 10px 2px 5px;
+    margin: 5px 0 2px 5px;
     align-self: flex-end;
 }
 
