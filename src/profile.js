@@ -76,6 +76,16 @@ export async function createProfile(d) {
         for (const pId of postIds) {
             const post = await getPostHistory(pId);
             createUserPost(post);
+            // const postDiv = document.getElementsByClassName("user-history");
+            // console.log(document.getElementsByClassName("likes-display")[0])
+            createLikesList(post.meta.likes, post);
+            const showLikes = document.getElementById(`likes-display-${post.id}`);
+            showLikes.style.display = "none";
+            let displayLikesToggle = document.getElementById(`profile-likes-${post.id}`);
+            displayLikesToggle.onclick = (e) => {
+                e.preventDefault();
+                showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
+            }
         }
         setLikeEvent();
     }
@@ -227,12 +237,39 @@ const createUserPost = (post) => {
                     </div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
+                <div class="likes-display" id="likes-display-${post.id}"></div>
             </div>
         </div>
     </div>
     `
     renderHTML(historyTemplate, `history-${post.id}`, `profile-${post.meta.author}`);
+}
 
+
+const createLikesList = (likes, post, parentElement) => {
+    if (!parentElement) {
+        parentElement = document;
+    }
+    const parent = parentElement.getElementById(`likes-display-${post.id}`);
+    const likeList = document.createElement("ul");
+    if (likes.length === 0) {
+        const likesMessage = document.createTextNode("No \u2661 given!");
+        parent.appendChild(likesMessage);
+        return;
+    }
+    for (const userId of likes) {
+        getProfileById(userId)
+            .then((data) => {
+                likeList.className = "like-list";
+                let user = document.createElement("li");
+                user.innerText = data.username;
+                likeList.appendChild(user);
+            })
+            .then(() => {
+                parent.appendChild(likeList);
+            })
+            .catch(err => console.log(err));
+    }
 }
 
 async function setFollow(id, username) {

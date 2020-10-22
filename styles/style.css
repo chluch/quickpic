@@ -372,6 +372,12 @@ footer >p {
     border-radius: 5px;
 }
 
+.timestamp {
+    color: #686f74;
+    text-align: end;
+    align-self: flex-end;
+}
+
 .full-profile {
     background-color: #494d50;
     height: 100%;
@@ -481,6 +487,15 @@ footer >p {
 
 .following:hover {
     cursor: pointer;
+}
+
+.user-history .likes-display {
+    margin: 5px;
+}
+
+.user-history .timestamp {
+    margin: 5px 0 2px 5px;
+    font-size: 10px;
 }
 
 .history-content {
@@ -745,12 +760,9 @@ footer >p {
     }
 }
 
-.timestamp {
-    color: #686f74;
-    text-align: end;
-    font-size: 10px;
-    margin: 5px 0 2px 5px;
-    align-self: flex-end;
+.post .timestamp {
+    margin: 5px 10px 2px 5px;
+    font-size: 12px;
 }
 
 #post-form {
