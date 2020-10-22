@@ -7,7 +7,7 @@ export const createPostForm = () => {
     const postTemplate = `
     <form id="post-form">
         <h1>Make a post!</h1>
-        <textarea id="post-text" placeholder="Say something..."></textarea>
+        <textarea id="post-text" placeholder="Say something..." maxlength="1000"></textarea>
         <div>
             <label class="file-upload">upload file
                 <input type="file" id="img-file" name="myPhoto" accept="image/jpeg, image/png, image/jpg" />
