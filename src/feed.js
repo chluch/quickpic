@@ -67,7 +67,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         alt: `${author}'s post`
     });
 
-    // <div class="profile-summary" id="profile-s-${postId}">
     const postTemplate = `
         <div class="wrapper">
             <div class="post" id=post-${postId}>
@@ -114,21 +113,9 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     imgWrapper.appendChild(image);
 
     let userInfo = newNode.getElementsByClassName("author")[0];
-    // const profile = newNode.getElementsByClassName("profile-summary")[0];
-
-    // createProfileSummary(author, postId);
-    // let clickProfile = false;
     userInfo.onclick = () => {
         clearMainContent();
         createProfile(getProfile(author));
-        // if (clickProfile) {
-        // profile.style.display = "none";
-        // clickProfile = false;
-        // }
-        // else {
-        // profile.style.display = "block";
-        // clickProfile = true;
-        // }
     }
 
     // Generate like list and Toggle
@@ -210,13 +197,6 @@ const createLikesList = (likes, parentElement) => {
             .catch(err => console.log(err));
     }
 }
-
-// const createLikeList = (data) => {
-//     let likeList = document.createElement("ul");
-//     likeList.className = "like-list";
-//     for ()
-
-// }
 
 const setLikeEvent = () => {
     let idsSeen = [];

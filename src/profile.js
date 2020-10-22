@@ -28,47 +28,6 @@ export const getProfileById = async (id) => {
     return data;
 }
 
-// // Mini profile on Feed
-// export async function createProfileSummary(username, postId) {
-//     const data = await getProfile(username);
-//     const parentElement = document.getElementById(`profile-s-${postId}`);
-//     const name = document.createElement("h3");
-//     name.innerText = data.name;
-//     parentElement.appendChild(name);
-//     const obj = {
-//         "posts": data.posts.length,
-//         "followers": data.followed_num,
-//         "following": data.following.length,
-//     }
-//     const follow = document.createElement("div");
-//     follow.className = "profile-s-info";
-//     Object.keys(obj).forEach((k) => {
-//         const text = document.createElement("p");
-//         const title = document.createElement("h4")
-//         text.className = `${k}-s`;
-//         title.innerText = `${k}: `;
-//         text.innerText = obj[k];
-//         follow.appendChild(title);
-//         follow.appendChild(text);
-//         parentElement.appendChild(follow)
-//     });
-//     const seeFullProfile = document.createElement("button");
-//     seeFullProfile.className = "go-to-profile";
-//     seeFullProfile.innerText = "Full Profile";
-//     // const quickFollow = document.createElement("button");
-//     // quickFollow.className = "quick-follow";
-//     // quickFollow.innerText = "Follow";
-//     // parentElement.appendChild(quickFollow)
-//     // quickFollow.addEventListener("click", () => {
-//     //     addFollow(username);
-//     // });
-//     seeFullProfile.addEventListener("click", () => {
-//         document.getElementById("feed").style.display = "none";
-//         createProfile(data);
-//     })
-//     parentElement.appendChild(seeFullProfile);
-// }
-
 // Main Profile
 export async function createProfile(d) {
     const data = await d;
