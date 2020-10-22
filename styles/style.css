@@ -320,7 +320,7 @@ footer >p {
 
 /* Modal Content */
 
-.edit-acc-modal {
+.edit-acc-modal, .edit-post-modal {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -380,6 +380,7 @@ footer >p {
 }
 .edit-this-post:hover {
     background-color:  #f38024;
+    font-weight: bold;
     cursor: pointer;
 }
 

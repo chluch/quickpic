@@ -113,7 +113,12 @@ export async function createProfile(d) {
         document.getElementById(`profile-${data.username}`).appendChild(noPost);
     }
     else {
-        apiPostHistory(data.posts);
+           let postIds = data.posts.sort((a, b) => b - a);
+           for (const pId of postIds) {
+               const post = await getPostHistory(pId);
+               createUserPost(post);
+           }
+           setLikeEvent();
     }
 
     // Generate edit buttons if own profile
@@ -133,7 +138,7 @@ export async function createProfile(d) {
         const editPost = document.getElementsByClassName("edit-post")[0];
         const cancelEdit = document.getElementsByClassName("cancel-edit")[0];
 
-        // Load account settings modal
+        // Load account settings modal, edit post modal
         editProfileModal();
 
         editProfile.onclick = (e) => {
@@ -181,17 +186,13 @@ export async function createProfile(d) {
 
 // Get data for user's posts
 // Input type: array of post IDs
-async function apiPostHistory(postIds) {
+async function getPostHistory(postId) {
     const apiPost = new API;
     const option = {
         headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
     }
-    postIds = postIds.sort((a, b) => b - a);
-    for (const pId of postIds) {
-        const post = await apiPost.get(`post/?id=${pId}`, option);
-        createUserPost(post);
-    }
-    setLikeEvent();
+    const post =  apiPost.get(`post/?id=${postId}`, option);
+    return post;
 }
 
 async function createFollowingList(data) {
@@ -356,8 +357,8 @@ const editProfileModal = () => {
         e.preventDefault();
         handleProfileUpdate();
     }
-
 }
+
 const handleProfileUpdate = () => {
     const newPassword = document.getElementById("new-password").value;
     const checkPassword = document.getElementById("check-new-password").value;
@@ -411,20 +412,62 @@ const createEditButtons = () => {
     // console.log(allPosts.length)
     for (const post of allPosts) {
         // console.log(`where is id? ${post.id}`);
+        const postId = post.id.replace(/history-/, "");
         const parent = post.getElementsByClassName("text-content")[0];
         const edit = document.createElement("button");
         edit.className = "edit-this-post";
         edit.innerText = "edit";
         parent.insertBefore(edit, parent.firstChild);
-        // editPost.disabled = true;
+        edit.onclick = (e) => {
+            console.log(postId)
+            e.preventDefault();
+            editPostModal(postId);
+        }
     }
 }
 
-const removeEditButtons = () => {
+const removeEditButtons = (postId) => {
     let allButtons = document.getElementsByClassName("edit-this-post");
     while (allButtons.length > 0) {
         for (let b of allButtons) {
             b.remove();
         }
+    }
+}
+
+const editPostModal = async (postId) => {
+    const data = await getPostHistory(postId).then((data)=> data);
+    // console.log(data)
+    const template = `
+    <div class="modal" id="edit-post-${data.id}">
+        <div class="edit-post-modal">
+            <div class="close">&#xd7;</div>
+            <h1>Edit post</h1>
+            <form id="edit-post-form">
+                <label class="modify-text">Edit text
+                    <div><textarea id="post-text" name="edit">${data.meta.description_text}</textarea></div>
+                </label>
+                <div>
+                    <label class="file-upload">Change image
+                        <input type="file" id="img-file" accept="image/jpeg, image/png, image/jpg" />
+                    </label>
+                </div>
+                <div>
+                    <label class="check-delete">DELETE
+                        <input type="checkbox" id="delete-${data.id}" value="delete">
+                    </label>
+                </div>
+            <button type="submit" id="submit-post">Submit</button>
+            </form>
+        </div>
+    </div>
+    `;
+    renderHTML(template, `edit-post-${data.id}`, "main");
+    const editModal = document.getElementById(`edit-post-${data.id}`);
+    editModal.style.display = "block";
+    const modalCloseButton = editModal.getElementsByClassName("close")[0];
+    modalCloseButton.onclick = (e) => {
+        e.preventDefault();
+        editModal.style.display = "none";
     }
 }
