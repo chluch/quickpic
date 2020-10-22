@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime, clearEmptyValue, clearMainContent } from "./helpers.js";
+import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 
@@ -380,13 +380,13 @@ const handleProfileUpdate = () => {
         alert(err);
         return;
     }
-    let data = {
+    let toSend = {
         "email": email,
         "name": name,
         "password": newPassword
     }
-    data = clearEmptyValue(data);
-    updateProfile(data);
+    toSend = clearEmptyValue(toSend);
+    updateProfile(toSend);
 }
 
 const updateProfile = (data) => {
@@ -448,11 +448,11 @@ const editPostModal = async (postId) => {
             <h1>Edit post</h1>
             <form id="edit-post-form">
                 <label class="modify-text">Edit text
-                    <div><textarea id="post-text" name="edit" maxlength="1000">${data.meta.description_text}</textarea></div>
+                    <div><textarea id="edit-post-text" name="edit" maxlength="1000">${data.meta.description_text}</textarea></div>
                 </label>
                 <div>
                     <label class="file-upload">Change image
-                        <input type="file" id="img-file" accept="image/jpeg, image/png, image/jpg" />
+                        <input type="file" id="edit-img-file" accept="image/jpeg, image/png, image/jpg" />
                     </label>
                 </div>
                 <div>
@@ -485,20 +485,61 @@ const editPostModal = async (postId) => {
         }
     }
     const submitEdit = document.getElementById("submit-edit");
-    submitEdit.onclick = (e) => {
+    submitEdit.onsubmit = (e) => {
         e.preventDefault();
         if (selectDelete) {
             confirm("Are you 200% sure you want to delete this post?");
             deletePost(data.id);
         }
         else {
-            console.log("CHANGE API")
+            const file = document.getElementById("edit-img-file").files[0];
+            const text = document.getElementById("edit-post-text").value;
+            if ((!file && !text)|| !file && text === data.meta.description_text) {
+                editModal.style.display = "none";
+                return;
+            }
+            if (file) {
+                fileToDataUrl(file)
+                    .then((url) => url.replace(/data\:(image\/jpeg|image\/png|image\/jpg)\;base64\,/, ""))
+                    .then((imgUrl) => {
+                        let toSend = {
+                            "description_text": text,
+                            "src": imgUrl
+                        }
+                        toSend = clearEmptyValue(toSend);
+                        sendEditPost(toSend, data.id);
+                        return false;
+                    })
+            }
+            else {
+                let toSend = {
+                    "description_text": text
+                }
+                console.log(toSend)
+                sendEditPost(toSend, data.id);
+                return false;
+            }
         }
     }
 }
 
-const sendEditPost = () => {
-
+const sendEditPost = (data, postId) => {
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(data),
+    }
+    api.put(`post/?id=${postId}`, option)
+        .then((ret) => {
+            alert(ret.message);
+        })
+        .then(() => {
+            clearMainContent();
+            createProfile(getProfile(localStorage.getItem("username")));
+        });
 }
 const deletePost = (postId) => {
     const api = new API;

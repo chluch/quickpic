@@ -22,8 +22,8 @@ export const createPostForm = () => {
     const resetButton = document.getElementById("clear-post");
     submitButton.onclick = (e) => {
         e.preventDefault();
-        let postText = document.getElementById("post-text").value
-        let file = document.getElementById("img-file").files[0];
+        const postText = document.getElementById("post-text").value
+        const file = document.getElementById("img-file").files[0];
         if (!postText || !file) {
             alert("You must input text and upload an image file!");
             return;
@@ -60,4 +60,4 @@ const makePost = (postText, imgUrl) => {
         })
         .catch(err => alert(`${err} Oopsie Woopsie uwu`));
 
-}
+} //TODO: error handling
