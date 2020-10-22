@@ -80,7 +80,7 @@ export async function createProfile(d) {
             </div>
             <div class="profile-action">
                 <a href="mailto:${data.email}?subject=Mailed from Quickpic" target="_blank" rel="noopener noreferrer">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                     y="0px" viewBox="0 0 477.867 477.867" xml:space="preserve">
                     <path d="M460.8,68.267H17.067l221.867,182.75L463.309,68.779C462.488,68.539,461.649,68.368,460.8,68.267z" />
                     <path d="M249.702,286.31c-6.288,5.149-15.335,5.149-21.623,0L0,98.406v294.127c0,9.426,7.641,17.067,17.067,17.067H460.8
@@ -113,12 +113,12 @@ export async function createProfile(d) {
         document.getElementById(`profile-${data.username}`).appendChild(noPost);
     }
     else {
-           let postIds = data.posts.sort((a, b) => b - a);
-           for (const pId of postIds) {
-               const post = await getPostHistory(pId);
-               createUserPost(post);
-           }
-           setLikeEvent();
+        let postIds = data.posts.sort((a, b) => b - a);
+        for (const pId of postIds) {
+            const post = await getPostHistory(pId);
+            createUserPost(post);
+        }
+        setLikeEvent();
     }
 
     // Generate edit buttons if own profile
@@ -189,9 +189,12 @@ export async function createProfile(d) {
 async function getPostHistory(postId) {
     const apiPost = new API;
     const option = {
-        headers: { "content-type": "application/json", "authorization": `Token ${localStorage.getItem("token")}` },
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
     }
-    const post =  apiPost.get(`post/?id=${postId}`, option);
+    const post = apiPost.get(`post/?id=${postId}`, option);
     return post;
 }
 
@@ -237,7 +240,7 @@ const createUserPost = (post) => {
                 <p>${post.meta.description_text}</p>
                 <div class="stats">
                     <div class="add-comment">
-                    <svg id="Capa_1" enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512"
+                    <svg enable-background="new 0 0 512.193 512.193" height="512" viewBox="0 0 512.193 512.193" width="512"
                         xmlns="http://www.w3.org/2000/svg">
                             <g>
                                 <path d="m403.538 177.757 76.491-76.838-100.466-100.919-76.491 76.838z" />
@@ -251,10 +254,10 @@ const createUserPost = (post) => {
                                 <path d="m237.864 419.821h242.149v30h-242.149z" />
                             </g>
                     </svg>
-                    Add comment
+                    +comment
                     </div>
                     <div class="comments-number">${post.comments.length} 
-                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
                                 c0.449,0,0.874-0.178,1.195-0.499l1.876-1.876C26.708,52.714,33.259,50,40.227,50h1.781c9.925,0,18-8.075,18-18V18
@@ -436,7 +439,7 @@ const removeEditButtons = (postId) => {
 }
 
 const editPostModal = async (postId) => {
-    const data = await getPostHistory(postId).then((data)=> data);
+    const data = await getPostHistory(postId).then((data) => data);
     // console.log(data)
     const template = `
     <div class="modal" id="edit-post-${data.id}">
@@ -445,7 +448,7 @@ const editPostModal = async (postId) => {
             <h1>Edit post</h1>
             <form id="edit-post-form">
                 <label class="modify-text">Edit text
-                    <div><textarea id="post-text" name="edit">${data.meta.description_text}</textarea></div>
+                    <div><textarea id="post-text" name="edit" maxlength="1000">${data.meta.description_text}</textarea></div>
                 </label>
                 <div>
                     <label class="file-upload">Change image
@@ -453,11 +456,10 @@ const editPostModal = async (postId) => {
                     </label>
                 </div>
                 <div>
-                    <label class="check-delete">DELETE
-                        <input type="checkbox" id="delete-${data.id}" value="delete">
-                    </label>
+                    <input type="checkbox" id="delete-${data.id}" name="delete" value="delete" class="check-delete">
+                    <label for="delete" class="check-delete">Delete post</label>
                 </div>
-            <button type="submit" id="submit-post">Submit</button>
+            <button type="submit" id="submit-edit">Submit</button>
             </form>
         </div>
     </div>
@@ -470,4 +472,48 @@ const editPostModal = async (postId) => {
         e.preventDefault();
         editModal.style.display = "none";
     }
+    const deleteCheckbox = editModal.getElementsByClassName("check-delete")[0];
+    let selectDelete = false
+    deleteCheckbox.onchange = (e) => {
+        e.preventDefault();
+        if (deleteCheckbox.checked) {
+            alert("Warning: Can't undo deleting a post");
+            selectDelete = true;
+        }
+        else {
+            selectDelete = false;
+        }
+    }
+    const submitEdit = document.getElementById("submit-edit");
+    submitEdit.onclick = (e) => {
+        e.preventDefault();
+        if (selectDelete) {
+            confirm("Are you 200% sure you want to delete this post?");
+            deletePost(data.id);
+        }
+        else {
+            console.log("CHANGE API")
+        }
+    }
+}
+
+const sendEditPost = () => {
+
+}
+const deletePost = (postId) => {
+    const api = new API;
+    const option = {
+        headers: {
+            "content-type": "application/json",
+            "authorization": `Token ${localStorage.getItem("token")}`
+        },
+    }
+    api.delete(`post/?id=${postId}`, option)
+        .then((ret) => {
+            alert(ret.message);
+        })
+        .then(() => {
+            clearMainContent();
+            createProfile(getProfile(localStorage.getItem("username")));
+        });
 }

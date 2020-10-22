@@ -272,7 +272,7 @@ const displayEachComment = (commentArray, log) => {
 const createCommentBox = (postId, parentElementId, parent) => {
     const commentBoxTemplate = `
     <div class="post-comment" id="post-comment-${postId}">
-        <textarea class="comment-text" placeholder="Say something" maxlength="150"></textarea>
+        <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
         <button type="submit" class="submit-comment" style="display: block;">comment</button>
     </div>
     `;

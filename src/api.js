@@ -45,29 +45,36 @@ export default class API {
             method: "PUT",
         });
     }
-}
 
-export function getFeed(token) {
-    console.log('we in feeeed')
-    console.log(token);
-
-    const options = {
-        headers: { "content-type": "application/json", "authorization": 'Token' + token.token },
-        method: "GET",
-    }
-
-    getJSON("user/feed", options)
-        .then((ret) => {
-            if (ret.message) {
-                alert(ret.message);
-            }
-            else {
-                console.log('feed')
-                console.log(ret);
-                return ret;
-            }
+    delete(path, options) {
+        return getJSON(`${this.url}/${path}`, {
+            ...options,
+            method: "DELETE",
         });
+    }
 }
+
+// export function getFeed(token) {
+//     console.log('we in feeeed')
+//     console.log(token);
+
+//     const options = {
+//         headers: { "content-type": "application/json", "authorization": 'Token' + token.token },
+//         method: "GET",
+//     }
+
+//     getJSON("user/feed", options)
+//         .then((ret) => {
+//             if (ret.message) {
+//                 alert(ret.message);
+//             }
+//             else {
+//                 console.log('feed')
+//                 console.log(ret);
+//                 return ret;
+//             }
+//         });
+// }
 
 
 

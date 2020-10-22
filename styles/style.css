@@ -318,8 +318,6 @@ footer >p {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal Content */
-
 .edit-acc-modal, .edit-post-modal {
     background-color: #fefefe;
     margin: auto;
@@ -327,18 +325,59 @@ footer >p {
     border: 1px solid #888;
     width: 20%;
     min-width: 280px;
-    text-align: center;
     border-radius: 5px;
     box-sizing: border-box;
+    color: black;
 }
 
-.edit-acc-modal>h1 {
+.edit-acc-modal {
+    min-width: 280px;
+    text-align: center;
+}
+
+.edit-acc-modal>h1, .edit-post-modal>h1 {
     display: inline-block;
     font-size: 20px;
     color: black;
 }
 
-/* The Close Button */
+.edit-post-modal textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    margin-bottom: 5px;
+    box-sizing: border-box
+}
+
+.edit-post-modal {
+    min-width: 350px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.edit-post-modal .file-upload {
+    margin: 5px 0;
+    border: 1px solid grey;
+    display: block;
+    padding: 5px;
+}
+
+.check-delete {
+    margin: 10px 0;
+    color: darkred;
+    font-weight: bold;
+}
+
+.check-delete:checked {
+    width: 20px;
+    height: 20px;
+}
+
+#submit-edit {
+    padding: 5px;
+    border: 1px solid grey;
+    background-color: deepskyblue;
+}
 
 .close {
     color: #aaaaaa;
@@ -378,8 +417,9 @@ footer >p {
     border-radius: 5px;
     border: 1px solid black;
 }
+
 .edit-this-post:hover {
-    background-color:  #f38024;
+    background-color: #f38024;
     font-weight: bold;
     cursor: pointer;
 }
@@ -456,7 +496,7 @@ footer >p {
 }
 
 .following-list ul {
-    margin: 5px;
+    margin: 5px 20px;
     column-count: 4;
     padding: 5px;
 }
@@ -705,6 +745,13 @@ footer >p {
     display: inline-block;
 }
 
+.add-comment>svg:hover, .add-comment:hover {
+    fill: #62b37c;
+    color: #62b37c;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .likes-number, .add-comment, .comments-number {
     margin-top: 15px;
     font-size: 14px;
@@ -729,7 +776,7 @@ footer >p {
     animation: bounce 0.8s infinite ease-in-out;
 }
 
-.comments-number:hover, .add-comment:hover, .likes-number:hover {
+.comments-number:hover, .likes-number:hover {
     cursor: pointer;
     font-weight: bold;
 }
