@@ -87,6 +87,18 @@ export async function createProfile(d) {
                 showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
             }
             toggleCommentBox(post);
+            let commentLog = [];
+            displayEachComment(post.comments, commentLog);
+            let showComments = document.getElementById(`comment-display-${post.id}`);
+            for (let el of commentLog) {
+                showComments.appendChild(el);
+            }
+            showComments.style.display = "none";
+            const showCommentsToggle = document.getElementById(`${post.id}-comments-number`);
+            showCommentsToggle.onclick = (e) => {
+                e.preventDefault();
+                showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
+            }
         }
         setLikeEvent();
     }
@@ -232,7 +244,7 @@ const createUserPost = (post) => {
                     </svg>
                     +comment
                     </div>
-                    <div class="comments-number">${post.comments.length} 
+                    <div class="comments-number" id="${post.id}-comments-number">${post.comments.length} 
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
@@ -244,6 +256,7 @@ const createUserPost = (post) => {
                     </div>
                     <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
                 </div>
+                <div class="comment-display" id="comment-display-${post.id}"></div>
                 <div id="${post.id}-comment-input">
                     <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
                     <button type="submit" id="${post.id}-comment-submit" class="submit-comment" style="display: block;">comment</button>
@@ -574,4 +587,31 @@ const deletePost = (postId) => {
             clearMainContent();
             createProfile(getProfile(localStorage.getItem("username")));
         });
+}
+
+const displayEachComment = (commentArray, log) => {
+    sortByTimestamp(commentArray);
+    (commentArray).forEach((comment) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "comment-wrapper";
+        const commenter = document.createElement("h5");
+        const commentContent = document.createElement("p");
+        const commentTime = document.createElement("div");
+        commenter.className = "commenter";
+        commentContent.className = "comment";
+        commentTime.className = "comment-time";
+        commentTime.innerText = getTime(comment.published);
+        commenter.innerText = `${comment.author}: `
+        commentContent.innerText = comment.comment;
+        commenter.onclick = (e) => {
+            e.preventDefault();
+            clearMainContent();
+            createProfile(getProfile(comment.author));
+        }
+        let temp = [commentTime, commenter, commentContent];
+        temp.forEach((el) => {
+            wrapper.appendChild(el);
+            log.push(wrapper);
+        });
+    });
 }

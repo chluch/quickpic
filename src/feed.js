@@ -130,7 +130,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
     // save each comment as div in array
     let commentLog = [];
-    (displayEachComment(comments, commentLog));
+    displayEachComment(comments, commentLog);
 
     // Generate comment input box
     createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
@@ -272,7 +272,7 @@ const postComment = (postId) => {
     api.put(`post/comment?id=${postId}`, option)
         .then((ret) => {
             console.log(ret.message);
-            clearMainContent();
+            // clearMainContent();
             console.log("posted");
             console.log(commentContent);
             commentContent = "";
