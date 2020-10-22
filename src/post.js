@@ -60,4 +60,4 @@ const makePost = (postText, imgUrl) => {
         })
         .catch(err => alert(`${err} Oopsie Woopsie uwu`));
 
-} //TODO: error handling
+} //TODO: check error handling

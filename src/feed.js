@@ -282,3 +282,4 @@ export const postComment = (postId, post) => {
 }
 
 //TODO: clear textarea after comment is sent
+//TODO: inifinite scroll

@@ -626,3 +626,5 @@ const displayEachComment = (commentArray, log) => {
         });
     });
 }
+
+//TODO: fix comment display ht in profile
