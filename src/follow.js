@@ -2,10 +2,6 @@
 import API from "./api.js";
 import { getProfile } from "./profile.js";
 
-function handleFollow() {
-
-}
-
 export function addFollow(username, className) {
     const api = new API;
     const option = {
