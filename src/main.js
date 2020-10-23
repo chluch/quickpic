@@ -23,9 +23,9 @@ document.getElementById("logout-link").onclick = () => {
     wrapper.style.height = "100%";
     document.getElementById("nav").style.display="none";
     const title = document.getElementById("quickpic");
-    title.onmouseover = "";
-    title.onmouseleave = "";
-    title.onclick = "";
-    window.onscroll = "";
+    title.onmouseover = null;
+    title.onmouseleave = null;
+    title.onclick = null;
+    window.onscroll = null;
     loadLoginPage();
 }

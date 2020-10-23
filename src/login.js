@@ -5,7 +5,6 @@ import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
 import { createPostForm } from "./post.js";
 
-// let start = 10;
 const loginPage = {
     load: () => renderHTML(`
     <form id="login" class="login-form">
@@ -88,7 +87,7 @@ const setProfileLink = () => {
     document.getElementById("profile-link").onclick = (e) => {
         e.preventDefault();
         clearMainContent();
-        // window.onscroll = "";
+        window.onscroll = null;
         const ownData = getProfile(localStorage.getItem("username"));
         createProfile(ownData);
     }
@@ -107,13 +106,9 @@ const setFeedLink = () => {
     title.onclick = (e) => {
         e.preventDefault();
         clearMainContent();
-        // console.log(document.getElementById("main").childElementCount)
-        // console.log("clicky!")
-        // window.onscroll = "";
+        window.onscroll = null;
         getFeed(localStorage.getItem("token"), 0, 10);
-        // start = 10;
         setInfiniteScroll(10);
-        // Main Feed Div
     }
 }
 
@@ -131,7 +126,6 @@ const setInfiniteScroll = (start) => {
                         start += 10;
                         console.log('getting more posts');
                         console.log(`next SCROLL: ${start}`);
-                        // window.onscroll='';
                     }
                     else {
                         window.onscroll = '';
@@ -139,7 +133,7 @@ const setInfiniteScroll = (start) => {
                 });
             setTimeout(() => {
                 isScrolled = false;
-            }, 2000);
+            }, 3000);
         }
     }
 }
