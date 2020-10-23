@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortByTimestamp } from "./helpers.js";
+import { parseHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortByTimestamp } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 import { postComment } from "./feed.js"
@@ -64,7 +64,7 @@ export async function createProfile(d) {
             <h3>${data.name}'s Posts (${data.posts.length})</h3>
         </div>
     `
-    renderHTML(profileTemplate, `profile-${data.username}`, "main");
+    parseHTML(profileTemplate, `profile-${data.username}`, "main");
 
     // If no post yet, we print "This user has no post" to profile
     if (data.posts.length === 0) {
@@ -276,7 +276,7 @@ const createUserPost = (post) => {
         </div>
     </div>
     `
-    renderHTML(historyTemplate, `history-${post.id}`, `profile-${post.meta.author}`);
+    parseHTML(historyTemplate, `history-${post.id}`, `profile-${post.meta.author}`);
 }
 
 
@@ -313,7 +313,7 @@ const createLikesList = (likes, post, parentElement) => {
 //         <button type="submit" class="submit-comment" style="display: block;">comment</button>
 //     </div>
 //     `;
-//     renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
+//     parseHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
 // }
 
 async function setFollow(id, username) {
@@ -386,7 +386,7 @@ const editProfileModal = () => {
         </div>
     </div>
     `;
-    renderHTML(template, "account-settings", "main");
+    parseHTML(template, "account-settings", "main");
     const editProfile = document.getElementsByClassName("edit-account")[0];
     const accModal = document.getElementById("account-settings");
     const modalCloseButton = document.getElementsByClassName("close")[0];
@@ -504,7 +504,7 @@ const editPostModal = async (postId) => {
         </div>
     </div>
     `;
-    renderHTML(template, `edit-post-${data.id}`, "main");
+    parseHTML(template, `edit-post-${data.id}`, "main");
     const editModal = document.getElementById(`edit-post-${data.id}`);
     editModal.style.display = "block";
     const modalCloseButton = editModal.getElementsByClassName("close")[0];

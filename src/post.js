@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML, fileToDataUrl } from "./helpers.js";
+import { parseHTML, fileToDataUrl } from "./helpers.js";
 
 // const main = document.getElementById("main");
 export const createPostForm = () => {
@@ -17,7 +17,7 @@ export const createPostForm = () => {
         <button type="submit" id="submit-post">POST</button>
     </form>
     `;
-    renderHTML(postTemplate, "post-form", "main");
+    parseHTML(postTemplate, "post-form", "main");
     const submitButton = document.getElementById("submit-post");
     const resetButton = document.getElementById("clear-post");
     submitButton.onclick = (e) => {

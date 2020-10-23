@@ -32,7 +32,7 @@ export function fileToDataUrl(file) {
 }
 
 // Render HTML code blocks and append to main. Hayden has given the greenlight for DOMParser usage (emailed).
-export function renderHTML(htmlBlock, elementID, parentID, ancestor) {
+export function parseHTML(htmlBlock, elementID, parentID, ancestor) {
     const parser = new DOMParser();
     const newNode = parser.parseFromString(htmlBlock, "text/html");
     const element = newNode.getElementById(elementID);
@@ -44,7 +44,7 @@ export function renderHTML(htmlBlock, elementID, parentID, ancestor) {
     }
 }
 
-// Convert unix time
+// Convert unix time to DD/MM/YY HH:MM
 export const getTime = (unixTime) => {
     const t = new Date(unixTime * 1000);
     const year = `${t.getFullYear()}`;
@@ -52,28 +52,16 @@ export const getTime = (unixTime) => {
     const day = t.getDate();
     const hour = t.getHours();
     const min = `0${t.getMinutes()}`;
-    // const sec = `0${t.getSeconds()}`;
     const time = `${day}/${month}/${year.substr(-2)} ${hour}:${min.substr(-2)}`;
     return time;
 }
 
-export function wrapInDiv(arr) {
-    let elements = [];
-    for (let i = 0; i < arr.length; i++) {
-        let wrapper = document.createElement("div");
-        wrapper.appendChild(arr[i]);
-        elements.push(wrapper);
-    }
-    return elements;
-}
-
+// Clear main
 export const clearMainContent = () => {
     const main = document.getElementById("main");
     while (main.firstChild) {
         main.removeChild(main.lastChild);
     }
-    console.log(main);
-    console.log('cleared');
 }
 
 // Remove empty value from Objects
@@ -87,12 +75,14 @@ export const clearEmptyValue = (obj) => {
     return ret;
 }
 
+// Sort objects by timestamp
 export const sortByTimestamp = (objectArray) => {
     objectArray.sort((a, b) => {
         return b.published - a.published;
     });
 }
 
+// Toggle buttons or links
 export const toggle = (clickable, elementToShow, displayStyle) => {
     clickable.onclick = (e) => {
         e.preventDefault();

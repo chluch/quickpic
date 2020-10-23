@@ -1,9 +1,9 @@
 "use strict";
 import API from "./api.js";
-import { renderHTML } from "./helpers.js";
+import { parseHTML } from "./helpers.js";
 
 const signupPage = {
-    load: () => renderHTML(`
+    load: () => parseHTML(`
     <form class="signup-form" id="signup">
         <h2>Sign up</h2>
         <div><input type="text" placeholder="Name" id="name"></div>

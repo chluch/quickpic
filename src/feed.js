@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { getTime, clearMainContent, renderHTML, sortByTimestamp } from "./helpers.js";
+import { getTime, clearMainContent, parseHTML, sortByTimestamp } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile } from "./profile.js";
 
@@ -270,7 +270,7 @@ const createCommentBox = (postId, parentElementId, parent) => {
         <button type="submit" class="submit-comment" style="display: block;">comment</button>
     </div>
     `;
-    renderHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
+    parseHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
 }
 
 export const postComment = (postId, post) => {

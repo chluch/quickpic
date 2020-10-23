@@ -1,12 +1,12 @@
 "use strict";
 import API from "./api.js";
-import { clearMainContent, renderHTML } from "./helpers.js";
+import { clearMainContent, parseHTML } from "./helpers.js";
 import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
 import { createPostForm } from "./post.js";
 
 const loginPage = {
-    load: () => renderHTML(`
+    load: () => parseHTML(`
     <form id="login" class="login-form">
         <h2>Login</h2>
         <div><input id="username" type="text" placeholder="&#x1F464;Username"></div>
