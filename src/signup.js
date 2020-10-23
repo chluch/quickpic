@@ -6,11 +6,11 @@ const signupPage = {
     load: () => renderHTML(`
     <form class="signup-form" id="signup">
         <h2>Sign up</h2>
-        <div><input type="text" placeholder="Create username" id="user"></div>
-        <div><input type="password" placeholder="Create password" id="pw"></div>
-        <div><input type="password" placeholder="Retype password" id="check-pw"></div>
-        <div><input type="text" placeholder="Email" id="email"></div>
         <div><input type="text" placeholder="Name" id="name"></div>
+        <div><input type="text" placeholder="Username" id="user"></div>
+        <div><input type="text" placeholder="Email" id="email"></div>
+        <div><input type="password" placeholder="Password" id="pw"></div>
+        <div><input type="password" placeholder="Retype password" id="check-pw"></div>
         <div class="button-wrapper">
             <button id="go-to-login">Back</button>
             <button type="submit" id="signup-btn">Submit</button>
