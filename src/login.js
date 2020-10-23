@@ -31,6 +31,12 @@ const loginPage = {
     }
 }
 
+const title = document.getElementById("quickpic")
+const feedLink = document.getElementById("feed-link");
+const search = document.getElementById("search");
+// const searchBox = document.getElementById("search-box");
+// const searchButton = document.getElementById("search-btn");
+
 const doLogin = () => {
     const login = new API;
     const data = {
@@ -59,7 +65,11 @@ const doLogin = () => {
                 signupPage.parentNode.removeChild(signupPage);
                 setPostLink();
                 setProfileLink();
-                setFeedLink();
+                setFeedLink(title);
+                setFeedLink(feedLink);
+                search.style.display="flex";
+                // searchBox.style.display = "block";
+                // searchButton.style.display = "block";
                 getFeed(ret.token, 0, 10);
                 setInfiniteScroll(10);
             }
@@ -94,17 +104,16 @@ const setProfileLink = () => {
     }
 }
 
-const setFeedLink = () => {
-    const title = document.getElementById("quickpic")
-    title.onmouseover = () => {
-        title.style.color = "#62b37c";
-        title.style.cursor = "pointer"
+const setFeedLink = (el) => {
+    el.onmouseover = () => {
+        el.style.color = "#3ca4ff";
+        el.style.cursor = "pointer";
     }
-    title.onmouseout = () => {
-        title.style.color = "inherit";
-        title.style.cursor = "inherit";
+    el.onmouseout = () => {
+        el.style.color = "inherit";
+        el.style.cursor = "inherit";
     }
-    title.onclick = (e) => {
+    el.onclick = (e) => {
         e.preventDefault();
         clearMainContent();
         window.onscroll = null;
@@ -113,12 +122,12 @@ const setFeedLink = () => {
     }
 }
 
-let isScrolled=false;
+let isScrolled = false;
 const setInfiniteScroll = (start) => {
     window.onscroll = () => {
         if (((window.scrollY + window.innerHeight + 50) >= document.body.scrollHeight) && !isScrolled) {
             console.log("bottom.")
-            isScrolled=true;
+            isScrolled = true;
             console.log(`SCROLL from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
                 .then((gotMorePosts) => {
@@ -132,7 +141,7 @@ const setInfiniteScroll = (start) => {
                         window.onscroll = '';
                     }
                 });
-            setTimeout(() => {
+            setTimeout(() => { // Wait for fetch
                 isScrolled = false;
             }, 3000);
         }

@@ -14,7 +14,7 @@ export const createPostForm = () => {
             </label>
         </div>
         <button id="clear-post">Clear</button>
-        <button type="submit" id="submit-post">Submit</button>
+        <button type="submit" id="submit-post">POST</button>
     </form>
     `;
     renderHTML(postTemplate, "post-form", "main");
