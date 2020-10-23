@@ -530,9 +530,11 @@ const editPostModal = async (postId) => {
         if (selectDelete) {
             confirm("Are you 200% sure you want to delete this post?");
             deletePost(data.id);
+            return false;
         }
         else {
             handleEditPost(data);
+            return false;
         }
     }
 }
