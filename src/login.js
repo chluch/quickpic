@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { clearMainContent, parseHTML } from "./helpers.js";
+import { clearMainContent, parseHTML, toggle } from "./helpers.js";
 import { getFeed } from "./feed.js";
 import { getProfile, createProfile } from "./profile.js";
 import { createPostForm } from "./post.js";
@@ -55,6 +55,7 @@ const doLogin = () => {
                 setProfileLink();
                 setFeedLink();
                 banner.style.display = "flex";
+                setDropdownIcons();
                 getFeed(ret.token, 0, 10);
                 setInfiniteScroll(10);
             }
@@ -126,5 +127,38 @@ const setInfiniteScroll = (start) => {
         }
     }
 }
+
+// Set up dropdown icons onclick behaviour
+const setDropdownIcons = () => {
+    const dropdownIcon = document.getElementById("dropdown-icon");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    dropdownMenu.style.display = "none";
+    const searchIcon = document.getElementsByClassName("dropdown-search-icon")[0];
+    const searchLink = document.getElementById("search-link");
+    const dropdownSearchBar = document.getElementsByClassName("dropdown-search-bar")[0];
+    dropdownSearchBar.style.display = "none";
+    dropdownIcon.onclick = (e) => {
+        e.preventDefault();
+        if (dropdownMenu.style.display === "none" || dropdownSearchBar.style.display === "flex") {
+            dropdownSearchBar.style.display = "none";
+            dropdownMenu.style.display = "flex";
+        }
+        else if (dropdownMenu.style.display === "flex") {
+            dropdownMenu.style.display = "none";
+        }
+    }
+    searchIcon.onclick = (e) => {
+        e.preventDefault();
+        if (dropdownSearchBar.style.display === "none" || dropdownMenu.style.display === "flex") {
+            dropdownMenu.style.display = "none";
+            dropdownSearchBar.style.display = "flex";
+        }
+        else if (dropdownSearchBar.style.display === "flex") {
+            dropdownSearchBar.style.display = "none";
+        }
+    }
+    toggle(searchLink, dropdownSearchBar, "flex");
+}
+
 
 export default loginPage;
