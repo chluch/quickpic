@@ -79,6 +79,7 @@ const setPostLink = () => {
     document.getElementById("post-link").onclick = (e) => {
         e.preventDefault();
         clearMainContent();
+        window.onscroll = null;
         createPostForm();
     }
 }
