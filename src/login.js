@@ -12,8 +12,8 @@ const loginPage = {
         <div><input id="username" type="text" placeholder="&#x1F464;Username"></div>
         <div><input id="password" type="password" placeholder="&#x1F512;Password"></div>
         <div class="button-wrapper">
-            <button id="go-to-signup">Signup</button>
             <button type="submit" id="login-btn">Login</button>
+            <button id="go-to-signup">Signup</button>
         </div>
     </form>
     `
@@ -30,12 +30,6 @@ const loginPage = {
         }
     }
 }
-
-const title = document.getElementById("quickpic")
-const feedLink = document.getElementById("feed-link");
-const search = document.getElementById("search");
-// const searchBox = document.getElementById("search-box");
-// const searchButton = document.getElementById("search-btn");
 
 const doLogin = () => {
     const login = new API;
@@ -56,72 +50,57 @@ const doLogin = () => {
                 // Store token in localStorage
                 localStorage.setItem("token", ret.token);
                 localStorage.setItem("username", document.getElementById("username").value);
-                // get Feed with token
-                stickBanner();
-                document.getElementById("nav").style.display = "block";
-                const loginPage = document.getElementById("login");
-                const signupPage = document.getElementById("signup");
-                loginPage.parentNode.removeChild(loginPage);
-                signupPage.parentNode.removeChild(signupPage);
+                clearMainContent();
                 setPostLink();
                 setProfileLink();
-                setFeedLink(title);
-                setFeedLink(feedLink);
-                search.style.display="flex";
-                // searchBox.style.display = "block";
-                // searchButton.style.display = "block";
+                setFeedLink();
+                banner.style.display = "flex";
                 getFeed(ret.token, 0, 10);
                 setInfiniteScroll(10);
             }
         });
 }
 
-// Stick banner on top
-const stickBanner = () => {
-    const banner = document.getElementsByClassName("banner")[0];
-    banner.style.top = 0;
-    banner.style.position = "sticky";
-    const wrapper = document.getElementById("page-wrapper");
-    wrapper.style.height = "auto";
-}
+const banner = document.getElementsByClassName("banner")[0];
 
+// Set up all the links in nav and dropdown
 const setPostLink = () => {
-    document.getElementById("post-link").onclick = (e) => {
-        e.preventDefault();
-        clearMainContent();
-        window.onscroll = null;
-        createPostForm();
+    const elements = ["post-link", "dd-post-link"];
+    for (const el of elements) {
+        document.getElementById(el).onclick = (e) => {
+            e.preventDefault();
+            clearMainContent();
+            window.onscroll = null;
+            createPostForm();
+        }
     }
 }
-
 const setProfileLink = () => {
-    document.getElementById("profile-link").onclick = (e) => {
-        e.preventDefault();
-        clearMainContent();
-        window.onscroll = null;
-        const ownData = getProfile(localStorage.getItem("username"));
-        createProfile(ownData);
+    const elements = ["profile-link", "dd-profile-link"];
+    for (const el of elements) {
+        document.getElementById(el).onclick = (e) => {
+            e.preventDefault();
+            clearMainContent();
+            window.onscroll = null;
+            const ownData = getProfile(localStorage.getItem("username"));
+            createProfile(ownData);
+        }
+    }
+}
+const setFeedLink = () => {
+    const elements = ["quickpic", "feed-link", "dd-feed-link"];
+    for (const el of elements) {
+        document.getElementById(el).onclick = (e) => {
+            e.preventDefault();
+            clearMainContent();
+            window.onscroll = null;
+            getFeed(localStorage.getItem("token"), 0, 10);
+            setInfiniteScroll(10);
+        }
     }
 }
 
-const setFeedLink = (el) => {
-    el.onmouseover = () => {
-        el.style.color = "#3ca4ff";
-        el.style.cursor = "pointer";
-    }
-    el.onmouseout = () => {
-        el.style.color = "inherit";
-        el.style.cursor = "inherit";
-    }
-    el.onclick = (e) => {
-        e.preventDefault();
-        clearMainContent();
-        window.onscroll = null;
-        getFeed(localStorage.getItem("token"), 0, 10);
-        setInfiniteScroll(10);
-    }
-}
-
+// Set up infinite scroll for feed
 let isScrolled = false;
 const setInfiniteScroll = (start) => {
     window.onscroll = () => {

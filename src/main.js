@@ -14,18 +14,26 @@ window.onload = () => {
     loadLoginPage();
 }
 
-document.getElementById("logout-link").onclick = () => {
+const elements = ["logout-link", "dd-logout-link"];
+for (const el of elements) {
+    document.getElementById(el).onclick = (e) => {
+        e.preventDefault();
+        doLogout();
+    }
+}
+
+const doLogout = () => {
     clearMainContent();
     const banner = document.getElementsByClassName("banner")[0];
-    banner.style.top = "auto";
-    banner.style.position = "static";
-    const wrapper = document.getElementById("page-wrapper");
-    wrapper.style.height = "100%";
-    document.getElementById("nav").style.display="none";
-    const title = document.getElementById("quickpic");
-    title.onmouseover = null;
-    title.onmouseleave = null;
-    title.onclick = null;
+    banner.style.display = "none";
     window.onscroll = null;
     loadLoginPage();
+}
+
+const dropdownIcon = document.getElementById("dropdown-icon");
+const dropdownMenu = document.getElementById("dropdown-menu");
+dropdownMenu.style.display = "none";
+dropdownIcon.onclick = (e) => {
+    e.preventDefault();
+    dropdownMenu.style.display === "none" ? dropdownMenu.style.display = "flex" : dropdownMenu.style.display = "none";
 }
