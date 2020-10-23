@@ -477,8 +477,6 @@ a {
 .history-img {
     max-width: 40%;
     max-height: 40%;
-    /* min-width: 65px;
-    min-height: 65px; */
     flex: 1;
     box-sizing: border-box;
     /* border: 1px solid black; */
@@ -493,6 +491,7 @@ a {
 }
 
 .text-content {
+    max-width: 85%;
     margin: 0 10px;
     flex: 2;
     display: flex;
@@ -769,4 +768,22 @@ input[type="file"] {
 
 .submit-comment {
     float: right;
+}
+
+
+@media screen and (max-width: 600px) {
+    .full-profile {
+        width: 100vw;
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    #feed {
+        width: 100vw;
+    }
+    .post {
+        width: 100vw;
+        min-width: 250px;
+    }
 }
