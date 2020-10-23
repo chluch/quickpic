@@ -110,9 +110,9 @@ const setFeedLink = () => {
         // console.log(document.getElementById("main").childElementCount)
         // console.log("clicky!")
         // window.onscroll = "";
-        getFeed(localStorage.getItem("token"), 0, 20);
+        getFeed(localStorage.getItem("token"), 0, 10);
         // start = 10;
-        // setInfiniteScroll(start);
+        setInfiniteScroll(10);
         // Main Feed Div
     }
 }
