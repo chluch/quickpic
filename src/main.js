@@ -17,7 +17,7 @@ window.onload = () => {
 
 const createTitle = () => {
     const title = document.createElement("h1");
-    title.id = "login-quick";
+    title.id = "login-quickpic";
     title.innerText = "Quickpic";
     document.getElementById("main").appendChild(title);
 }
