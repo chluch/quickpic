@@ -92,3 +92,10 @@ export const sortByTimestamp = (objectArray) => {
         return b.published - a.published;
     });
 }
+
+export const toggle = (clickable, elementToShow, displayStyle) => {
+    clickable.onclick = (e) => {
+        e.preventDefault();
+        elementToShow.style.display === "none" ? elementToShow.style.display = displayStyle : elementToShow.style.display = "none";
+    }
+}
