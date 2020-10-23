@@ -14,7 +14,7 @@ a {
 }
 
 button:hover {
-    cursor: pointer;;
+    cursor: pointer;
 }
 
 #search {
@@ -43,23 +43,12 @@ button:hover {
     font-size: 16px;
 }
 
-@keyframes swipe {
-    0%, 50%, 100% {
-        transform: translateX(0);
-    }
-    25% {
-        transform: translateX(3px);
-    }
-    75% {
-        transform: translateX(3px);
-    }
-}
 #search-arrow {
     display: inline-block;
 }
 #search-btn:hover span {
     cursor: pointer;
-    color: black;
+    color: #000000;
     animation: swipe 0.5s infinite;
 }
 
@@ -86,8 +75,6 @@ button:hover {
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    /* padding: 0px;
-    margin: 0; */
     background-color: #2c2c2c;
     min-height: 40px;
     border-bottom: 1px solid #404345;
@@ -98,7 +85,7 @@ button:hover {
     font-size: 40px;
 }
 
-.banner>*, footer>* {
+.banner>* {
     margin: 10px 25px;
     /* font-family: 'Gochi Hand', 'Arial', sans-serif; */
 }
@@ -107,23 +94,42 @@ button:hover {
     list-style-type: none;
     padding: 0;
     display: none;
-    font-size: 20px;
+    font-size: 14px;
     letter-spacing: 1px;
-    margin: 0 5px;
+    margin: 0 8px;
+    padding-right: 20px;
 }
 
 .nav-item {
     display: inline-block;
     list-style-type: none;
+    background-color: #3ca4fe;
+    border: 2px solid #3ca4fe;
+    padding: 2px 12px;
+    border-radius: 100px;
+    margin: 0 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: inherit;
+}
+
+#logout-link {
+    background-color: #2c2c2c;
+    color: #3ca4fe;
 }
 
 .nav-item:hover {
     cursor: pointer;
-    color: #3ca4fe;
+    color: #000000;
+    background-color: #f38024;
+    border-color: #f38024;
+    animation: wobble 0.5s forwards ease-in-out;
 }
 
 #logout-link:hover {
-    color: #f38024;
+    background-color: #000000;
+    border-color: #3ca4fe;
+    animation: none;
 }
 
 .button-wrapper {
@@ -196,7 +202,7 @@ button:hover {
     background-color: #3ca4fe;
     color: #ffffff;
     text-transform: uppercase;
-    border-radius: 5px;
+    border-radius: 100px;
     border: none;
     margin: 0 10px;
     padding: 8px 15px;
@@ -244,7 +250,7 @@ button:hover {
     margin: 0 1px;
     border: 1px solid #838d94;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 100px;
 }
 
 .edit-options>button:hover {
@@ -327,6 +333,7 @@ button:hover {
     padding: 5px;
     border: 1px solid grey;
     background-color: deepskyblue;
+    border-radius: 100%;
 }
 
 .close {
@@ -363,7 +370,7 @@ button:hover {
     width: 35px;
     margin: 3px -7px 3px auto;
     padding: 3px;
-    border-radius: 5px;
+    border-radius: 100px;
     border: 1px solid black;
 }
 
@@ -380,7 +387,7 @@ button:hover {
 #submit-acc-edit {
     margin: 20px 10px 10px 10px;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 100px;
 }
 
 .timestamp {
@@ -493,7 +500,7 @@ button:hover {
     color: white;
     background-color: #378ad3;
     border: 1px solid white;
-    border-radius: 3px;
+    border-radius: 100px;
 }
 
 .following:hover {
@@ -516,7 +523,6 @@ button:hover {
     flex-direction: row;
     margin: 10px 0;
     box-sizing: border-box;
-    /* border-radius: 5px; */
 }
 
 .history-img {
@@ -524,7 +530,6 @@ button:hover {
     max-height: 40%;
     flex: 1;
     box-sizing: border-box;
-    /* border: 1px solid black; */
     margin: auto 0;
 }
 
@@ -748,21 +753,6 @@ button:hover {
     animation: bounce 0.8s infinite ease-in-out;
 }
 
-@keyframes bounce {
-    0%, 12.5%, 82.5% {
-        transform: translateY(0);
-    }
-    25% {
-        transform: translateY(-5px);
-    }
-    75% {
-        transform: translateY(-5px);
-    }
-    100% {
-        transform: translateY(-5px);
-    }
-}
-
 .post .timestamp {
     margin: 5px 10px 2px 5px;
     font-size: 12px;
@@ -793,7 +783,7 @@ button:hover {
     padding: 5px 15px;
     border: 3px solid #3ca4ff;
     color: white;
-    border-radius: 5px;
+    border-radius: 100px;
     font-size: 14px;
 }
 
@@ -862,5 +852,44 @@ input[type="file"] {
         min-width: 250px;
         margin: 0;
         box-shadow: none;
+    }
+}
+
+@keyframes swipe {
+    0%, 50%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(3px);
+    }
+    75% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes bounce {
+    0%, 12.5%, 82.5% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes wobble {
+    0%, 50%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    75% {
+        transform: scale(1.05);
     }
 }
