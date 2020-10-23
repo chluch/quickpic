@@ -61,8 +61,8 @@ const doLogin = () => {
                 setPostLink();
                 setProfileLink();
                 setFeedLink();
-                getFeed(ret.token, 0, 20);
-                // setInfiniteScroll();
+                getFeed(ret.token, 0, 10);
+                setInfiniteScroll(10);
             }
         });
 }
@@ -112,30 +112,36 @@ const setFeedLink = () => {
         // window.onscroll = "";
         getFeed(localStorage.getItem("token"), 0, 20);
         // start = 10;
-        // setInfiniteScroll();
+        // setInfiniteScroll(start);
         // Main Feed Div
     }
 }
 
-
-// const setInfiniteScroll = () => {
-//     window.onscroll = () => {
-//         if ((window.scrollY + window.innerHeight + 100) >= document.body.scrollHeight) {
-//             console.log(`SCROLL from: ${start}`);
-//             getFeed(localStorage.getItem("token"), start, 10)
-//                 .then((gotMorePosts) => {
-//                     const loadMore = gotMorePosts;
-//                     if (loadMore) {
-//                         start += 10;
-//                         console.log('getting more posts');
-//                         console.log(`next SCROLL: ${start}`);
-//                     }
-//                     else {
-//                         window.onscroll = '';
-//                     }
-//                 });
-//         }
-//     }
-// }
+let isScrolled=false;
+const setInfiniteScroll = (start) => {
+    window.onscroll = () => {
+        if (((window.scrollY + window.innerHeight + 50) >= document.body.scrollHeight) && !isScrolled) {
+            console.log("bottom.")
+            isScrolled=true;
+            console.log(`SCROLL from: ${start}`);
+            getFeed(localStorage.getItem("token"), start, 10)
+                .then((gotMorePosts) => {
+                    const loadMore = gotMorePosts;
+                    if (loadMore) {
+                        start += 10;
+                        console.log('getting more posts');
+                        console.log(`next SCROLL: ${start}`);
+                        // window.onscroll='';
+                    }
+                    else {
+                        window.onscroll = '';
+                    }
+                });
+            setTimeout(() => {
+                isScrolled = false;
+            }, 2000);
+        }
+    }
+}
 
 export default loginPage;

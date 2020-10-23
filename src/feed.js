@@ -51,7 +51,7 @@ export async function getFeed(token, startPage, pageNum) {
             );
 
         })
-        // console.log("getFeed -> return TRUE")
+        console.log("getFeed -> return TRUE")
         gotMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
@@ -191,29 +191,49 @@ const createLikesList = (likes, parentElement) => {
                 user.innerText = data.username;
                 likeList.appendChild(user);
             })
-            .then(()=> {
+            .then(() => {
                 parent.appendChild(likeList);
             })
             .catch(err => console.log(err));
     }
 }
 
+
+// let idsSeen = [];
+// let count = 0;
 const setLikeEvent = () => {
-    let idsSeen = [];
     let hearts = document.querySelectorAll(".heart"); // array
-    // console.log(`heartslength: ${hearts.length}`);
+    console.log(`heartslength: ${hearts.length}`);
+    // count = count + 1;
     // console.log(hearts);
-    hearts.forEach(heart => {
-        heart.onclick = "";
+    for (let heart of hearts) {
+        // heart.onclick = null;
         let postId = heart.closest(".post").id.replace(/\D+/, "");
-        // console.log(idsSeen)
-        if (!idsSeen.includes(postId)) {
-            heart.addEventListener("click", () => {
+        // if (!idsSeen.includes(postId)) {
+            heart.onclick = () => {
                 handleLike(postId, `likes-num-${postId}`);
-            })
-            idsSeen.push(postId);
+            // }
+            // idsSeen.push(postId);
         }
-    })
+    }
+    // hearts.forEach((heart) => {
+    // heart.onclick = "";
+    // if (count > 1) {
+    //     console.log("remove eventlistener")
+    //     let newHeart = heart.cloneNode(true);
+    //     heart.parentNode.replaceChild(newHeart, heart);
+    // }
+    // console.log(heart)
+    // console.log(heart.parentNode)
+    // let postId = heart.closest(".post").id.replace(/\D+/, "");
+    // console.log(`count: ${count} - posts seen: ${idsSeen}`);
+    // if (!idsSeen.includes(postId)) {
+    //     heart.addEventListener("click", () => {
+    //         handleLike(postId, `likes-num-${postId}`);
+    //     })
+    //     idsSeen.push(postId);
+    // }
+    // });
 }
 
 const displayEachComment = (commentArray, log) => {

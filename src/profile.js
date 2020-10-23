@@ -462,7 +462,7 @@ const createEditButtons = () => {
         edit.innerText = "edit";
         parent.insertBefore(edit, parent.firstChild);
         edit.onclick = (e) => {
-            console.log(postId)
+            // console.log(postId)
             e.preventDefault();
             editPostModal(postId);
         }
