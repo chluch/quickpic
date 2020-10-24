@@ -2,7 +2,7 @@
 import API from "./api.js";
 
 export async function handleLike(postId, elementId) {
-    console.log(`This is post number: ${elementId}`)
+    // console.log(`This is post number: ${elementId}`);
     const getUser = new API;
     const getPost = new API;
     const option = {
@@ -27,7 +27,7 @@ const addLike = (postId, elementId) => {
     }
     like.put(`post/like?id=${postId}`, token)
         .then(() => {
-            console.log('addlike')
+            // console.log('addlike');
             updateLike(postId, elementId);
         });
 }
@@ -42,13 +42,13 @@ const removeLike = (postId, elementId) => {
     }
     unlike.put(`post/unlike?id=${postId}`, token)
         .then(() => {
-            console.log('remove like')
+            // console.log('remove like');
             updateLike(postId, elementId);
         });
 }
 
 const updateLike = (postId, elementId) => {
-    console.log('updating')
+    // console.log('updating');
     const setLike = new API;
     const token = {
         headers: {
