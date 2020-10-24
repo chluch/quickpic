@@ -119,12 +119,14 @@ const setDropdownIcons = () => {
     toggle(searchLink, dropdownSearchBar, "flex");
 }
 
+//TODO: bug fix (goes to own profile when no input)
 const setSearch = () => {
-    document.getElementById("dd-search-box").value = "";
+  
     const searchButton = document.getElementById("dd-search-btn");
     searchButton.onclick = (e) => {
         e.preventDefault();
         const userToSearch = document.getElementById("dd-search-box").value;
+        
         clearMainContent();
         window.onscroll = null;
         const user = getProfile(userToSearch);
