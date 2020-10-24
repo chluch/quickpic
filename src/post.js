@@ -1,6 +1,7 @@
 "use strict";
 import API from "./api.js";
-import { parseHTML, fileToDataUrl } from "./helpers.js";
+import { parseHTML, fileToDataUrl, clearMainContent } from "./helpers.js";
+import { getProfile, createProfile } from "./profile.js";
 
 export const createPostForm = () => {
     const postTemplate = `
@@ -55,5 +56,7 @@ const makePost = (postText, imgUrl) => {
     api.post("post", option)
         .then(() => {
             alert("Posted successfully!");
+            clearMainContent();
+            createProfile(getProfile(localStorage.getItem("username")));
         })
 }
