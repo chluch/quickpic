@@ -622,8 +622,8 @@ button:hover {
 
 .following-list li:hover {
     cursor: pointer;
-    font-weight: bold;
-    color: #D1E9FF;
+    font-weight: bolder;
+    color: #80D4FF;
 }
 
 .follow-info {
@@ -673,7 +673,7 @@ button:hover {
 .following:hover {
     cursor: pointer;
     font-weight: bold;
-    color: #D1E9FF;
+    color: #80D4FF;
 }
 
 .user-history .likes-display {
