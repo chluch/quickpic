@@ -1,6 +1,14 @@
 "use strict";
 import API from "./api.js";
-import { parseHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortCommentsByTimestamp} from "./helpers.js";
+import {
+    parseHTML,
+    getTime,
+    clearEmptyValue,
+    clearMainContent,
+    fileToDataUrl,
+    sortCommentsByTimestamp,
+    toggle
+} from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 import { postComment } from "./feed.js"
@@ -80,16 +88,11 @@ export async function createProfile(d) {
         for (const pId of postIds) {
             const post = await getPost(pId);
             createUserPost(post);
-            // const postDiv = document.getElementsByClassName("user-history");
-            // console.log(document.getElementsByClassName("likes-display")[0])
             createLikesList(post.meta.likes, post);
             const showLikes = document.getElementById(`likes-display-${post.id}`);
             showLikes.style.display = "none";
             let displayLikesToggle = document.getElementById(`profile-likes-${post.id}`);
-            displayLikesToggle.onclick = (e) => {
-                e.preventDefault();
-                showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
-            }
+            toggle(displayLikesToggle, showLikes, "block");
             document.getElementById(`${post.id}-comment-submit`).onclick = (e) => {
                 e.preventDefault();
                 postComment(post.id, document.getElementById(`history-${post.id}`));
@@ -109,10 +112,7 @@ export async function createProfile(d) {
             }
             showComments.style.display = "none";
             const showCommentsToggle = document.getElementById(`${post.id}-comments-number`);
-            showCommentsToggle.onclick = (e) => {
-                e.preventDefault();
-                showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
-            }
+            toggle(showCommentsToggle, showComments, "block");
         }
         setLikeEvent();
     }
@@ -184,10 +184,7 @@ const toggleCommentBox = (post) => {
     let commentBox = document.getElementById(`${post.id}-comment-input`);
     commentBox.style.display = "none";
     let addCommentToggle = document.getElementById(`add-comment-${post.id}`);
-    addCommentToggle.onclick = (e) => {
-        e.preventDefault();
-        commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
-    }
+    toggle(addCommentToggle, commentBox, "block");
 }
 
 // Get data for user's posts
@@ -214,7 +211,6 @@ async function createFollowingList(data) {
     let list = document.createElement("ul");
     list.classname = "users-followed";
     for (const id of followingList) {
-        // console.log(id)
         const data = await getProfileById(id);
         const username = data.username;
         let user = document.createElement("li");
@@ -307,16 +303,6 @@ const createLikesList = (likes, post, parentElement) => {
             .catch(err => console.log(err));
     }
 }
-
-// const createCommentBox = (postId, parentElementId, parent) => {
-//     const commentBoxTemplate = `
-//     <div class="post-comment" id="post-comment-${postId}">
-//         <textarea class="comment-text" placeholder="Say something" maxlength="200"></textarea>
-//         <button type="submit" class="submit-comment" style="display: block;">comment</button>
-//     </div>
-//     `;
-//     parseHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
-// }
 
 async function setFollow(id, username) {
     const ownUsername = localStorage.getItem("username");
@@ -452,10 +438,7 @@ const updateProfile = (data) => {
 
 const createEditButtons = () => {
     const allPosts = document.getElementsByClassName("user-history");
-    // console.log(allPosts)
-    // console.log(allPosts.length)
     for (const post of allPosts) {
-        // console.log(`where is id? ${post.id}`);
         const postId = post.id.replace(/history-/, "");
         const parent = post.getElementsByClassName("text-content")[0];
         const edit = document.createElement("button");
@@ -463,7 +446,6 @@ const createEditButtons = () => {
         edit.innerText = "edit";
         parent.insertBefore(edit, parent.firstChild);
         edit.onclick = (e) => {
-            // console.log(postId)
             e.preventDefault();
             editPostModal(postId);
         }
@@ -481,7 +463,6 @@ const removeEditButtons = (postId) => {
 
 const editPostModal = async (postId) => {
     const data = await getPost(postId).then((data) => data);
-    // console.log(data)
     const template = `
     <div class="modal" id="edit-post-${data.id}">
         <div class="edit-post-modal">
