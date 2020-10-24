@@ -41,10 +41,12 @@ const doLogin = () => {
     }
     login.post("auth/login", sendLoginOptions)
         .then((ret) => {
+            if (ret) {
             // Store token in localStorage
             localStorage.setItem("token", ret.token);
             localStorage.setItem("username", document.getElementById("username").value);
             initialisePage(ret.token);
+            }
         });
 }
 

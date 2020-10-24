@@ -120,6 +120,7 @@ const setDropdownIcons = () => {
 }
 
 const setSearch = () => {
+    document.getElementById("dd-search-box").value = "";
     const searchButton = document.getElementById("dd-search-btn");
     searchButton.onclick = (e) => {
         e.preventDefault();
@@ -127,7 +128,6 @@ const setSearch = () => {
         clearMainContent();
         window.onscroll = null;
         const user = getProfile(userToSearch);
-        console.log(user)
         createProfile(user);
     }
 }

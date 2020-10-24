@@ -14,7 +14,7 @@ export const getJSON = (path, options) =>
         .catch(err => {
             console.warn(`API_ERROR: ${err.message||err.msg}`);
             alert(`${err.message||err.msg}`);
-            return Promise.reject(err);
+            // return Promise.reject(err);
         });
 /**
  * This is a sample class API which you may base your code on.

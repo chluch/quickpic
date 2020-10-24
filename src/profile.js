@@ -32,6 +32,9 @@ export const getProfileById = async (id) => {
 // Main Profile
 export async function createProfile(d) {
     const data = await d;
+    if (!data) {
+        return;
+    }
     const profileTemplate = `
         <div class="full-profile" id="profile-${data.username}">
             <div class="profile-heading">
