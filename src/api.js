@@ -4,10 +4,18 @@ const API_URL = 'http://localhost:5000'
 export const getJSON = (path, options) =>
     fetch(`${path}`, options)
         .then(res => {
-            return res.json()
+            if (!res.ok) {
+                return res.json().then(err => {
+                    throw err;
+                })
+            }
+            return res.json();
         })
-        .catch(err => console.warn(`API_ERROR: ${err.message}`));
-
+        .catch(err => {
+            console.warn(`API_ERROR: ${err.message||err.msg}`);
+            alert(`${err.message||err.msg}`);
+            return Promise.reject(err);
+        });
 /**
  * This is a sample class API which you may base your code on.
  * You don't have to do this as a class.
