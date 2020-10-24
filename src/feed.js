@@ -45,7 +45,7 @@ export async function getFeed(token, startPage, pageNum) {
             return gotMorePosts;
         }
         sortPostsByTimestamp((data[post]));
-        console.log(data[post]);
+        // console.log(data[post]);
         data[post].forEach((p) => {
             createPost(
                 p.id,

@@ -65,16 +65,16 @@ let isScrolled = false;
 export const setInfiniteScroll = (start) => {
     window.onscroll = () => {
         if (((window.scrollY + window.innerHeight + 50) >= document.body.scrollHeight) && !isScrolled) {
-            console.log("bottom.")
+            // console.log("bottom.")
             isScrolled = true;
-            console.log(`SCROLL from: ${start}`);
+            // console.log(`SCROLL from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
                 .then((gotMorePosts) => {
                     const loadMore = gotMorePosts;
                     if (loadMore) {
                         start += 10;
-                        console.log('getting more posts');
-                        console.log(`next SCROLL: ${start}`);
+                        // console.log('getting more posts');
+                        // console.log(`next SCROLL: ${start}`);
                     }
                     else {
                         window.onscroll = '';
