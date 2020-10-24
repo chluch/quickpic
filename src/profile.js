@@ -380,7 +380,7 @@ const editProfileModal = () => {
                 <div><input type="password" placeholder="Retype new password" id="check-new-password"></div>
                 <div><input type="text" placeholder="Change email" id="new-email"></div>
                 <div><input type="text" placeholder="Change name" id="new-name"></div>
-                <button type="submit" id="submit-acc-edit">Submit</button>
+                <button type="submit" id="submit-acc-edit">done</button>
             </form>
         </div>
     </div>
@@ -497,7 +497,7 @@ const editPostModal = async (postId) => {
                     <input type="checkbox" id="delete-${data.id}" name="delete" value="delete" class="check-delete">
                     <label for="delete" class="check-delete">Delete post</label>
                 </div>
-            <button type="submit" id="submit-edit">Submit</button>
+            <button type="submit" id="submit-edit">Done</button>
             </form>
         </div>
     </div>
