@@ -97,7 +97,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                             </svg>
                             <a>Add comment...</a>
                             </div>
-                            <div class="comments-number"><a title="comments">${comments.length}</a> 
+                            <div class="comments-number"><a title="comments" tabindex="0" role="link">${comments.length}</a> 
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve" title="see comments">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
@@ -107,7 +107,10 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                                 S45.213,29,43.008,29z" />
                                 </svg>
                             </div>
-                            <div class="likes-number"><a title="show likes" id="likes-num-${postId}">${likes.length}</a></div><div class="heart">&#x2764;</div>
+                            <div class="likes-number">
+                                <a title="show likes" id="likes-num-${postId}" tabindex="0" role="link">${likes.length}</a>
+                            </div>
+                            <button class="heart" role="button">&#x2764;</button>
                         </div>
                     <div class="comment-display" id="comment-display-${postId}"></div>
                 </div>

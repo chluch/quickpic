@@ -16,14 +16,14 @@
     <div id="page-wrapper">
         <header class="banner">
             <h1 id="quickpic">Quickpic</h1>
-            <ul class="nav" id="nav">
+            <ul class="nav" id="nav" role="navigation">
                 <li class="nav-item" id="search-link"><a href="#search">Search</a></li>
                 <li class="nav-item" id="feed-link"><a href="#feed">Feed</a></li>
                 <li class="nav-item" id="post-link"><a href="#post">Post</a></li>
                 <li class="nav-item" id="profile-link"><a href="#profile">Profile</a></li>
                 <li class="nav-item" id="logout-link"><a href="#logout">Logout</a></li>
             </ul>
-            <button class="dropdown-search-icon">
+            <button class="dropdown-search-icon" role="button">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                     y="0px" width="310.42px" height="310.42px" viewBox="0 0 310.42 310.42" xml:space="preserve">
                     <path d="M273.587,214.965c49.11-49.111,49.109-129.021,0-178.132c-49.111-49.111-129.02-49.111-178.13,0
@@ -37,9 +37,9 @@
                         c-28.354-11.998-61.186,1.309-73.183,29.663C136.629,115.445,131.815,118.424,126.75,118.424z" />
                 </svg>
             </button>
-            <div class="dropdown-search-bar">
-                <input class="search-box" id="dd-search-box" type="text" placeholder="Search username" />
-                <button class="search-btn" id="dd-search-btn">
+            <div class="dropdown-search-bar" role="search">
+                <input class="search-box" id="dd-search-box" type="text" placeholder="Search username" role="search"/>
+                <button class="search-btn" id="dd-search-btn" value="search">
                     <span class="search-arrow">&#x27A4;</span>
                 </button>
             </div>
@@ -47,7 +47,7 @@
                 <button class="hamburger" id="dropdown-icon">
                     |||
                 </button>
-                <ul class="dropdown-menu" id="dropdown-menu">
+                <ul class="dropdown-menu" id="dropdown-menu" role="navigation">
                     <li class="dropdown-item" id="dd-feed-link"><a href="#feed">Feed</a></li>
                     <li class="dropdown-item" id="dd-post-link"><a href="#post">Post</a></li>
                     <li class="dropdown-item" id="dd-profile-link"><a href="#profile">Profile</a></li>
