@@ -45,6 +45,7 @@ export async function getFeed(token, startPage, pageNum) {
             return gotMorePosts;
         }
         sortPostsByTimestamp((data[post]));
+        console.log(data[post]);
         data[post].forEach((p) => {
             createPost(
                 p.id,
@@ -141,7 +142,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     displayEachComment(comments, commentLog);
 
     // Generate comment input box
-    createCommentBox(postId, `post-${postId}`, newNode); ////// <<<<<!~~~~~
+    createCommentBox(postId, `post-${postId}`, newNode);
 
     // Make div for showing ALL comments for EACH post
     let displayAllComments = newNode.getElementsByClassName("comment-display")[0];
@@ -265,9 +266,8 @@ export const postComment = (postId, post) => {
     }
     api.put(`post/comment?id=${postId}`, option)
         .then((ret) => {
-            console.log(ret.message);
-            console.log("posted");
-            console.log(commentContent);
+            window.onscroll = null;
+            alert(ret.message);
             clearMainContent();
             initialiseFeedOnly();
         })

@@ -13,12 +13,12 @@ export const initialisePage = (token) => {
     setDropdownIcons();
     setSearch();
     getFeed(token, 0, 10);
-    setInfiniteScroll(10);
+    setInfiniteScroll(0);
 }
 
 export const initialiseFeedOnly = () => {
-    getFeed(localStorage.getItem("token"), 0, 10);
-    setInfiniteScroll(10);
+    getFeed(localStorage.getItem("token"));
+    setInfiniteScroll(0);
 }
 
 const banner = document.getElementsByClassName("banner")[0];
@@ -55,7 +55,7 @@ const setFeedLink = () => {
             clearMainContent();
             window.onscroll = null;
             getFeed(localStorage.getItem("token"), 0, 10);
-            setInfiniteScroll(10);
+            setInfiniteScroll(0);
         }
     }
 }
