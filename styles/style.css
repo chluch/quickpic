@@ -47,7 +47,7 @@ button:hover {
     border-top-right-radius: 100px;
     border-bottom-right-radius: 100px;
     border: none;
-    background: #000000;
+    background: #0074E2;
     color: white;
     font-size: 16px;
 }
@@ -74,10 +74,6 @@ button:hover {
     border: 3px solid #000000;
     border-radius: 100px;
     width: auto;
-}
-
-.dropdown-search-bar:hover {
-    border-color: #000000;
 }
 
 .dropdown-search-icon {
@@ -933,7 +929,7 @@ button:hover {
 
 #post-form {
     margin: 10px auto;
-    border: 1px solid #7aa7c6;
+    border: 1px solid #0074E2;
     box-sizing: border-box;
     border-radius: 5px;
     background: linear-gradient(145deg, #282828, #2f2f2f);
