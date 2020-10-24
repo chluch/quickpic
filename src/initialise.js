@@ -16,7 +16,8 @@ export const initialisePage = (token) => {
     setInfiniteScroll(0);
 }
 
-export const initialiseFeedOnly = () => {
+export const initialiseFeedOnly = (e) => {
+    e.preventDefault();
     getFeed(localStorage.getItem("token"));
     setInfiniteScroll(0);
 }
