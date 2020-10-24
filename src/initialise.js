@@ -16,6 +16,11 @@ export const initialisePage = (token) => {
     setInfiniteScroll(10);
 }
 
+export const initialiseFeedOnly = () => {
+    getFeed(localStorage.getItem("token"), 0, 10);
+    setInfiniteScroll(10);
+}
+
 const banner = document.getElementsByClassName("banner")[0];
 
 // Set up all the links in nav and dropdown
@@ -57,7 +62,7 @@ const setFeedLink = () => {
 
 // Set up infinite scroll for feed
 let isScrolled = false;
-const setInfiniteScroll = (start) => {
+export const setInfiniteScroll = (start) => {
     window.onscroll = () => {
         if (((window.scrollY + window.innerHeight + 50) >= document.body.scrollHeight) && !isScrolled) {
             console.log("bottom.")

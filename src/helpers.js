@@ -75,11 +75,18 @@ export const clearEmptyValue = (obj) => {
     return ret;
 }
 
-// Sort objects by timestamp
-export const sortByTimestamp = (objectArray) => {
+// Sort objects by timestamp (comments)
+export const sortCommentsByTimestamp = (objectArray) => {
     objectArray.sort((a, b) => {
         return b.published - a.published;
     });
+}
+
+// Sort objects by timestamp (posts)
+export const sortPostsByTimestamp = (objectArray) => {
+    objectArray.sort((a, b) => {
+        return b.meta.published - a.meta.published
+    })
 }
 
 // Toggle buttons or links

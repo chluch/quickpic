@@ -1,6 +1,6 @@
 "use strict";
 import API from "./api.js";
-import { parseHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortByTimestamp } from "./helpers.js";
+import { parseHTML, getTime, clearEmptyValue, clearMainContent, fileToDataUrl, sortCommentsByTimestamp} from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
 import { postComment } from "./feed.js"
@@ -75,7 +75,7 @@ export async function createProfile(d) {
     else {
         let postIds = data.posts.sort((a, b) => b - a);
         for (const pId of postIds) {
-            const post = await getPostHistory(pId);
+            const post = await getPost(pId);
             createUserPost(post);
             // const postDiv = document.getElementsByClassName("user-history");
             // console.log(document.getElementsByClassName("likes-display")[0])
@@ -181,7 +181,6 @@ const toggleCommentBox = (post) => {
     let commentBox = document.getElementById(`${post.id}-comment-input`);
     commentBox.style.display = "none";
     let addCommentToggle = document.getElementById(`add-comment-${post.id}`);
-    console.log(addCommentToggle)
     addCommentToggle.onclick = (e) => {
         e.preventDefault();
         commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
@@ -190,7 +189,7 @@ const toggleCommentBox = (post) => {
 
 // Get data for user's posts
 // Input type: array of post IDs
-async function getPostHistory(postId) {
+export async function getPost(postId) {
     const apiPost = new API;
     const option = {
         headers: {
@@ -447,7 +446,6 @@ const updateProfile = (data) => {
             createProfile(getProfile(localStorage.getItem("username")));
         });
 }
-//TODO: error handling in general - maybe need to save error code too?
 
 const createEditButtons = () => {
     const allPosts = document.getElementsByClassName("user-history");
@@ -479,7 +477,7 @@ const removeEditButtons = (postId) => {
 }
 
 const editPostModal = async (postId) => {
-    const data = await getPostHistory(postId).then((data) => data);
+    const data = await getPost(postId).then((data) => data);
     // console.log(data)
     const template = `
     <div class="modal" id="edit-post-${data.id}">
@@ -603,7 +601,7 @@ const deletePost = (postId) => {
 }
 
 const displayEachComment = (commentArray, log) => {
-    sortByTimestamp(commentArray);
+    sortCommentsByTimestamp(commentArray);
     (commentArray).forEach((comment) => {
         const wrapper = document.createElement("div");
         wrapper.className = "comment-wrapper";
@@ -628,5 +626,3 @@ const displayEachComment = (commentArray, log) => {
         });
     });
 }
-
-//TODO: fix comment display ht in profile

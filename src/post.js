@@ -2,7 +2,6 @@
 import API from "./api.js";
 import { parseHTML, fileToDataUrl } from "./helpers.js";
 
-// const main = document.getElementById("main");
 export const createPostForm = () => {
     const postTemplate = `
     <form id="post-form">
@@ -31,7 +30,6 @@ export const createPostForm = () => {
         fileToDataUrl(file)
             .then((url) => {
                 let imgUrl = url.replace(/data\:(image\/jpeg|image\/png|image\/jpg)\;base64\,/, "");
-                // console.log(imgUrl);
                 makePost(postText, imgUrl);
             })
     }
@@ -58,6 +56,4 @@ const makePost = (postText, imgUrl) => {
         .then(() => {
             alert("Posted successfully!");
         })
-        .catch(err => alert(`${err} Oopsie Woopsie uwu`));
-
-} //TODO: check error handling
+}

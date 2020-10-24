@@ -1,11 +1,18 @@
 "use strict";
 import API from "./api.js";
-import { getTime, clearMainContent, parseHTML, sortByTimestamp } from "./helpers.js";
+import {
+    getTime,
+    clearMainContent,
+    parseHTML,
+    sortCommentsByTimestamp,
+    toggle,
+    sortPostsByTimestamp
+} from "./helpers.js";
+import { initialiseFeedOnly } from "./initialise.js";
 import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
-    // console.log(`getfeed start: ${startPage}, ${pageNum}`)
     let gotMorePosts = false;
     if (!startPage) {
         startPage = 0;
@@ -13,7 +20,6 @@ export async function getFeed(token, startPage, pageNum) {
     if (!pageNum) {
         pageNum = 10;
     }
-    // console.log(`getfeed after: ${startPage}, ${pageNum}`)
     const api = new API;
     const option = {
         headers: {
@@ -31,13 +37,14 @@ export async function getFeed(token, startPage, pageNum) {
     }
 
     Object.keys(data).forEach((post) => {
-        // console.log(`feed length: ${data[post].length}`)
+        // console.log(data[post])
         if (data[post].length === 0) {
-            console.log('Oops no posts here');
+            // console.log('No more posts to fetch');
             gotMorePosts = false;
-            console.log("getFeed -> return FALSE")
+            // console.log("getFeed -> return FALSE");
             return gotMorePosts;
         }
+        sortPostsByTimestamp((data[post]));
         data[post].forEach((p) => {
             createPost(
                 p.id,
@@ -51,7 +58,8 @@ export async function getFeed(token, startPage, pageNum) {
             );
 
         })
-        console.log("getFeed -> return TRUE")
+        // console.log('More posts to fetch');
+        // console.log("getFeed -> return TRUE")
         gotMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
@@ -106,7 +114,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
             </div>
         </div>
     `;
-    // set post image
+    // Set post image
     let parser = new DOMParser();
     let newNode = parser.parseFromString(postTemplate, "text/html");
     let imgWrapper = newNode.getElementsByClassName("post-img")[0];
@@ -121,12 +129,9 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     // Generate like list and Toggle
     createLikesList(likes, newNode);
     const showLikes = newNode.getElementById(`likes-display-${postId}`);
-    showLikes.style.display = "none";
     let displayLikesToggle = newNode.getElementById(`likes-num-${postId}`);
-    displayLikesToggle.onclick = (e) => {
-        e.preventDefault();
-        showLikes.style.display === "none" ? showLikes.style.display = "block" : showLikes.style.display = "none";
-    }
+    showLikes.style.display = "none";
+    toggle(displayLikesToggle, showLikes, "block");
 
     // save each comment as div in array
     let commentLog = [];
@@ -143,24 +148,21 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
     // Toggle comments
     const showComments = newNode.getElementById(`comment-display-${postId}`);
-    showComments.style.display = "none";
     let displayAllCommentsToggle = newNode.getElementsByClassName("comments-number")[0];
-    displayAllCommentsToggle.onclick = (e) => {
-        e.preventDefault();
-        showComments.style.display === "none" ? showComments.style.display = "block" : showComments.style.display = "none";
-    }
+    showComments.style.display = "none";
+    toggle(displayAllCommentsToggle, showComments, "block");
 
     // Toggle comment input box
     let commentBox = newNode.getElementById(`post-comment-${postId}`);
-    commentBox.style.display = "none";
     let addCommentToggle = newNode.getElementsByClassName("add-comment")[0];
-    addCommentToggle.onclick = () => {
-        commentBox.style.display === "none" ? commentBox.style.display = "block" : commentBox.style.display = "none";
-    }
+    commentBox.style.display = "none";
+    toggle(addCommentToggle, commentBox, "block");
+
     newNode.getElementsByClassName("submit-comment")[0].onclick = (e) => {
         e.preventDefault();
         postComment(postId, document.getElementById(`post-${postId}`));
     }
+
     // Prevent enter in comment input box
     newNode.getElementsByClassName("comment-text")[0].onkeydown = (e) => {
         if (e.key === "Enter") {
@@ -170,9 +172,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
     let wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
-
-
-
 }
 
 const createLikesList = (likes, parentElement) => {
@@ -198,46 +197,19 @@ const createLikesList = (likes, parentElement) => {
     }
 }
 
-
-// let idsSeen = [];
-// let count = 0;
 const setLikeEvent = () => {
     let hearts = document.querySelectorAll(".heart"); // array
-    console.log(`heartslength: ${hearts.length}`);
-    // count = count + 1;
-    // console.log(hearts);
     for (let heart of hearts) {
         // heart.onclick = null;
         let postId = heart.closest(".post").id.replace(/\D+/, "");
-        // if (!idsSeen.includes(postId)) {
-            heart.onclick = () => {
-                handleLike(postId, `likes-num-${postId}`);
-            // }
-            // idsSeen.push(postId);
+        heart.onclick = () => {
+            handleLike(postId, `likes-num-${postId}`);
         }
     }
-    // hearts.forEach((heart) => {
-    // heart.onclick = "";
-    // if (count > 1) {
-    //     console.log("remove eventlistener")
-    //     let newHeart = heart.cloneNode(true);
-    //     heart.parentNode.replaceChild(newHeart, heart);
-    // }
-    // console.log(heart)
-    // console.log(heart.parentNode)
-    // let postId = heart.closest(".post").id.replace(/\D+/, "");
-    // console.log(`count: ${count} - posts seen: ${idsSeen}`);
-    // if (!idsSeen.includes(postId)) {
-    //     heart.addEventListener("click", () => {
-    //         handleLike(postId, `likes-num-${postId}`);
-    //     })
-    //     idsSeen.push(postId);
-    // }
-    // });
 }
 
 const displayEachComment = (commentArray, log) => {
-    sortByTimestamp(commentArray);
+    sortCommentsByTimestamp(commentArray);
     (commentArray).forEach((comment) => {
         const wrapper = document.createElement("div");
         wrapper.className = "comment-wrapper";
@@ -274,7 +246,6 @@ const createCommentBox = (postId, parentElementId, parent) => {
 }
 
 export const postComment = (postId, post) => {
-    // const post = document.getElementById(`post-${postId}`);
     let commentContent = post.querySelector("textarea").value;
     if (!commentContent) {
         alert("You didn't comment!");
@@ -292,14 +263,9 @@ export const postComment = (postId, post) => {
     api.put(`post/comment?id=${postId}`, option)
         .then((ret) => {
             console.log(ret.message);
-            // clearMainContent();
             console.log("posted");
             console.log(commentContent);
-            commentContent = "";
-            console.log("after" + commentContent);
+            clearMainContent();
+            initialiseFeedOnly();
         })
-        .catch(err => alert(`${err} Oopsie Woopsie uwu`)); //TODO: This error doesn't pop up
 }
-
-//TODO: clear textarea after comment is sent
-//TODO: inifinite scroll

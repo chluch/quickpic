@@ -1,10 +1,7 @@
 "use strict";
 import API from "./api.js";
-import {initialisePage} from  "./initialise.js"
-import { clearMainContent, parseHTML, toggle } from "./helpers.js";
-import { getFeed } from "./feed.js";
-import { getProfile, createProfile } from "./profile.js";
-import { createPostForm } from "./post.js";
+import { initialisePage } from "./initialise.js"
+import { parseHTML } from "./helpers.js";
 
 const loginPage = {
     load: () => parseHTML(`
@@ -44,10 +41,10 @@ const doLogin = () => {
     }
     login.post("auth/login", sendLoginOptions)
         .then((ret) => {
-                // Store token in localStorage
-                localStorage.setItem("token", ret.token);
-                localStorage.setItem("username", document.getElementById("username").value);
-                initialisePage(ret.token);
+            // Store token in localStorage
+            localStorage.setItem("token", ret.token);
+            localStorage.setItem("username", document.getElementById("username").value);
+            initialisePage(ret.token);
         });
 }
 
