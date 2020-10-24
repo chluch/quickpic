@@ -164,7 +164,7 @@ button:hover {
     margin: 0 2px;
     font-weight: bold;
     text-transform: uppercase;
-    color: inherit;
+    color: #ffffff;
 }
 
 #logout-link {
