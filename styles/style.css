@@ -632,10 +632,17 @@ button:hover {
     justify-content: space-between;
     border-top: 1px solid #abb2b8;
     border-bottom: 1px solid #abb2b8;
+    align-items: center;
 }
 
 .follow-info h4, .follow-info p {
     display: inline-block;
+}
+
+.following {
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
 }
 
 .follow-info p {
@@ -739,16 +746,17 @@ button:hover {
     justify-content: space-between;
 }
 
-.post-heading h2 {
+.author {
     font-size: 22px;
     letter-spacing: 1px;
     padding: 0 10px;
     margin: 0;
+    font-weight: bold;
+    color: black;
 }
 
-.post-heading h2:hover {
-    cursor: pointer;
-    color: #0074E2;
+.author:hover {
+    color: #014F98;
 }
 
 .post-img {
@@ -898,14 +906,15 @@ button:hover {
     width: 16px;
 }
 
-.comments-number>svg:hover {
+.comments-number>svg:hover, .comments-number>a:hover + svg{
     fill: #0074E2;
+    cursor: pointer;
     animation: bounce 0.8s infinite ease-in-out;
 }
 
 .comments-number:hover, .likes-number:hover {
-    cursor: pointer;
     font-weight: bold;
+    color: #0074E2;
 }
 
 .heart {

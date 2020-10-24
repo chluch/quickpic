@@ -73,14 +73,14 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     let image = document.createElement("img");
     Object.assign(image, {
         src: `data:image/jpeg;base64, ${img}`,
-        alt: `${author}'s post`
+        alt: `Image posted by ${author} on ${getTime(time)}`
     });
 
     const postTemplate = `
         <div class="wrapper">
             <div class="post" id=post-${postId}>
                 <div class="post-heading">
-                    <h2 class="author">${author}</h2>
+                    <a href="#${author}-profile" class="author">${author}</a>
                     <div class="timestamp">${getTime(time)}</div>
                 </div>
                 <div class="post-img"></div>
@@ -96,9 +96,9 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                                 <path d="m32.164 482.193h447.85v30h-447.85z" />
                                 <path d="m237.864 419.821h242.149v30h-242.149z" />
                             </svg>
-                            <a>Add comment...</a>
+                            <a href="#add-comment">Add comment...</a>
                             </div>
-                            <div class="comments-number"><a title="comments" tabindex="0" role="link">${comments.length}</a> 
+                            <div class="comments-number"><a title="comments" href="#show-comments-${postId}">${comments.length}</a> 
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve" title="see comments">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
@@ -109,7 +109,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                                 </svg>
                             </div>
                             <div class="likes-number">
-                                <a title="show likes" id="likes-num-${postId}" tabindex="0" role="link">${likes.length}</a>
+                                <a title="show likes" id="likes-num-${postId}" href="#show-likes-${postId}">${likes.length}</a>
                             </div>
                             <button class="heart" role="button">&#x2764;</button>
                         </div>

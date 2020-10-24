@@ -63,7 +63,7 @@ export async function createProfile(d) {
             </div>
             <div class="follow-info">
                 <div>
-                    <h4 class="following">Following</h4>
+                    <a class="following" href="#following">Following</a>
                     <p>${data.following.length}</p>
                 </div>
                 <div>
@@ -212,10 +212,12 @@ async function createFollowingList(data) {
     list.classname = "users-followed";
     for (const id of followingList) {
         const data = await getProfileById(id);
-        const username = data.username;
-        let user = document.createElement("li");
-        user.innerText = username;
-        list.appendChild(user);
+        let li = document.createElement("li");
+        let user = document.createElement("a");
+        user.innerText = data.username;
+        user.href = `#${data.username}-profile`;
+        li.appendChild(user);
+        list.appendChild(li);
         user.onclick = () => {
             // remove current profile
             let profile = document.getElementsByClassName("full-profile")[0];
@@ -235,7 +237,7 @@ const createUserPost = (post) => {
     <div class="user-history" id="history-${post.id}">
         <div class="history-content">
             <div class="history-img">
-                <img alt="Image by ${post.meta.author}" src="data:image/jpeg;base64, ${post.src}" />
+                <img alt="Image posted by ${post.meta.author} on ${getTime(post.meta.published)}" src="data:image/jpeg;base64, ${post.src}" />
             </div>
             <div class="text-content">
                 <div class="timestamp">${getTime(post.meta.published)}</div>
@@ -251,9 +253,12 @@ const createUserPost = (post) => {
                             <path d="m32.164 482.193h447.85v30h-447.85z" />
                             <path d="m237.864 419.821h242.149v30h-242.149z" />
                     </svg>
-                    +comment
+                    <a href="#add-comment">+comment</a>
                     </div>
-                    <div class="comments-number" id="${post.id}-comments-number">${post.comments.length} 
+                    <div class="comments-number">
+                        <a title="comments" href="#${post.id}-comments-number" id="${post.id}-comments-number">
+                            ${post.comments.length}
+                        </a>
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
@@ -263,7 +268,10 @@ const createUserPost = (post) => {
                                 S45.213,29,43.008,29z" />
                         </svg>
                     </div>
-                    <div class="likes-number" id="profile-likes-${post.id}">${post.meta.likes.length}</div><div class="heart">&#x2764;</div>
+                    <div class="likes-number">
+                        <a title="show likes" id="profile-likes-${post.id}" href="#show-likes-${post.id}">${post.meta.likes.length}</a>
+                    </div>
+                    <button class="heart" role="button">&#x2764;</button>
                 </div>
                 <div class="comment-display" id="comment-display-${post.id}"></div>
                 <div id="${post.id}-comment-input">
