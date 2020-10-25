@@ -65,7 +65,7 @@ let isScrolled = false;
 export const setInfiniteScroll = (start) => {
     window.onscroll = () => {
         if (((window.scrollY + window.innerHeight) >= document.body.scrollHeight) && !isScrolled) {
-            // console.log("bottom.")
+            console.log("bottom.")
             isScrolled = true;
             // console.log(`SCROLL from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
