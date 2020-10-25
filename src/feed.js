@@ -13,7 +13,6 @@ import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
-    console.log("called")
     let gotMorePosts = false;
     if (!startPage) {
         startPage = 0;
