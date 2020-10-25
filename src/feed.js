@@ -10,7 +10,7 @@ import {
 } from "./helpers.js";
 import { initialiseFeedOnly } from "./initialise.js";
 import { handleLike } from "./likes.js";
-import { getProfile, getProfileById, createProfile } from "./profile.js";
+import { getProfile, getProfileById, createProfile, getPost } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
     let getMorePosts = false;
@@ -70,7 +70,7 @@ export async function getFeed(token, startPage, pageNum) {
 
 // Create each individual post from getFeed
 const createPost = (postId, author, time, likes, description, comments, img, feed) => {
-    let image = document.createElement("img");
+    const image = document.createElement("img");
     Object.assign(image, {
         src: `data:image/jpeg;base64, ${img}`,
         alt: `Image posted by ${author} on ${getTime(time)}`
@@ -98,7 +98,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
                             </svg>
                             <a href="#add-comment">Add comment...</a>
                             </div>
-                            <div class="comments-number"><a title="comments" href="#show-comments-${postId}">${comments.length}</a> 
+                            <div class="comments-number"><a title="comments" href="#show-comments-${postId}" id="comment-count-${postId}">${comments.length}</a> 
                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 60.016 60.016" style="enable-background:new 0 0 60.016 60.016;" xml:space="preserve" title="see comments">
                                 <path d="M42.008,0h-24c-9.925,0-18,8.075-18,18v14c0,9.59,7.538,17.452,17,17.973v8.344c0,0.937,0.764,1.699,1.703,1.699
@@ -119,12 +119,12 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         </div>
     `;
     // Set post image
-    let parser = new DOMParser();
-    let newNode = parser.parseFromString(postTemplate, "text/html");
+    const parser = new DOMParser();
+    const newNode = parser.parseFromString(postTemplate, "text/html");
     let imgWrapper = newNode.getElementsByClassName("post-img")[0];
     imgWrapper.appendChild(image);
 
-    let userInfo = newNode.getElementsByClassName("author")[0];
+    const userInfo = newNode.getElementsByClassName("author")[0];
     userInfo.onclick = () => {
         clearMainContent();
         window.onscroll = null;
@@ -139,20 +139,19 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     toggle(displayLikesToggle, showLikes, "block");
 
     // save each comment as div in array
-    let commentLog = [];
-    displayEachComment(comments, commentLog);
+    let commentLog = displayEachComment(comments);
 
     // Generate comment input box
     createCommentBox(postId, `post-${postId}`, newNode);
 
     // Make div for showing ALL comments for EACH post
-    let displayAllComments = newNode.getElementsByClassName("comment-display")[0];
+    // let displayAllComments = newNode.getElementsByClassName("comment-display")[0];
+    let showComments = newNode.getElementById(`comment-display-${postId}`);
     for (let el of commentLog) {
-        displayAllComments.appendChild(el);
+        showComments.appendChild(el);
     }
 
     // Toggle comments
-    const showComments = newNode.getElementById(`comment-display-${postId}`);
     let displayAllCommentsToggle = newNode.getElementsByClassName("comments-number")[0];
     showComments.style.display = "none";
     toggle(displayAllCommentsToggle, showComments, "block");
@@ -213,21 +212,26 @@ const setLikeEvent = () => {
     }
 }
 
-const displayEachComment = (commentArray, log) => {
+const displayEachComment = (commentArray) => {
+    let commentLog = [];
     sortCommentsByTimestamp(commentArray);
     (commentArray).forEach((comment) => {
         const wrapper = document.createElement("div");
         wrapper.className = "comment-wrapper";
+
         const commenter = document.createElement("a");
         commenter.href = `${comment.author}-profile`;
-        const commentContent = document.createElement("p");
-        const commentTime = document.createElement("div");
         commenter.className = "commenter";
+        commenter.innerText = `${comment.author}: `
+
+        const commentContent = document.createElement("p");
         commentContent.className = "comment";
+        commentContent.innerText = comment.comment;
+
+        const commentTime = document.createElement("div");
         commentTime.className = "comment-time";
         commentTime.innerText = getTime(comment.published);
-        commenter.innerText = `${comment.author}: `
-        commentContent.innerText = comment.comment;
+
         commenter.onclick = (e) => {
             e.preventDefault();
             clearMainContent();
@@ -237,9 +241,10 @@ const displayEachComment = (commentArray, log) => {
         let temp = [commentTime, commenter, commentContent];
         temp.forEach((el) => {
             wrapper.appendChild(el);
-            log.push(wrapper);
+            commentLog.push(wrapper);
         });
     });
+    return commentLog;
 }
 
 const createCommentBox = (postId, parentElementId, parent) => {
@@ -271,7 +276,24 @@ export const postComment = (postId, post) => {
         .then((ret) => {
             window.onscroll = null;
             alert(ret.message);
-            clearMainContent();
-            initialiseFeedOnly();
+            updateComment(postId);
+            // clearMainContent();
+            // initialiseFeedOnly();
         })
+}
+
+const updateComment = async (postId) => {
+    const data = await getPost(postId);
+    let commentedPost = document.getElementById(`comment-display-${postId}`);
+    let commentsCount = document.getElementById(`comment-count-${postId}`)
+    while (commentedPost.firstChild) { // Clear comments first before reload
+        commentedPost.removeChild(commentedPost.lastChild);
+    }
+    // console.log(data.comments)
+    let commentLog = displayEachComment(data.comments);
+    for (let el of commentLog) {
+        commentedPost.appendChild(el);
+    }
+    commentsCount.innerText = data.comments.length;
+    commentedPost.style.display = "block";
 }
