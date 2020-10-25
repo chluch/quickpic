@@ -127,6 +127,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     let userInfo = newNode.getElementsByClassName("author")[0];
     userInfo.onclick = () => {
         clearMainContent();
+        window.onscroll = null;
         createProfile(getProfile(author));
     }
 
@@ -217,7 +218,8 @@ const displayEachComment = (commentArray, log) => {
     (commentArray).forEach((comment) => {
         const wrapper = document.createElement("div");
         wrapper.className = "comment-wrapper";
-        const commenter = document.createElement("h5");
+        const commenter = document.createElement("a");
+        commenter.href = `${comment.author}-profile`;
         const commentContent = document.createElement("p");
         const commentTime = document.createElement("div");
         commenter.className = "commenter";
@@ -229,6 +231,7 @@ const displayEachComment = (commentArray, log) => {
         commenter.onclick = (e) => {
             e.preventDefault();
             clearMainContent();
+            window.onscroll = null;
             createProfile(getProfile(comment.author));
         }
         let temp = [commentTime, commenter, commentContent];
