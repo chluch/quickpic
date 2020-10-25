@@ -40,7 +40,8 @@ const doSignup = () => {
     const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
     try {
         if (password !== retype) throw "Passwords do not match!"
-        if (username > 15) throw "Please keep to a max of 15 characters for username."
+        if ((/ /).test(username)) throw "No space allowed in username.";
+        if (username.length > 12) throw "Please keep to a maximum of 12 characters for username."
         if (!emailRegex.test(email)) throw "Please check email format.";
         if (name.length > 30) throw "Please keep to a max of 30 characters for name."
     }
@@ -63,8 +64,8 @@ const doSignup = () => {
         .then((ret) => {
             if (ret) {
                 // token if authenticated
-                alert('signup successful!');
-                console.log(ret);
+                alert("signup successful!");
+                // console.log(ret);
                 // return ret;
             }
         });
