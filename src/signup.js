@@ -25,8 +25,8 @@ const signupPage = {
         }
         document.getElementById("go-to-login").onclick = (e) => {
             e.preventDefault();
-            document.getElementById("login").style.display="flex";
-            document.getElementById("signup").style.display="none";
+            document.getElementById("login").style.display = "flex";
+            document.getElementById("signup").style.display = "none";
         }
     }
 }
@@ -40,7 +40,7 @@ const doSignup = () => {
     const emailRegex = /^[A-Za-z0-9\-\_\.]+\@[A-Za-z0-9\-\_\.]+\.[A-Za-z]+$/;
     try {
         if (password !== retype) throw "Passwords do not match!"
-        if  (username > 15) throw "Please keep to a max of 15 characters for username."
+        if (username > 15) throw "Please keep to a max of 15 characters for username."
         if (!emailRegex.test(email)) throw "Please check email format.";
         if (name.length > 30) throw "Please keep to a max of 30 characters for name."
     }
@@ -61,10 +61,7 @@ const doSignup = () => {
     }
     signup.post("auth/signup", sendSignupOptions)
         .then((ret) => {
-            if (ret.message) {
-                alert(ret.message);
-            }
-            else {
+            if (ret) {
                 // token if authenticated
                 alert('signup successful!');
                 console.log(ret);
