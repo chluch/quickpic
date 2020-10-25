@@ -94,7 +94,9 @@ export async function createProfile(d) {
             toggle(displayLikesToggle, showLikes, "block");
             document.getElementById(`${post.id}-comment-submit`).onclick = (e) => {
                 e.preventDefault();
-                postComment(post.id, document.getElementById(`history-${post.id}`));
+                let commentedPost = document.getElementById(`comment-display-${post.id}`);
+                let commentCount = document.getElementById(`${post.id}-comments-number`);
+                postComment(post.id, document.getElementById(`history-${post.id}`), commentedPost, commentCount);
             }
             // Prevent enter in comment input box
             document.getElementById(`${post.id}-textarea`).onkeydown = (e) => {

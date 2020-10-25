@@ -8,7 +8,6 @@ import {
     toggle,
     sortPostsByTimestamp
 } from "./helpers.js";
-import { initialiseFeedOnly } from "./initialise.js";
 import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile, getPost } from "./profile.js";
 
@@ -164,7 +163,9 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
     newNode.getElementsByClassName("submit-comment")[0].onclick = (e) => {
         e.preventDefault();
-        postComment(postId, document.getElementById(`post-${postId}`));
+        let commentedPost = document.getElementById(`comment-display-${postId}`);
+        let commentCount = document.getElementById(`comment-count-${postId}`);
+        postComment(postId, document.getElementById(`post-${postId}`),commentedPost,commentCount);
     }
 
     // Prevent enter in comment input box
@@ -257,7 +258,7 @@ const createCommentBox = (postId, parentElementId, parent) => {
     parseHTML(commentBoxTemplate, `post-comment-${postId}`, parentElementId, parent);
 }
 
-export const postComment = (postId, post) => {
+export const postComment = (postId, post, commentedPostEl, commentCountEl) => {
     let commentContent = post.querySelector("textarea").value;
     if (!commentContent) {
         alert("You didn't comment!");
@@ -273,26 +274,23 @@ export const postComment = (postId, post) => {
         body: JSON.stringify(toSend),
     }
     api.put(`post/comment?id=${postId}`, option)
-        .then((ret) => {
+        .then((/*ret*/) => {
             window.onscroll = null;
-            alert(ret.message);
-            updateComment(postId);
-            // clearMainContent();
-            // initialiseFeedOnly();
+            // alert(ret.message);
+            updateComment(postId, commentedPostEl, commentCountEl);
         })
+        .then(post.querySelector("textarea").value="");
 }
 
-const updateComment = async (postId) => {
+const updateComment = async (postId, commentedPostEl, commentCountEl) => {
     const data = await getPost(postId);
-    let commentedPost = document.getElementById(`comment-display-${postId}`);
-    let commentsCount = document.getElementById(`comment-count-${postId}`);
-    while (commentedPost.firstChild) { // Clear comments first before reload
-        commentedPost.removeChild(commentedPost.lastChild);
+    while (commentedPostEl.firstChild) { // Clear comments first before reload
+        commentedPostEl.removeChild(commentedPostEl.lastChild);
     }
     let commentLog = displayEachComment(data.comments);
     for (let el of commentLog) {
-        commentedPost.appendChild(el);
+        commentedPostEl.appendChild(el);
     }
-    commentsCount.innerText = data.comments.length;
-    commentedPost.style.display = "block";
+    commentCountEl.innerText = data.comments.length;
+    commentedPostEl.style.display = "block";
 }
