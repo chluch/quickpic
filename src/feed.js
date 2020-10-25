@@ -8,7 +8,7 @@ import {
     toggle,
     sortPostsByTimestamp
 } from "./helpers.js";
-import { handleLike } from "./likes.js";
+import { handleLike, createLikesList } from "./likes.js";
 import { getProfile, getProfileById, createProfile, getPost } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
@@ -177,35 +177,6 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
 
     let wrapper = newNode.getElementsByClassName("wrapper")[0];
     feed.appendChild(wrapper);
-}
-
-export const createLikesList = (likes, parentElement, post) => {
-    let parent;
-    // console.log(post);
-    if (!post) {
-        parent = parentElement.getElementsByClassName("likes-display")[0];
-    } else {
-        parent = parentElement.getElementById(`likes-display-${post.id}`);
-    }
-    const likeList = document.createElement("ul");
-    if (likes.length === 0) {
-        const likesMessage = document.createTextNode("No \u2661 given!");
-        parent.appendChild(likesMessage);
-        return;
-    }
-    for (const userId of likes) {
-        getProfileById(userId)
-            .then((data) => {
-                likeList.className = "like-list";
-                let user = document.createElement("li");
-                user.innerText = data.username;
-                likeList.appendChild(user);
-            })
-            .then(() => {
-                parent.appendChild(likeList);
-            })
-            .catch(err => console.log(err));
-    }
 }
 
 const setLikeEvent = () => {

@@ -844,7 +844,7 @@ button:hover {
     border: 1px dotted pink;
     max-height: 50px;
     overflow-y: auto;
-    font-size: 14px;
+    font-size: 12px;
     padding: 3px;
     margin-top: 8px;
 }

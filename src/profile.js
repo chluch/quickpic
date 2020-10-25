@@ -8,9 +8,9 @@ import {
     fileToDataUrl,
     toggle
 } from "./helpers.js";
-import { handleLike } from "./likes.js";
+import { handleLike, createLikesList } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
-import { postComment, displayEachComment, createLikesList } from "./feed.js"
+import { postComment, displayEachComment } from "./feed.js"
 
 export const getProfile = async (username) => {
     const api = new API;
