@@ -19,7 +19,7 @@ pending grade, wish I could spend an extra week on it. To revise when more freed
 3. Reuse functions as much as possible?
 
 4. Push notifications: Check for new state every ___ interval, compare with current
-   state and check the difference.
+   state and check the difference. Probably need to clean up api first.
 
 5. implement better UI etc., but ensure the basics are clean and working well first
    before go on to the fluff.

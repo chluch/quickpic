@@ -551,7 +551,6 @@ button:hover {
 }
 
 .full-profile {
-    /* background: linear-gradient(145deg, #282828, #2f2f2f); */
     box-shadow: 27px 27px 54px #202020, -27px -27px 54px #383838;
     background-color: #494d50;
     height: 100%;
@@ -823,7 +822,6 @@ button:hover {
 }
 
 .commenter {
-    /* flex: 1; */
     margin: 0;
     font-weight: bold;
 }
