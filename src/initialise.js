@@ -69,11 +69,11 @@ export const setInfiniteScroll = (start) => {
             isScrolled = true;
             // console.log(`SCROLL from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
-                .then((gotMorePosts) => {
-                    const loadMore = gotMorePosts;
+                .then((getMorePosts) => {
+                    const loadMore = getMorePosts;
                     if (loadMore) {
                         start += 10;
-                        // console.log('gettin  g more posts');
+                        // console.log('gettin more posts');
                         // console.log(`next SCROLL: ${start}`);
                     }
                     else {

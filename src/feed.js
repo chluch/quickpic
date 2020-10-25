@@ -13,7 +13,7 @@ import { handleLike } from "./likes.js";
 import { getProfile, getProfileById, createProfile } from "./profile.js";
 
 export async function getFeed(token, startPage, pageNum) {
-    let gotMorePosts = false;
+    let getMorePosts = false;
     if (!startPage) {
         startPage = 0;
     }
@@ -40,9 +40,9 @@ export async function getFeed(token, startPage, pageNum) {
         // console.log(data[post])
         if (data[post].length === 0) {
             // console.log('No more posts to fetch');
-            gotMorePosts = false;
+            getMorePosts = false;
             // console.log("getFeed -> return FALSE");
-            return gotMorePosts;
+            return getMorePosts;
         }
         sortPostsByTimestamp((data[post]));
         // console.log(data[post]);
@@ -61,11 +61,11 @@ export async function getFeed(token, startPage, pageNum) {
         })
         // console.log('More posts to fetch');
         // console.log("getFeed -> return TRUE")
-        gotMorePosts = true;
+        getMorePosts = true;
     });
     document.getElementById("main").appendChild(feed);
     setLikeEvent();
-    return gotMorePosts;
+    return getMorePosts;
 }
 
 // Create each individual post from getFeed
