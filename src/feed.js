@@ -165,7 +165,7 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
         e.preventDefault();
         let commentedPost = document.getElementById(`comment-display-${postId}`);
         let commentCount = document.getElementById(`comment-count-${postId}`);
-        postComment(postId, document.getElementById(`post-${postId}`),commentedPost,commentCount);
+        postComment(postId, document.getElementById(`post-${postId}`), commentedPost, commentCount);
     }
 
     // Prevent enter in comment input box
@@ -179,8 +179,14 @@ const createPost = (postId, author, time, likes, description, comments, img, fee
     feed.appendChild(wrapper);
 }
 
-const createLikesList = (likes, parentElement) => {
-    const parent = parentElement.getElementsByClassName("likes-display")[0];
+export const createLikesList = (likes, parentElement, post) => {
+    let parent;
+    // console.log(post);
+    if (!post) {
+        parent = parentElement.getElementsByClassName("likes-display")[0];
+    } else {
+        parent = parentElement.getElementById(`likes-display-${post.id}`);
+    }
     const likeList = document.createElement("ul");
     if (likes.length === 0) {
         const likesMessage = document.createTextNode("No \u2661 given!");
@@ -279,7 +285,7 @@ export const postComment = (postId, post, commentedPostEl, commentCountEl) => {
             // alert(ret.message);
             updateComment(postId, commentedPostEl, commentCountEl);
         })
-        .then(post.querySelector("textarea").value="");
+        .then(post.querySelector("textarea").value = "");
 }
 
 const updateComment = async (postId, commentedPostEl, commentCountEl) => {

@@ -10,7 +10,7 @@ import {
 } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
-import { postComment, displayEachComment } from "./feed.js"
+import { postComment, displayEachComment, createLikesList } from "./feed.js"
 
 export const getProfile = async (username) => {
     const api = new API;
@@ -87,7 +87,7 @@ export async function createProfile(d) {
         for (const pId of postIds) {
             const post = await getPost(pId);
             createUserPost(post);
-            createLikesList(post.meta.likes, post);
+            createLikesList(post.meta.likes, document, post);
             const showLikes = document.getElementById(`likes-display-${post.id}`);
             showLikes.style.display = "none";
             let displayLikesToggle = document.getElementById(`profile-likes-${post.id}`);
@@ -283,33 +283,6 @@ const createUserPost = (post) => {
     </div>
     `
     parseHTML(historyTemplate, `history-${post.id}`, `profile-${post.meta.author}`);
-}
-
-
-const createLikesList = (likes, post, parentElement) => {
-    if (!parentElement) {
-        parentElement = document;
-    }
-    const parent = parentElement.getElementById(`likes-display-${post.id}`);
-    const likeList = document.createElement("ul");
-    if (likes.length === 0) {
-        const likesMessage = document.createTextNode("No \u2661 given!");
-        parent.appendChild(likesMessage);
-        return;
-    }
-    for (const userId of likes) {
-        getProfileById(userId)
-            .then((data) => {
-                likeList.className = "like-list";
-                let user = document.createElement("li");
-                user.innerText = data.username;
-                likeList.appendChild(user);
-            })
-            .then(() => {
-                parent.appendChild(likeList);
-            })
-            .catch(err => console.log(err));
-    }
 }
 
 async function setFollow(id, username) {
@@ -591,36 +564,3 @@ const deletePost = (postId) => {
             createProfile(getProfile(localStorage.getItem("username")));
         });
 }
-
-// const displayEachComment = (commentArray) => {
-//     let log = []
-//     sortCommentsByTimestamp(commentArray);
-//     (commentArray).forEach((comment) => {
-//         const wrapper = document.createElement("div");
-//         wrapper.className = "comment-wrapper";
-
-//         const commenter = document.createElement("a");
-//         commenter.href = comment.author;
-//         commenter.className = "commenter";
-//         commenter.innerText = `${comment.author}: `
-
-//         const commentContent = document.createElement("p");
-//         commentContent.className = "comment";
-//         commentContent.innerText = comment.comment;
-
-//         const commentTime = document.createElement("div");
-//         commentTime.className = "comment-time";
-//         commentTime.innerText = getTime(comment.published);
-        
-//         commenter.onclick = (e) => {
-//             e.preventDefault();
-//             clearMainContent();
-//             createProfile(getProfile(comment.author));
-//         }
-//         let temp = [commentTime, commenter, commentContent];
-//         temp.forEach((el) => {
-//             wrapper.appendChild(el);
-//             log.push(wrapper);
-//         });
-//     });
-// }

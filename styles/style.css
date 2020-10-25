@@ -852,7 +852,6 @@ button:hover {
 .likes-display ul {
     padding: 2px;
     column-count: 3;
-    font-size: 12px;
     list-style-type: none;
 }
 
