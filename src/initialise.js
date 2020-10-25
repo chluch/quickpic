@@ -13,13 +13,12 @@ export const initialisePage = (token) => {
     setDropdownIcons();
     setSearch();
     getFeed(token, 0, 10);
-    setInfiniteScroll(0);
+    setInfiniteScroll(10);
 }
 
-export const initialiseFeedOnly = (e) => {
-    e.preventDefault();
+export const initialiseFeedOnly = () => {
     getFeed(localStorage.getItem("token"));
-    setInfiniteScroll(0);
+    setInfiniteScroll(10);
 }
 
 const banner = document.getElementsByClassName("banner")[0];
@@ -56,7 +55,7 @@ const setFeedLink = () => {
             clearMainContent();
             window.onscroll = null;
             getFeed(localStorage.getItem("token"), 0, 10);
-            setInfiniteScroll(0);
+            setInfiniteScroll(10);
         }
     }
 }
@@ -65,7 +64,7 @@ const setFeedLink = () => {
 let isScrolled = false;
 export const setInfiniteScroll = (start) => {
     window.onscroll = () => {
-        if (((window.scrollY + window.innerHeight + 50) >= document.body.scrollHeight) && !isScrolled) {
+        if (((window.scrollY + window.innerHeight) >= document.body.scrollHeight) && !isScrolled) {
             // console.log("bottom.")
             isScrolled = true;
             // console.log(`SCROLL from: ${start}`);
@@ -74,7 +73,7 @@ export const setInfiniteScroll = (start) => {
                     const loadMore = gotMorePosts;
                     if (loadMore) {
                         start += 10;
-                        // console.log('getting more posts');
+                        // console.log('gettin  g more posts');
                         // console.log(`next SCROLL: ${start}`);
                     }
                     else {
@@ -83,7 +82,7 @@ export const setInfiniteScroll = (start) => {
                 });
             setTimeout(() => { // Wait for fetch
                 isScrolled = false;
-            }, 3000);
+            }, 2500);
         }
     }
 }
