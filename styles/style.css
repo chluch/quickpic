@@ -697,9 +697,7 @@ button:hover {
 }
 
 .history-img {
-    /* max-width: 40%;
-    max-height: 40%; */
-    flex: 2;
+    flex: 2.4;
     box-sizing: border-box;
     margin: auto 0;
 }
@@ -846,7 +844,7 @@ button:hover {
     border: 1px dotted pink;
     max-height: 50px;
     overflow-y: auto;
-    font-size: 10px;
+    font-size: 14px;
     padding: 3px;
     margin-top: 8px;
 }
@@ -1033,6 +1031,11 @@ input[type="file"] {
     }
     .search {
         display: none;
+    }
+    .history-img {
+        max-width: 40%;
+        max-height: 40%;
+        flex: 1;
     }
 }
 

@@ -212,7 +212,7 @@ const setLikeEvent = () => {
     }
 }
 
-const displayEachComment = (commentArray) => {
+export const displayEachComment = (commentArray) => {
     let commentLog = [];
     sortCommentsByTimestamp(commentArray);
     (commentArray).forEach((comment) => {
@@ -285,11 +285,10 @@ export const postComment = (postId, post) => {
 const updateComment = async (postId) => {
     const data = await getPost(postId);
     let commentedPost = document.getElementById(`comment-display-${postId}`);
-    let commentsCount = document.getElementById(`comment-count-${postId}`)
+    let commentsCount = document.getElementById(`comment-count-${postId}`);
     while (commentedPost.firstChild) { // Clear comments first before reload
         commentedPost.removeChild(commentedPost.lastChild);
     }
-    // console.log(data.comments)
     let commentLog = displayEachComment(data.comments);
     for (let el of commentLog) {
         commentedPost.appendChild(el);

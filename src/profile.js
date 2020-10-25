@@ -6,12 +6,11 @@ import {
     clearEmptyValue,
     clearMainContent,
     fileToDataUrl,
-    sortCommentsByTimestamp,
     toggle
 } from "./helpers.js";
 import { handleLike } from "./likes.js";
 import { addFollow, removeFollow } from "./follow.js";
-import { postComment } from "./feed.js"
+import { postComment, displayEachComment } from "./feed.js"
 
 export const getProfile = async (username) => {
     const api = new API;
@@ -104,8 +103,7 @@ export async function createProfile(d) {
                 }
             }
             toggleCommentBox(post);
-            let commentLog = [];
-            displayEachComment(post.comments, commentLog);
+            let commentLog = displayEachComment(post.comments);
             let showComments = document.getElementById(`comment-display-${post.id}`);
             for (let el of commentLog) {
                 showComments.appendChild(el);
@@ -592,30 +590,35 @@ const deletePost = (postId) => {
         });
 }
 
-const displayEachComment = (commentArray, log) => {
-    sortCommentsByTimestamp(commentArray);
-    (commentArray).forEach((comment) => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "comment-wrapper";
-        const commenter = document.createElement("a");
-        commenter.href = comment.author;
-        const commentContent = document.createElement("p");
-        const commentTime = document.createElement("div");
-        commenter.className = "commenter";
-        commentContent.className = "comment";
-        commentTime.className = "comment-time";
-        commentTime.innerText = getTime(comment.published);
-        commenter.innerText = `${comment.author}: `
-        commentContent.innerText = comment.comment;
-        commenter.onclick = (e) => {
-            e.preventDefault();
-            clearMainContent();
-            createProfile(getProfile(comment.author));
-        }
-        let temp = [commentTime, commenter, commentContent];
-        temp.forEach((el) => {
-            wrapper.appendChild(el);
-            log.push(wrapper);
-        });
-    });
-}
+// const displayEachComment = (commentArray) => {
+//     let log = []
+//     sortCommentsByTimestamp(commentArray);
+//     (commentArray).forEach((comment) => {
+//         const wrapper = document.createElement("div");
+//         wrapper.className = "comment-wrapper";
+
+//         const commenter = document.createElement("a");
+//         commenter.href = comment.author;
+//         commenter.className = "commenter";
+//         commenter.innerText = `${comment.author}: `
+
+//         const commentContent = document.createElement("p");
+//         commentContent.className = "comment";
+//         commentContent.innerText = comment.comment;
+
+//         const commentTime = document.createElement("div");
+//         commentTime.className = "comment-time";
+//         commentTime.innerText = getTime(comment.published);
+        
+//         commenter.onclick = (e) => {
+//             e.preventDefault();
+//             clearMainContent();
+//             createProfile(getProfile(comment.author));
+//         }
+//         let temp = [commentTime, commenter, commentContent];
+//         temp.forEach((el) => {
+//             wrapper.appendChild(el);
+//             log.push(wrapper);
+//         });
+//     });
+// }
