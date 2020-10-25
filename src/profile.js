@@ -597,7 +597,8 @@ const displayEachComment = (commentArray, log) => {
     (commentArray).forEach((comment) => {
         const wrapper = document.createElement("div");
         wrapper.className = "comment-wrapper";
-        const commenter = document.createElement("h5");
+        const commenter = document.createElement("a");
+        commenter.href = comment.author;
         const commentContent = document.createElement("p");
         const commentTime = document.createElement("div");
         commenter.className = "commenter";
