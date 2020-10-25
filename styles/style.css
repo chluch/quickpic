@@ -15,7 +15,6 @@ html, body {
     margin: 20px 0 30px;
     color: #0084FF;
     text-shadow: 27px 27px 54px #202020, -27px -27px 54px #383838;
-    ;
 }
 
 a {
@@ -833,10 +832,6 @@ button:hover {
     overflow-wrap: break-word;
     overflow: hidden;
     box-sizing: border-box;
-}
-
-.commenter:hover {
-    cursor: pointer;
 }
 
 .likes-display, .likes-display>* {
