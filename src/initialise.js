@@ -12,14 +12,12 @@ export const initialisePage = (token) => {
     banner.style.display = "flex";
     setDropdownIcons();
     setSearch();
-    getFeed(token, 0, 10);
-    setInfiniteScroll(10);
+    getFeed(token, 0, 10).then(() => setInfiniteScroll(10));
 }
 
 export const initialiseFeedOnly = () => {
     window.onscroll = null;
-    getFeed(localStorage.getItem("token"));
-    setInfiniteScroll(10);
+    getFeed(localStorage.getItem("token")).then(() => setInfiniteScroll(10));
 }
 
 const banner = document.getElementsByClassName("banner")[0];
@@ -55,8 +53,7 @@ const setFeedLink = () => {
             e.preventDefault();
             clearMainContent();
             window.onscroll = null;
-            getFeed(localStorage.getItem("token"), 0, 10);
-            setInfiniteScroll(10);
+            getFeed(localStorage.getItem("token"), 0, 10).then(() => setInfiniteScroll(10))
         }
     }
 }
@@ -65,8 +62,11 @@ const setFeedLink = () => {
 let isScrolled = false;
 export const setInfiniteScroll = (start) => {
     window.onscroll = () => {
+        // console.log(`Total Window:${window.scrollY + window.innerHeight}`);
+        // console.log(`Document: ${document.body.scrollHeight}`);
+        // console.log(`isScrolled: ${isScrolled}`)
         if (((window.scrollY + window.innerHeight) >= document.body.scrollHeight) && !isScrolled) {
-            console.log("bottom.")
+            // console.log("BOTTOM<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
             isScrolled = true;
             // console.log(`SCROLL from: ${start}`);
             getFeed(localStorage.getItem("token"), start, 10)
