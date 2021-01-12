@@ -6,4 +6,4 @@ Assignment for UNSW - Creating the frontend for an Instagram-inspired web app wi
 * Implement functionalities and features such as: login/logout, user registration, basic feed, likes/comments, follow/unfollow users, profile updates
 * Implement extra features such as: infinite scroll, live updates
 * Improve understanding and handling of DOM manipulation
-* Improve knowledge and experience with promise, REST API
+* Improve knowledge and experience with promise, async/await, REST API
